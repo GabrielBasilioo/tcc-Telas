@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{ --orange:#FF7A29; --orange-dark:#F26A15; --orange-light:#FFA35C; --gray-text:#8A8A8F; --gray-icon:#B9B9C0; --divider:#F0EEEC; }
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ background:#EDEDED; font-family:'Nunito',sans-serif; display:flex; justify-content:center; align-items:center; min-height:100vh; padding:24px 0; }
+.phone{ width:395px; max-width:100vw; min-height:879px; background:linear-gradient(180deg,#FFF4EA 0%,#FFEFE0 55%,#FFFFFF 55%); border-radius:28px; overflow:hidden; box-shadow:0 20px 50px rgba(0,0,0,.18); position:relative; }
+.doodles{ position:absolute; top:0; left:0; right:0; height:300px; pointer-events:none;
+  background-image:radial-gradient(circle at 12% 10%,rgba(255,150,60,.1) 3px,transparent 3px),
+    radial-gradient(circle at 85% 8%,rgba(255,150,60,.1) 3px,transparent 3px),
+    radial-gradient(circle at 90% 30%,rgba(255,150,60,.1) 3px,transparent 3px),
+    radial-gradient(circle at 8% 32%,rgba(255,150,60,.1) 3px,transparent 3px); }
+.content{ position:relative; padding:26px 22px 100px; }
+.top-bar{ display:flex; justify-content:flex-end; gap:10px; margin-bottom:18px; }
+.icon-circle{ width:38px; height:38px; border-radius:50%; background:#fff; border:none; box-shadow:0 2px 8px rgba(0,0,0,.08); display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.icon-circle svg{ width:18px; height:18px; color:#7a7a7a; }
+.avatar-section{ display:flex; flex-direction:column; align-items:center; margin-bottom:10px; }
+.avatar-frame{ position:relative; width:124px; height:124px; margin-bottom:14px; }
+.avatar-circle{ width:100%; height:100%; border-radius:50%; background:#6b6b6f; border:4px solid #fff; box-shadow:0 4px 16px rgba(0,0,0,.1); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.avatar-circle svg{ width:56%; height:56%; color:#9c9c9f; }
+.avatar-circle img{ width:100%; height:100%; object-fit:cover; display:none; }
+.avatar-add-btn{ position:absolute; bottom:2px; right:2px; width:34px; height:34px; border-radius:50%; background:var(--orange); border:3px solid #fff; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 3px 8px rgba(255,122,41,.4); }
+.avatar-add-btn svg{ width:15px; height:15px; }
+.username{ font-family:'Baloo 2',sans-serif; font-weight:700; font-size:17px; color:#2c2c2c; margin-bottom:20px; }
+.stats{ display:flex; background:#fff; border-radius:18px; box-shadow:0 4px 16px rgba(0,0,0,.06); padding:16px 0; margin-bottom:16px; }
+.stat{ flex:1; text-align:center; display:flex; flex-direction:column; align-items:center; gap:4px; }
+.stat + .stat{ border-left:1px solid var(--divider); }
+.stat-number{ font-family:'Baloo 2',sans-serif; font-weight:700; font-size:19px; color:var(--orange); }
+.stat-label{ display:flex; align-items:center; gap:5px; font-size:12px; font-weight:700; color:#555; }
+.stat-label svg{ width:13px; height:13px; color:var(--orange); }
+.bio-card{ background:#fff; border-radius:18px; box-shadow:0 4px 16px rgba(0,0,0,.06); padding:18px 20px; margin-bottom:18px; }
+.bio-line{ display:flex; align-items:flex-start; gap:8px; font-size:13px; font-weight:700; color:#3a3a3a; line-height:1.6; }
+.bio-empty{ color:#888; }
+.edit-profile-btn{ width:100%; background:linear-gradient(135deg,var(--orange-light),var(--orange-dark)); color:#fff; border:none; border-radius:30px; padding:14px; font-weight:800; font-size:14.5px; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; margin-bottom:20px; box-shadow:0 8px 18px rgba(255,122,41,.3); }
+.edit-profile-btn svg{ width:15px; height:15px; }
+/* =====================================================================
+   TELA "EDITAR PERFIL" (tela cheia, estilo do print de referência)
+   Abre por cima do conteúdo do perfil quando o usuário clica em
+   "Editar perfil". Fica visível só o header laranja + os cards de
+   informação + botão salvar; o menu inferior (.bottom-nav) continua
+   visível porque essa camada para 78px antes do fim (altura do nav).
+   ===================================================================== */
+.edit-overlay{
+  position:absolute; top:0; left:0; right:0; bottom:78px; /* não cobre o bottom-nav */
+  background:#fff;
+  display:none;
+  flex-direction:column;
+  z-index:10;
+  overflow:hidden;
+}
+.edit-overlay.open{ display:flex; }
+
+/* -- Cabeçalho laranja com "onda" na parte de baixo -- */
+.edit-header{
+  position:relative;
+  flex-shrink:0;
+  background:linear-gradient(135deg,var(--orange-light),var(--orange-dark));
+  padding:22px 22px 46px;
+  border-radius:0 0 50% 50% / 0 0 34px 34px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.edit-back-btn{ background:rgba(255,255,255,.25); border:none; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; }
+.edit-back-btn svg{ width:18px; height:18px; color:#fff; }
+.edit-header h1{ font-family:'Baloo 2',sans-serif; font-weight:800; font-size:20px; letter-spacing:.3px; color:#fff; }
+
+/* -- Área com scroll: avatar + formulário -- */
+.edit-scroll-area{ flex:1; overflow-y:auto; padding:0 22px 26px; }
+
+.edit-avatar-wrap{ display:flex; flex-direction:column; align-items:center; margin-top:-42px; margin-bottom:8px; }
+.edit-avatar-circle{ width:96px; height:96px; border-radius:50%; background:#6b6b6f; border:4px solid #fff; box-shadow:0 6px 16px rgba(0,0,0,.15); display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
+.edit-avatar-circle svg{ width:52%; height:52%; color:#cfcfd2; }
+.edit-avatar-circle img{ width:100%; height:100%; object-fit:cover; display:none; }
+.edit-avatar-btn{ margin-top:-16px; width:30px; height:30px; border-radius:50%; background:var(--orange); border:3px solid #fff; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 3px 8px rgba(255,122,41,.4); z-index:1; }
+.edit-avatar-btn svg{ width:13px; height:13px; }
+.edit-username-row{ display:flex; align-items:center; gap:6px; margin-bottom:18px; }
+.edit-username-row span.handle{ font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14.5px; color:#2c2c2c; }
+.edit-username-row span.dot{ width:8px; height:8px; border-radius:50%; background:var(--orange); }
+
+/* -- Cards "Informações Pessoais" / "Endereço" / "Bio" -- */
+.info-card{ background:#F6F5F4; border-radius:16px; padding:16px 16px 4px; margin-bottom:16px; }
+.info-card-title{ display:flex; align-items:center; gap:7px; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14.5px; color:#2c2c2c; margin-bottom:14px; }
+.info-card-title::before{ content:""; width:4px; height:15px; border-radius:3px; background:var(--orange); }
+
+.edit-field{ margin-bottom:14px; }
+.edit-field label{ display:block; font-size:11.5px; font-weight:800; color:#8A8A8F; text-transform:none; margin-bottom:6px; }
+.edit-field .input-with-icon{ display:flex; align-items:center; gap:8px; background:#fff; border:1.5px solid #E4E2DF; border-radius:12px; padding:0 12px; }
+.edit-field .input-with-icon svg{ width:16px; height:16px; color:#9c9c9f; flex-shrink:0; }
+.edit-field input, .edit-field textarea{ width:100%; border:1.5px solid #E4E2DF; border-radius:12px; padding:11px 12px; font-family:'Nunito',sans-serif; font-size:14px; font-weight:600; color:#2c2c2c; outline:none; resize:vertical; background:#fff; }
+.edit-field .input-with-icon input{ border:none; padding:11px 0; }
+.edit-field input:focus, .edit-field textarea:focus, .edit-field .input-with-icon:has(input:focus){ border-color:var(--orange); }
+
+.edit-status{ font-size:12.5px; font-weight:700; color:#4a4a4a; min-height:16px; margin:4px 0 12px; text-align:center; }
+.edit-status.error{ color:#D64545; }
+.edit-status.success{ color:#2E9E4F; }
+.save-edit-btn{ width:100%; background:linear-gradient(135deg,var(--orange),var(--orange-dark)); color:#fff; border:none; border-radius:30px; padding:15px 0; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:16px; cursor:pointer; box-shadow:0 8px 18px rgba(255,122,41,.3); }
+.save-edit-btn:disabled{ opacity:.7; cursor:default; }
+.tabs{ display:flex; background:#fff; border-radius:30px; box-shadow:0 4px 16px rgba(0,0,0,.06); padding:6px; margin-bottom:18px; }
+.tab{ flex:1; text-align:center; padding:10px 0; border-radius:24px; font-size:13px; font-weight:800; color:var(--gray-text); cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; }
+.tab.active{ background:#FFF0E5; color:var(--orange-dark); }
+.tab-grid-icon{ display:grid; grid-template-columns:repeat(2,5px); grid-template-rows:repeat(2,5px); gap:2px; }
+.tab-grid-icon span{ border-radius:1.5px; }
+.tab-grid-icon span:nth-child(1), .tab-grid-icon span:nth-child(4){ background:var(--orange); }
+.tab-grid-icon span:nth-child(2), .tab-grid-icon span:nth-child(3){ background:#FFC08A; }
+.posts-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
+.post-tile{ position:relative; aspect-ratio:1/1; border-radius:10px; overflow:hidden; background:#f2f0ee; }
+.post-tile img{ width:100%; height:100%; object-fit:cover; display:block; }
+.post-tile.add-tile{ background:#fff; border:2px dashed #E6C9AE; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.post-tile.add-tile svg{ width:26px; height:26px; color:var(--orange); }
+.post-remove-btn{ position:absolute; top:5px; right:5px; width:20px; height:20px; border-radius:50%; background:rgba(0,0,0,.55); border:none; color:#fff; font-size:14px; font-weight:800; line-height:1; display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0; }
+.post-remove-btn:hover{ background:#D64545; }
+.bottom-nav{ position:absolute; bottom:0; left:0; right:0; height:78px; background:#fff; border-radius:26px 26px 0 0; box-shadow:0 -6px 24px rgba(0,0,0,.06); display:flex; align-items:center; justify-content:space-around; padding:0 8px; z-index:3; }
+.nav-item{ background:none; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--gray-icon); width:40px; height:40px; }
+.nav-item svg{ width:24px; height:24px; }
+.nav-item.active{ color:var(--orange); }
+.nav-center{ width:62px; height:62px; border-radius:50%; background:linear-gradient(135deg,var(--orange-light),var(--orange)); display:flex; align-items:center; justify-content:center; margin-top:-30px; box-shadow:0 10px 20px rgba(255,122,41,.4); border:4px solid #fff; overflow:hidden; cursor:pointer; }
+.nav-center svg{ width:28px; height:28px; color:#fff; }
+</style>
+</head>
+<body>
+<!-- =====================================================================
+     MAPA DO ARQUIVO (perfil.html)
+     1. .top-bar            -> ícones de notificação/config no topo
+     2. .avatar-section      -> foto de perfil + @usuário (tela principal)
+     3. .stats                -> seguindo / seguidores / doações
+     4. .bio-card             -> exibição da bio salva
+     5. #editProfileBtn       -> botão que ABRE a tela "Editar perfil"
+     6. .tabs / .posts-grid   -> publicações do usuário
+     7. .bottom-nav           -> menu inferior (fica visível mesmo com a
+                                  tela de edição aberta)
+     8. #editOverlay          -> TELA "EDITAR PERFIL" cheia (o que foi
+                                  redesenhado agora), com os cards
+                                  "Informações Pessoais", "Sobre você" (bio)
+                                  e "Endereço"
+     9. <script> no final, dividido em blocos:
+          PERFIL        -> carregarPerfil() e mostrarBio()
+          PUBLICAÇÕES   -> listar/adicionar/remover posts do Storage
+          EDITAR PERFIL -> abrir tela, preencher campos e salvar no banco
+          AVATAR        -> upload da foto de perfil
+          NOVA PUBLICAÇÃO -> upload de posts
+     ===================================================================== -->
+<div class="phone">
+  <div class="doodles"></div>
+  <div class="content">
+
+    <div class="top-bar">
+      <button class="icon-circle" aria-label="Notificações">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+      </button>
+      <button class="icon-circle" aria-label="Configurações">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 0 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15 1.7 1.7 0 0 0 3.05 14H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 0 1 0 4h-.09A1.7 1.7 0 0 0 19.4 15Z"/></svg>
+      </button>
+    </div>
+
+    <div class="avatar-section">
+      <div class="avatar-frame">
+        <div class="avatar-circle" id="avatarCircle">
+          <svg id="avatarDefaultIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0 0-10a5 5 0 0 0 0 10Z"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+          <img id="avatarImg" src="" alt="Foto de perfil">
+        </div>
+        <label class="avatar-add-btn" for="avatarInput" aria-label="Adicionar foto de perfil">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </label>
+        <input type="file" id="avatarInput" accept="image/*" hidden>
+      </div>
+      <span class="username" id="usernameText">@usuário</span>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-number" id="statSeguindo">0</span>
+        <span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>Seguindo</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" id="statSeguidores">0</span>
+        <span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="2.8"/><circle cx="16" cy="9" r="2.3"/><path d="M3.5 20c0-3.2 2.6-5.3 5.5-5.3s5.5 2.1 5.5 5.3"/><path d="M14.5 15c2.3.2 4 2.1 4 5"/></svg>Seguidores</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" id="statDoacoes">0</span>
+        <span class="stat-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M4 13h16"/><path d="M12 9v11"/><path d="M12 9c-1.8 0-3-1-3-2.5S10 4 12 4s3 1 3 2.5S13.8 9 12 9Z"/></svg>Doações</span>
+      </div>
+    </div>
+
+    <div class="bio-card" id="bioCard">
+      <p class="bio-line bio-empty" id="bioEmptyState">Você ainda não escreveu uma bio. Toque em "Editar perfil" para adicionar uma.</p>
+    </div>
+
+    <button class="edit-profile-btn" id="editProfileBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22 3.5 16.5Z"/></svg>
+      Editar perfil
+    </button>
+
+    <div class="tabs">
+      <div class="tab active"><span class="tab-grid-icon"><span></span><span></span><span></span><span></span></span>Publicações</div>
+      <div class="tab">Salvos</div>
+      <div class="tab">Curtidas</div>
+    </div>
+
+    <div class="posts-grid" id="postsGrid">
+      <div class="post-tile add-tile" id="addPostTile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </div>
+    </div>
+    <input type="file" id="postInput" accept="image/*" hidden>
+
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-item" aria-label="Início" onclick="window.location.href='home.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+    </button>
+    <button class="nav-item" aria-label="Adoção">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.8c0 5.5-8.8 10.2-8.8 10.2S3.2 14.3 3.2 8.8A4.8 4.8 0 0 1 12 6.1a4.8 4.8 0 0 1 8.8 2.7Z"/></svg>
+    </button>
+    <!-- Círculo central do menu: reservado para o FEED DE VÍDEOS (rolagem
+         estilo TikTok) que ainda vai ser feito. Por enquanto só decorativo,
+         sem nenhuma ação (antes ele abria o upload de foto — removido). -->
+    <div class="nav-center" title="Feed (em breve)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </div>
+    <button class="nav-item" aria-label="Nova mensagem">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.5-4A7.5 7.5 0 1 1 20 11.5Z"/></svg>
+    </button>
+    <button class="nav-item active" aria-label="Perfil">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+    </button>
+  </nav>
+
+  <!-- ============================================================
+       TELA "EDITAR PERFIL"
+       Some/aparece ao clicar em "Editar perfil" (editProfileBtn) ou
+       no ícone de lápis do avatar aqui dentro (editAvatarBtn).
+       Todos os campos são carregados em abrirEdicao() e salvos em
+       saveEditBtn (ver bloco "EDITAR PERFIL" no <script> no fim do
+       arquivo).
+       ============================================================ -->
+  <div class="edit-overlay" id="editOverlay">
+
+    <!-- Cabeçalho laranja com seta de voltar -->
+    <div class="edit-header">
+      <button class="edit-back-btn" id="closeEdit" aria-label="Voltar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+      </button>
+      <h1>EDITAR PERFIL</h1>
+    </div>
+
+    <div class="edit-scroll-area">
+
+      <!-- Avatar (reaproveita o mesmo input de arquivo #avatarInput
+           usado na tela principal do perfil, então a foto sobe pro
+           Supabase Storage do jeito que já funcionava) -->
+      <div class="edit-avatar-wrap">
+        <div class="edit-avatar-circle" id="editAvatarCircle">
+          <svg id="editAvatarDefaultIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0 0-10a5 5 0 0 0 0 10Z"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+          <img id="editAvatarImg" src="" alt="Foto de perfil">
+        </div>
+        <label class="edit-avatar-btn" for="avatarInput" aria-label="Alterar foto de perfil">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </label>
+      </div>
+      <div class="edit-username-row">
+        <span class="handle" id="editHandleText">@usuário</span>
+        <span class="dot"></span>
+      </div>
+
+      <!-- ---- Card: Informações Pessoais ----
+           username -> coluna "username" (já existia)
+           email    -> email de login do Supabase Auth (auth.users);
+                       alterar aqui dispara e-mail de confirmação de
+                       troca de e-mail (comportamento padrão do Supabase)
+           phone / birth_date -> colunas novas na tabela "profiles"
+           (ver aviso no comentário do <script>, seção "EDITAR PERFIL") -->
+      <div class="info-card">
+        <h3 class="info-card-title">Informações Pessoais</h3>
+
+        <div class="edit-field">
+          <label>Nome</label>
+          <div class="input-with-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+            <input type="text" id="editUsernameInput" placeholder="seu_username">
+          </div>
+        </div>
+
+        <div class="edit-field">
+          <label>Email</label>
+          <div class="input-with-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            <input type="email" id="editEmailInput" placeholder="seuemail@exemplo.com">
+          </div>
+        </div>
+
+        <div class="edit-field">
+          <label>Telefone</label>
+          <div class="input-with-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .6 2.9a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.5 2.9.6a2 2 0 0 1 1.8 2Z"/></svg>
+            <input type="tel" id="editPhoneInput" placeholder="(11) 98765-4321">
+          </div>
+        </div>
+
+        <div class="edit-field">
+          <label>Data de Nascimento</label>
+          <div class="input-with-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+            <input type="date" id="editBirthInput">
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- Card: Bio (já existia no código antigo, coluna "bio") ---- -->
+      <div class="info-card">
+        <h3 class="info-card-title">Sobre você</h3>
+        <div class="edit-field">
+          <label>Bio</label>
+          <textarea id="editBioInput" rows="3" placeholder="Fale um pouco sobre você ou sua causa"></textarea>
+        </div>
+      </div>
+
+      <!-- ---- Card: Endereço (colunas novas "state" e "city") ---- -->
+      <div class="info-card">
+        <h3 class="info-card-title">Endereço</h3>
+        <div class="edit-field">
+          <label>Estado</label>
+          <div class="input-with-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <input type="text" id="editStateInput" placeholder="Ex: São Paulo">
+          </div>
+        </div>
+        <div class="edit-field">
+          <label>Cidade</label>
+          <div class="input-with-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l7-4 7 4v13"/><path d="M14 21V12h4v9"/><path d="M9 9h1M9 13h1M9 17h1"/></svg>
+            <input type="text" id="editCityInput" placeholder="Ex: São Paulo">
+          </div>
+        </div>
+      </div>
+
+      <p class="edit-status" id="editStatus"></p>
+      <button class="save-edit-btn" id="saveEditBtn">Salvar Alterações</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://blpueqrzgqypkabjnvlu.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_b3ObyBNc_RiI5yoq8klo-Q_aSfOYVAg';
+const POSTS_BUCKET = 'publications';
+
+const usernameText = document.getElementById('usernameText');
+const bioCard = document.getElementById('bioCard');
+const avatarInput = document.getElementById('avatarInput');
+const avatarImg = document.getElementById('avatarImg');
+const avatarDefaultIcon = document.getElementById('avatarDefaultIcon');
+const postInput = document.getElementById('postInput');
+const addPostTile = document.getElementById('addPostTile');
+const postsGrid = document.getElementById('postsGrid');
+const editOverlay = document.getElementById('editOverlay');
+const editProfileBtn = document.getElementById('editProfileBtn');
+const closeEdit = document.getElementById('closeEdit');
+const editUsernameInput = document.getElementById('editUsernameInput');
+const editBioInput = document.getElementById('editBioInput');
+const editStatus = document.getElementById('editStatus');
+const saveEditBtn = document.getElementById('saveEditBtn');
+// -- Campos novos da tela "Editar perfil" (ver seção "EDITAR PERFIL" mais abaixo) --
+const editEmailInput = document.getElementById('editEmailInput');
+const editPhoneInput = document.getElementById('editPhoneInput');
+const editBirthInput = document.getElementById('editBirthInput');
+const editStateInput = document.getElementById('editStateInput');
+const editCityInput = document.getElementById('editCityInput');
+const editHandleText = document.getElementById('editHandleText');
+const editAvatarImg = document.getElementById('editAvatarImg');
+const editAvatarDefaultIcon = document.getElementById('editAvatarDefaultIcon');
+
+let supabaseClient = null;
+let currentUserId = null;
+let currentBio = '';
+// Guarda a última versão do perfil carregado do banco (username, bio,
+// phone, birth_date, state, city) + o email de login (auth.users), para
+// preencher a tela de edição sem precisar buscar tudo de novo.
+let currentProfile = {};
+let currentEmail = '';
+
+try{
+  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  carregarPerfil();
+}catch(error){
+  console.error('Não foi possível conectar ao Supabase:', error);
+}
+
+// ---------- PERFIL ----------
+
+async function carregarPerfil(){
+  if(!supabaseClient) return;
+
+  const { data:sessionData, error:sessionError } = await supabaseClient.auth.getSession();
+  if(sessionError){ console.error('Erro ao verificar sessão:', sessionError.message); return; }
+  if(!sessionData.session){ window.location.href = 'login.html'; return; }
+
+  currentUserId = sessionData.session.user.id;
+  currentEmail = sessionData.session.user.email || '';
+
+  // ⚠️ IMPORTANTE: além de "username, avatar_url, bio" (que já existiam),
+  // esta busca tenta trazer também "phone, birth_date, state, city" —
+  // colunas NOVAS usadas pela tela de edição. Se elas ainda não existirem
+  // na tabela "profiles", o Supabase erro nessa 1ª tentativa; por isso,
+  // logo abaixo, há um "plano B" que busca só as colunas antigas — assim
+  // nome/foto/bio continuam aparecendo normalmente mesmo sem rodar o SQL:
+  //   alter table profiles add column phone text;
+  //   alter table profiles add column birth_date date;
+  //   alter table profiles add column state text;
+  //   alter table profiles add column city text;
+  let profile, error;
+  ({ data:profile, error } = await supabaseClient
+    .from('profiles')
+    .select('username, avatar_url, bio, phone, birth_date, state, city')
+    .eq('id', currentUserId)
+    .single());
+
+  if(error){
+    console.warn('Colunas novas (phone/birth_date/state/city) indisponíveis ainda, buscando só o básico:', error.message);
+    ({ data:profile, error } = await supabaseClient
+      .from('profiles')
+      .select('username, avatar_url, bio')
+      .eq('id', currentUserId)
+      .single());
+  }
+
+  if(error){ console.error('Erro ao carregar perfil:', error.message); return; }
+
+  currentProfile = profile;
+  usernameText.textContent = '@' + (profile.username || 'usuário');
+
+  if(profile.avatar_url){
+    avatarImg.src = profile.avatar_url + '?t=' + Date.now();
+    avatarImg.style.display = 'block';
+    avatarDefaultIcon.style.display = 'none';
+    // mantém a foto sincronizada com o avatar mostrado dentro da tela de edição
+    editAvatarImg.src = avatarImg.src;
+    editAvatarImg.style.display = 'block';
+    editAvatarDefaultIcon.style.display = 'none';
+  }
+
+  currentBio = profile.bio || '';
+  mostrarBio(currentBio);
+
+  carregarPublicacoes();
+}
+
+function mostrarBio(bio){
+  bioCard.innerHTML = '';
+  const p = document.createElement('p');
+  p.className = 'bio-line';
+  if(bio && bio.trim() !== ''){
+    p.textContent = bio;
+  }else{
+    p.classList.add('bio-empty');
+    p.textContent = 'Você ainda não escreveu uma bio. Toque em "Editar perfil" para adicionar uma.';
+  }
+  bioCard.appendChild(p);
+}
+
+// ---------- PUBLICAÇÕES (múltiplas, listadas direto do Storage) ----------
+
+async function carregarPublicacoes(){
+  const { data, error } = await supabaseClient.storage.from(POSTS_BUCKET).list(currentUserId, {
+    sortBy: { column: 'created_at', order: 'desc' }
+  });
+  if(error || !data) return;
+
+  postsGrid.querySelectorAll('.post-tile:not(.add-tile)').forEach(tile => tile.remove());
+
+  data.forEach(file => {
+    const caminho = `${currentUserId}/${file.name}`;
+    const { data:urlData } = supabaseClient.storage.from(POSTS_BUCKET).getPublicUrl(caminho);
+    adicionarPublicacao(urlData.publicUrl + '?t=' + Date.now(), caminho);
+  });
+}
+
+function adicionarPublicacao(url, caminhoArquivo){
+  const tile = document.createElement('div');
+  tile.className = 'post-tile';
+  tile.dataset.path = caminhoArquivo;
+
+  const img = document.createElement('img');
+  img.src = url;
+  img.alt = 'Publicação';
+  tile.appendChild(img);
+
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'post-remove-btn';
+  removeBtn.textContent = '-';
+  removeBtn.setAttribute('aria-label', 'Remover publicação');
+  removeBtn.addEventListener('click', () => removerPublicacao(tile));
+  tile.appendChild(removeBtn);
+
+  postsGrid.insertBefore(tile, addPostTile);
+  return tile;
+}
+
+async function removerPublicacao(tile){
+  const caminhoArquivo = tile.dataset.path;
+  if(!caminhoArquivo || !confirm('Remover esta publicação?')) return;
+
+  const { error } = await supabaseClient.storage.from(POSTS_BUCKET).remove([caminhoArquivo]);
+  if(error){
+    console.error('Erro ao remover publicação:', error.message);
+    alert('Não foi possível remover a publicação: ' + error.message);
+    return;
+  }
+  tile.remove();
+}
+
+// ---------- EDITAR PERFIL ----------
+
+// Abre a tela cheia de edição e preenche cada campo com o que já está
+// carregado em "currentProfile" / "currentEmail" (buscados em carregarPerfil).
+editProfileBtn.addEventListener('click', () => {
+  editUsernameInput.value = usernameText.textContent.replace(/^@/, '');
+  editHandleText.textContent = usernameText.textContent;
+  editBioInput.value = currentBio;
+  editEmailInput.value = currentEmail;
+  editPhoneInput.value = currentProfile.phone || '';
+  editBirthInput.value = currentProfile.birth_date || '';
+  editStateInput.value = currentProfile.state || '';
+  editCityInput.value = currentProfile.city || '';
+  editStatus.textContent = '';
+  editStatus.className = 'edit-status';
+  editOverlay.classList.add('open');
+});
+
+// Botão de voltar (seta) no cabeçalho laranja fecha a tela de edição
+closeEdit.addEventListener('click', () => editOverlay.classList.remove('open'));
+
+saveEditBtn.addEventListener('click', async () => {
+  const novoUsername = editUsernameInput.value.trim();
+  const novaBio = editBioInput.value.trim();
+  const novoEmail = editEmailInput.value.trim();
+  const novoTelefone = editPhoneInput.value.trim();
+  const novaDataNascimento = editBirthInput.value || null; // string 'YYYY-MM-DD' ou null
+  const novoEstado = editStateInput.value.trim();
+  const novaCidade = editCityInput.value.trim();
+
+  if(!novoUsername){
+    editStatus.textContent = 'O nome não pode ficar vazio.';
+    editStatus.className = 'edit-status error';
+    return;
+  }
+  if(!currentUserId){
+    editStatus.textContent = 'Usuário não identificado.';
+    editStatus.className = 'edit-status error';
+    return;
+  }
+
+  saveEditBtn.disabled = true;
+  editStatus.textContent = 'Salvando...';
+  editStatus.className = 'edit-status';
+
+  // 1) Atualiza a tabela "profiles" com todos os campos da tela.
+  //    (as colunas phone/birth_date/state/city precisam existir — ver
+  //    o comentário em carregarPerfil() com o SQL para criá-las)
+  let { error } = await supabaseClient
+    .from('profiles')
+    .update({
+      username: novoUsername,
+      bio: novaBio,
+      phone: novoTelefone,
+      birth_date: novaDataNascimento,
+      state: novoEstado,
+      city: novaCidade
+    })
+    .eq('id', currentUserId);
+
+  let avisoColunas = '';
+  if(error){
+    // Plano B: colunas novas ainda não existem no banco — salva pelo
+    // menos username e bio (como já funcionava antes), sem perder tudo.
+    console.warn('Não deu pra salvar phone/birth_date/state/city ainda, salvando só username/bio:', error.message);
+    ({ error } = await supabaseClient
+      .from('profiles')
+      .update({ username: novoUsername, bio: novaBio })
+      .eq('id', currentUserId));
+    avisoColunas = ' (telefone/nascimento/endereço não foram salvos: crie as colunas no banco, veja o comentário no código)';
+  }
+
+  if(error){
+    saveEditBtn.disabled = false;
+    console.error('Erro ao atualizar perfil:', error.message);
+    editStatus.textContent = error.message;
+    editStatus.className = 'edit-status error';
+    return;
+  }
+
+  // 2) Se o email foi alterado, atualiza no Supabase Auth (login).
+  //    Por segurança, o Supabase envia um link de confirmação para o
+  //    e-mail novo antes de efetivar a troca — por isso avisamos o usuário.
+  let avisoEmail = '';
+  if(novoEmail && novoEmail !== currentEmail){
+    const { error:emailError } = await supabaseClient.auth.updateUser({ email: novoEmail });
+    if(emailError){
+      console.error('Erro ao atualizar email:', emailError.message);
+      avisoEmail = ' (email não alterado: ' + emailError.message + ')';
+    } else {
+      avisoEmail = ' Confirme o novo email na caixa de entrada.';
+    }
+  }
+
+  saveEditBtn.disabled = false;
+
+  // Atualiza a tela principal do perfil com os novos valores
+  usernameText.textContent = '@' + novoUsername;
+  currentBio = novaBio;
+  currentProfile = { ...currentProfile, phone:novoTelefone, birth_date:novaDataNascimento, state:novoEstado, city:novaCidade };
+  mostrarBio(novaBio);
+
+  editStatus.textContent = 'Perfil atualizado!' + avisoEmail + avisoColunas;
+  editStatus.className = 'edit-status success';
+  setTimeout(() => editOverlay.classList.remove('open'), 900);
+});
+
+// ---------- AVATAR ----------
+
+avatarInput.addEventListener('change', async () => {
+  const file = avatarInput.files[0];
+  if(!file) return;
+  if(!supabaseClient || !currentUserId){ alert('Usuário não identificado.'); return; }
+
+  const previewUrl = URL.createObjectURL(file);
+  avatarImg.src = previewUrl;
+  avatarImg.style.display = 'block';
+  avatarDefaultIcon.style.display = 'none';
+  // o input de arquivo (#avatarInput) é o mesmo usado pelo botão de
+  // câmera dentro da tela "Editar perfil", então atualizamos as duas prévias
+  editAvatarImg.src = previewUrl;
+  editAvatarImg.style.display = 'block';
+  editAvatarDefaultIcon.style.display = 'none';
+
+  const extensao = file.name.split('.').pop().toLowerCase();
+  const caminhoArquivo = `${currentUserId}/avatar.${extensao}`;
+
+  const { error:uploadError } = await supabaseClient.storage.from('avatars').upload(caminhoArquivo, file, { upsert:true, contentType:file.type });
+  if(uploadError){ alert('Não foi possível enviar a foto: ' + uploadError.message); return; }
+
+  const { data:urlData } = supabaseClient.storage.from('avatars').getPublicUrl(caminhoArquivo);
+  const avatarUrl = urlData.publicUrl;
+
+  const { error:updateError } = await supabaseClient.from('profiles').update({ avatar_url:avatarUrl }).eq('id', currentUserId);
+  if(updateError){ alert('A foto foi enviada, mas não foi possível salvar no perfil.'); return; }
+
+  avatarImg.src = avatarUrl + '?t=' + Date.now();
+  editAvatarImg.src = avatarImg.src;
+  avatarInput.value = '';
+});
+
+// ---------- NOVA PUBLICAÇÃO ----------
+
+addPostTile.addEventListener('click', () => postInput.click());
+
+postInput.addEventListener('change', async () => {
+  const file = postInput.files[0];
+  if(!file) return;
+  if(!supabaseClient || !currentUserId){ alert('Usuário não identificado.'); return; }
+
+  const extensao = file.name.split('.').pop().toLowerCase();
+  const nomeArquivo = `${Date.now()}.${extensao}`; // nome único: não sobrescreve publicações anteriores
+  const caminhoArquivo = `${currentUserId}/${nomeArquivo}`;
+
+  const tilePreview = adicionarPublicacao(URL.createObjectURL(file), caminhoArquivo);
+
+  const { error:uploadError } = await supabaseClient.storage.from(POSTS_BUCKET).upload(caminhoArquivo, file, { contentType:file.type });
+
+  if(uploadError){
+    console.error('Erro ao enviar publicação:', uploadError.message);
+    alert('Não foi possível enviar a publicação: ' + uploadError.message);
+    tilePreview.remove();
+    postInput.value = '';
+    return;
+  }
+
+  const { data:urlData } = supabaseClient.storage.from(POSTS_BUCKET).getPublicUrl(caminhoArquivo);
+  tilePreview.querySelector('img').src = urlData.publicUrl + '?t=' + Date.now();
+
+  postInput.value = '';
+});
+</script>
+</body>
+</html>
