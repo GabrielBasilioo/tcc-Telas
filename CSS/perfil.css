@@ -170,6 +170,10 @@ body {
     margin-bottom: 20px;
 }
 
+html[data-theme="dark"] .username {
+  color: #fff;
+}
+
 .stats {
     display: flex;
     background: #fff;
