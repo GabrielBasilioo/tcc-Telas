@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configurações</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="CSS/configuracoes.css">
+</head>
+<body>
+<div class="phone">
+  <header class="settings-header">
+    <button class="back-btn" onclick="history.back()" aria-label="Voltar">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <div class="header-title">
+      <h1>CONFIGURAÇÕES</h1>
+      <span>Personalize sua experiência</span>
+    </div>
+  </header>
+
+  <main class="settings-content">
+    <h2>CONTA</h2>
+    <section class="settings-card">
+      <button class="setting-row" onclick="go('perfil.html')"><span class="row-icon">👤</span><span class="row-text"><b>Meu perfil</b><small>Edite suas informações pessoais</small></span><span class="chevron">›</span></button>
+      <button class="setting-row" onclick="toast('Área de segurança')"><span class="row-icon">♢</span><span class="row-text"><b>Segurança</b><small>Senha, login e privacidade</small></span><span class="chevron">›</span></button>
+      <button class="setting-row" onclick="notifications()"><span class="row-icon">♧</span><span class="row-text"><b>Notificações</b><small>Gerencie seus alertas</small></span><span class="chevron">›</span></button>
+      <button class="setting-row" onclick="toast('Seus pets favoritos aparecerão aqui.')"><span class="row-icon">♡</span><span class="row-text"><b>Pets favoritos</b><small>Veja e gerencie seus favoritos</small></span><span class="chevron">›</span></button>
+    </section>
+
+    <h2>PREFERÊNCIAS</h2>
+    <section class="settings-card">
+      <button class="setting-row" onclick="toast('Preferências de adoção')"><span class="row-icon">♧</span><span class="row-text"><b>Preferências de adoção</b><small>Configure seus filtros padrão</small></span><span class="chevron">›</span></button>
+      <button class="setting-row" onclick="locationAccess()"><span class="row-icon">⌖</span><span class="row-text"><b>Localização</b><small id="locationText">Gerencie sua localização</small></span><span class="chevron">›</span></button>
+      <div class="setting-row theme-row">
+        <span class="row-icon">☾</span>
+        <span class="row-text"><b>Tema do aplicativo</b><small id="themeText">Escolha entre claro ou escuro</small></span>
+        <div class="theme-switch">
+          <button id="lightBtn" onclick="setTheme('light')" aria-label="Tema claro">☀</button>
+          <button id="darkBtn" onclick="setTheme('dark')" aria-label="Tema escuro">☾</button>
+        </div>
+      </div>
+    </section>
+
+    <h2>SOBRE</h2>
+    <section class="settings-card">
+      <button class="setting-row" onclick="modal('Sobre o aplicativo','PetTok é uma plataforma para conectar pessoas a pets que precisam de um novo lar.','Versão 1.0.0')"><span class="row-icon">ⓘ</span><span class="row-text"><b>Sobre o aplicativo</b><small>Versão 1.0.0</small></span><span class="chevron">›</span></button>
+      <button class="setting-row" onclick="location.href='mailto:suporte@pettok.com?subject=Suporte PetTok'"><span class="row-icon">?</span><span class="row-text"><b>Ajuda e suporte</b><small>Tire dúvidas com nossa equipe</small></span><span class="chevron">›</span></button>
+      <button class="setting-row" onclick="modal('Termos e privacidade','Ao utilizar o PetTok, você concorda com os termos de uso e com nossa política de privacidade.','Leia os termos antes de utilizar os recursos da plataforma.')"><span class="row-icon">▤</span><span class="row-text"><b>Termos e privacidade</b><small>Leia nossos termos de uso</small></span><span class="chevron">›</span></button>
+    </section>
+
+    <button class="logout" onclick="logout()"><span>⇥</span> Sair da conta</button>
+  </main>
+
+  <nav class="bottom-nav">
+    <button onclick="go('home.html')" aria-label="Início">⌂</button>
+    <button onclick="toast('Adoção')" aria-label="Adoção">♡</button>
+    <button class="add" onclick="go('cadastroPet.html')" aria-label="Cadastrar pet">+</button>
+    <button onclick="toast('Mensagens')" aria-label="Mensagens">➤</button>
+    <button class="active" onclick="go('perfil.html')" aria-label="Perfil">♙</button>
+  </nav>
+
+  <div id="toast" class="toast"></div>
+  <div id="modal" class="modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal-box"><button class="modal-x" onclick="closeModal()">×</button><h3 id="modalTitle"></h3><p id="modalText"></p><small id="modalExtra"></small><button class="modal-ok" onclick="closeModal()">Entendi</button></div>
+  </div>
+</div>
+<script src="JS/configuracoes.js"></script>
+</body>
+</html>
