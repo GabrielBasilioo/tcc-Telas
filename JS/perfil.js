@@ -26,6 +26,12 @@ const editCityInput = document.getElementById('editCityInput');
 const editHandleText = document.getElementById('editHandleText');
 const editAvatarImg = document.getElementById('editAvatarImg');
 const editAvatarDefaultIcon = document.getElementById('editAvatarDefaultIcon');
+const editPasswordInput =
+    document.getElementById('editPasswordInput');
+
+const editPasswordConfirmInput =
+    document.getElementById('editPasswordConfirmInput');
+
 
 let supabaseClient = null;
 let currentUserId = null;
@@ -195,6 +201,33 @@ saveEditBtn.addEventListener('click', async () => {
   const novaDataNascimento = editBirthInput.value || null; // string 'YYYY-MM-DD' ou null
   const novoEstado = editStateInput.value.trim();
   const novaCidade = editCityInput.value.trim();
+  const novaSenha = editPasswordInput.value;
+  const confirmarSenha = editPasswordConfirmInput.value;
+
+
+
+  if (novaSenha || confirmarSenha) {
+
+    if (novaSenha.length < 6) {
+        editStatus.textContent = 'A senha deve ter pelo menos 6 caracteres.';
+        return;
+    }
+
+    if (novaSenha !== confirmarSenha) {
+        editStatus.textContent = 'As senhas não coincidem.';
+        return;
+    }
+
+    const { error } = await supabaseClient.auth.updateUser({
+        password: novaSenha
+    });
+
+    if (error) {
+        editStatus.textContent = 'Erro ao alterar senha: ' + error.message;
+        return;
+    }
+}
+
 
   if(!novoUsername){
     editStatus.textContent = 'O nome não pode ficar vazio.';
@@ -214,17 +247,32 @@ saveEditBtn.addEventListener('click', async () => {
   // 1) Atualiza a tabela "profiles" com todos os campos da tela.
   //    (as colunas phone/birth_date/state/city precisam existir — ver
   //    o comentário em carregarPerfil() com o SQL para criá-las)
-  let { error } = await supabaseClient
+  const { error } = await supabaseClient
     .from('profiles')
     .update({
-      username: novoUsername,
-      bio: novaBio,
-      phone: novoTelefone,
-      birth_date: novaDataNascimento,
-      state: novoEstado,
-      city: novaCidade
+        username: novoUsername,
+        bio: novaBio,
+        phone: novoTelefone,
+        birth_date: novaDataNascimento,
+        state: novoEstado,
+        city: novaCidade
     })
     .eq('id', currentUserId);
+
+    if (error) {
+    if (error.code === '23505') {
+        editStatus.textContent =
+            'Este telefone já está cadastrado em outra conta.';
+    } else {
+        editStatus.textContent =
+            'Erro ao salvar: ' + error.message;
+    }
+
+    editStatus.className = 'edit-status error';
+    return;
+}
+
+
 
   let avisoColunas = '';
   if(error){

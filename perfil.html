@@ -98,22 +98,23 @@
   </div>
 
   <nav class="bottom-nav">
-    <button class="nav-item" aria-label="Início" onclick="window.location.href='home.html'">
+    <button class="nav-item" title="Início" onclick="window.location.href='home.html'">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
     </button>
-    <button class="nav-item" aria-label="Adoção">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.8c0 5.5-8.8 10.2-8.8 10.2S3.2 14.3 3.2 8.8A4.8 4.8 0 0 1 12 6.1a4.8 4.8 0 0 1 8.8 2.7Z"/></svg>
-    </button>
+    <button class="nav-item" title="Cadastrar" onclick="window.location.href='cadastroPet.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 5v14"/>
+  <path d="M5 12h14"/>
+</svg> </button>
     <!-- Círculo central do menu: reservado para o FEED DE VÍDEOS (rolagem
          estilo TikTok) que ainda vai ser feito. Por enquanto só decorativo,
          sem nenhuma ação (antes ele abria o upload de foto — removido). -->
     <div class="nav-center" title="Feed (em breve)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-    </div>
-    <button class="nav-item" aria-label="Nova mensagem">
+      </div>
+    <button class="nav-item" title="Nova mensagem">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.5-4A7.5 7.5 0 1 1 20 11.5Z"/></svg>
     </button>
-    <button class="nav-item active" aria-label="Perfil">
+    <button class="nav-item active" title="Perfil">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
     </button>
   </nav>
@@ -225,6 +226,39 @@
           </div>
         </div>
       </div>
+
+      <div class="info-card">
+
+    <div class="info-card-title">
+        Segurança
+    </div>
+
+    <div class="edit-field">
+        <label for="editPasswordInput">Nova senha</label>
+
+        <div class="input-with-icon">
+            <input
+                type="password"
+                id="editPasswordInput"
+                placeholder="Digite sua nova senha"
+            >
+        </div>
+    </div>
+
+    <div class="edit-field">
+        <label for="editPasswordConfirmInput">Confirmar nova senha</label>
+
+        <div class="input-with-icon">
+            <input
+                type="password"
+                id="editPasswordConfirmInput"
+                placeholder="Digite novamente sua nova senha"
+            >
+        </div>
+    </div>
+
+</div>
+
 
       <p class="edit-status" id="editStatus"></p>
       <button class="save-edit-btn" id="saveEditBtn">Salvar Alterações</button>

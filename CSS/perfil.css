@@ -717,3 +717,56 @@ html[data-theme="dark"] .username {
     color: #fff;
 }
 
+/* =========================
+   CAMPOS DE SENHA
+   ========================= */
+
+.password-fields {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.password-fields .edit-field {
+    margin-bottom: 18px;
+}
+
+.password-fields label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.password-fields .input-with-icon {
+    width: 100%;
+    position: relative;
+}
+
+.password-fields input {
+    width: 100%;
+    height: 45px;
+    padding: 0 14px;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    background-color: #fff;
+    color: #333;
+
+    font-size: 14px;
+    font-family: inherit;
+
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.password-fields input::placeholder {
+    color: #999;
+}
+
+.password-fields input:focus {
+    border-color: #6c63ff;
+    box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.1);
+}
+
