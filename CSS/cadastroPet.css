@@ -1,0 +1,973 @@
+:root {
+    --orange: #FF7A29;
+    --orange-dark: #F26A15;
+    --orange-light: #FFA35C;
+
+    --gray-text: #8A8A8F;
+    --gray-icon: #B9B9C0;
+
+    --light-gray: #EEEEEE;
+    --border: #D3D3D3;
+
+    --text: #222;
+    --muted: #969699;
+
+    --page: #EDEDED;
+    --surface: #FFFFFF;
+
+    --divider: #F0EEEC;
+    --nav: #FFFFFF;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background: var(--page);
+    font-family: 'Nunito', sans-serif;
+    color: var(--text);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+
+    padding: 24px 0;
+
+    overflow: hidden;
+}
+
+
+/* ==================================================
+   TELA / APP
+================================================== */
+
+.app {
+    width: 395px;
+    height: 879px;
+
+    /*
+       CONTROLE DO TAMANHO DA TELA
+
+       1    = tamanho normal
+       1.1  = 10% maior
+       1.2  = 20% maior
+       0.9  = 10% menor
+    */
+    zoom: 1;
+
+    background: #fff;
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 28px;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, .18);
+}
+
+
+
+
+/* ==================================================
+   HEADER
+================================================== */
+
+.header {
+    min-height: 104px;
+
+    background: var(--orange);
+    color: #fff;
+
+    display: flex;
+    align-items: flex-start;
+
+    padding: 24px 18px 32px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+/* Curva branca inferior */
+
+.header::after {
+    content: "";
+
+    position: absolute;
+
+    left: -10%;
+    bottom: -19px;
+
+    width: 120%;
+    height: 38px;
+
+    background: #fff;
+
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+
+    pointer-events: none;
+}
+
+
+/* ==================================================
+   BOTÃO VOLTAR
+================================================== */
+
+.back-button {
+    flex: 0 0 auto;
+
+    width: 28px;
+    height: 28px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: #fff;
+
+    padding: 4px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background .2s;
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, .14);
+}
+
+.back-button svg {
+    width: 23px;
+    height: 23px;
+}
+
+
+/* ==================================================
+   TÍTULO DO HEADER
+================================================== */
+
+.header-title {
+    min-width: 0;
+
+    margin-left: 7px;
+
+    padding-right: 8px;
+}
+
+.header-title h1 {
+    font-family: "Baloo 2", "Nunito", sans-serif;
+
+    font-size: 20px;
+    line-height: 1.05;
+
+    font-weight: 800;
+
+    letter-spacing: .2px;
+
+    white-space: nowrap;
+}
+
+.header-title span {
+    display: block;
+
+    margin-top: 4px;
+
+    font-family: "Nunito", sans-serif;
+
+    font-size: 10px;
+    line-height: 1.2;
+
+    font-weight: 600;
+
+    color: rgba(255, 255, 255, .9);
+}
+
+
+/* ==================================================
+   PATINHA
+================================================== */
+
+.header-paw {
+    flex: 0 0 auto;
+
+    width: 25px;
+    height: 25px;
+
+    margin-left: auto;
+    margin-top: 1px;
+}
+
+
+/* ==================================================
+   CONTEÚDO
+================================================== */
+
+.content {
+    position: absolute;
+
+    top: 105px;
+    left: 0;
+    right: 0;
+    bottom: 78px;
+
+    padding: 8px 23px 25px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    scrollbar-width: thin;
+    scrollbar-color: #999 transparent;
+}
+
+.content::-webkit-scrollbar {
+    width: 5px;
+}
+
+.content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.content::-webkit-scrollbar-thumb {
+    background: #999;
+    border-radius: 10px;
+}
+
+
+#petForm {
+    width: 100%;
+
+    padding-bottom: 15px;
+}
+
+
+/* ==================================================
+   FORMULÁRIO
+================================================== */
+
+#petForm {
+    width: 100%;
+}
+
+
+/* ==================================================
+   LINHAS
+================================================== */
+
+.field-row {
+    display: grid;
+
+    grid-template-columns: 30px minmax(0, 1fr);
+
+    column-gap: 0;
+
+    margin-bottom: 11px;
+}
+
+.field-row:last-child {
+    margin-bottom: 0;
+}
+
+
+/* ==================================================
+   ÍCONES
+================================================== */
+
+.field-icon {
+    color: var(--orange);
+
+    width: 25px;
+    height: 25px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 5px;
+}
+
+.field-icon svg {
+    width: 21px;
+    height: 21px;
+}
+
+.paw-small svg {
+    width: 22px;
+    height: 22px;
+}
+
+
+/* ==================================================
+   CAMPOS
+================================================== */
+
+.field {
+    min-width: 0;
+}
+
+.field label,
+.media-title {
+    display: block;
+
+    color: #161616;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: .15px;
+
+    margin-bottom: 5px;
+}
+
+
+/* ==================================================
+   INPUTS
+================================================== */
+
+input[type="text"],
+input[type="number"],
+textarea {
+    width: 100%;
+
+    min-height: 30px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 7px;
+
+    background: #fff;
+
+    outline: none;
+
+    padding: 5px 9px;
+
+    font-family: "Nunito", Arial, sans-serif;
+
+    font-size: 11px;
+
+    color: #222;
+
+    transition:
+        border-color .2s,
+        box-shadow .2s,
+        background .2s;
+}
+
+input[type="text"]::placeholder,
+input[type="number"]::placeholder,
+textarea::placeholder {
+    color: #aaa;
+
+    opacity: 1;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+    border-color: var(--orange);
+
+    box-shadow:
+        0 0 0 2px rgba(255, 121, 24, .10);
+
+    background: #fff;
+}
+
+textarea {
+    height: 50px;
+
+    min-height: 50px;
+
+    resize: none;
+
+    line-height: 1.3;
+}
+
+
+/* ==================================================
+   ESPÉCIE
+================================================== */
+
+.species-row {
+    margin-bottom: 10px;
+}
+
+.checkbox-group,
+.radio-group {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    min-height: 24px;
+}
+
+
+/* ==================================================
+   CHECKBOX / RADIO CUSTOM
+================================================== */
+
+.check-label {
+    display: flex !important;
+
+    align-items: center;
+
+    gap: 6px;
+
+    font-size: 9px !important;
+
+    font-weight: 700 !important;
+
+    margin: 0 !important;
+
+    cursor: pointer;
+
+    color: #333 !important;
+}
+
+.check-label input {
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+.fake-check {
+    width: 17px;
+    height: 17px;
+
+    border: 1px solid #c5c5c5;
+
+    border-radius: 5px;
+
+    display: inline-block;
+
+    background: #fff;
+
+    position: relative;
+
+    flex: 0 0 auto;
+
+    transition: .15s;
+}
+
+.check-label input:checked + .fake-check {
+    background: var(--orange);
+
+    border-color: var(--orange);
+}
+
+.check-label input:checked + .fake-check::after {
+    content: "";
+
+    position: absolute;
+
+    width: 4px;
+    height: 8px;
+
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+
+    transform: rotate(45deg);
+
+    left: 5px;
+    top: 2px;
+}
+
+.radio-group {
+    gap: 16px;
+}
+
+
+/* ==================================================
+   DESCRIÇÃO
+================================================== */
+
+.description-row {
+    margin-top: 2px;
+
+    margin-bottom: 10px;
+}
+
+
+/* ==================================================
+   CAMPOS COMPACTOS
+================================================== */
+
+.compact-row {
+    margin-bottom: 9px;
+}
+
+.compact-row .field label {
+    margin-bottom: 4px;
+}
+
+
+/* ==================================================
+   MÍDIA
+================================================== */
+
+.media-section {
+    margin-top: 7px;
+
+    padding-left: 21px;
+}
+
+.media-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 8px;
+}
+
+.media-title svg {
+    width: 18px;
+    height: 18px;
+
+    color: var(--orange);
+
+    flex: 0 0 auto;
+}
+
+
+/* ==================================================
+   UPLOAD
+================================================== */
+
+.upload-area {
+    width: 100%;
+    height: 70px;
+
+    border: 1px dashed var(--orange);
+
+    border-radius: 8px;
+
+    background: #fff;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    position: relative;
+
+    overflow: hidden;
+
+    transition:
+        background .2s,
+        border-color .2s;
+}
+
+.upload-area:hover {
+    background: rgba(255, 121, 24, .04);
+
+    border-color: var(--orange-dark);
+}
+
+.upload-area input {
+    display: none;
+}
+
+.upload-icon {
+    width: 18px;
+    height: 18px;
+
+    color: var(--orange);
+
+    margin-bottom: 2px;
+}
+
+.upload-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.upload-area strong {
+    font-size: 9px;
+
+    font-weight: 700;
+
+    color: #222;
+}
+
+.upload-area > span {
+    font-size: 8px;
+
+    color: #999;
+
+    margin-top: 1px;
+}
+
+
+/* ==================================================
+   PREVIEW
+================================================== */
+
+.preview {
+    display: none;
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    z-index: 5;
+
+    background: #fff;
+}
+
+
+/* ==================================================
+   BOTÃO CADASTRAR
+================================================== */
+
+.submit-button {
+    width: calc(100% - 21px);
+
+    min-height: 34px;
+
+    margin-left: 21px;
+
+    margin-top: 13px;
+
+    border: 0;
+
+    border-radius: 17px;
+
+    background: var(--orange);
+
+    color: #fff;
+
+    font-family: "Nunito", Arial, sans-serif;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        background .2s,
+        transform .1s;
+}
+
+.submit-button:hover {
+    background: var(--orange-dark);
+}
+
+.submit-button:active {
+    transform: scale(.98);
+}
+
+
+/* ==================================================
+   NAVBAR
+================================================== */
+
+.bottom-nav {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 78px;
+
+    background: #fff;
+
+    border-radius: 26px 26px 0 0;
+
+    box-shadow:
+        0 -6px 24px rgba(0, 0, 0, .06);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    padding: 0 8px;
+
+    z-index: 100;
+}
+
+
+
+.nav-item {
+    width: 100%;
+    height: 100%;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #777;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+    position: relative;
+
+    transition: color .2s;
+}
+
+.nav-item:hover {
+    color: var(--orange);
+}
+
+.nav-item svg {
+    width: 24px;
+    height: 24px;
+}
+
+.nav-item.active {
+    color: var(--orange);
+}
+
+
+/* ==================================================
+   BOTÃO CENTRAL / FEED
+================================================== */
+
+.nav-item.central {
+    transform: translateY(-6px);
+}
+
+.central-pets {
+    width: 46px;
+    height: 46px;
+
+    background: #fff;
+
+    border-radius: 50%;
+
+    border: 2px solid #eeeeee;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    font-size: 17px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, .05);
+}
+
+.central-pets span {
+    position: absolute;
+}
+
+.central-pets span:nth-child(1) {
+    left: 3px;
+    top: 2px;
+}
+
+.central-pets span:nth-child(2) {
+    right: 2px;
+    top: 4px;
+}
+
+.central-pets span:nth-child(3) {
+    bottom: 1px;
+    left: 14px;
+}
+
+
+/* ==================================================
+   NAV ITEMS
+================================================== */
+
+.nav-item {
+    width: 100%;
+    height: 100%;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #777;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+    position: relative;
+
+    transition: color .2s;
+}
+
+.nav-item:hover {
+    color: var(--orange);
+}
+
+.nav-item svg {
+    width: 24px;
+    height: 24px;
+}
+
+.nav-item.active {
+    color: var(--orange);
+}
+
+
+/* ==================================================
+   BOTÃO CENTRAL / FEED
+================================================== */
+
+.nav-item.central {
+    transform: translateY(-6px);
+}
+
+.central-pets {
+    width: 46px;
+    height: 46px;
+
+    background: #fff;
+
+    border-radius: 50%;
+
+    border: 2px solid #eeeeee;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    font-size: 17px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, .05);
+}
+
+.central-pets span {
+    position: absolute;
+}
+
+.central-pets span:nth-child(1) {
+    left: 3px;
+    top: 2px;
+}
+
+.central-pets span:nth-child(2) {
+    right: 2px;
+    top: 4px;
+}
+
+.central-pets span:nth-child(3) {
+    bottom: 1px;
+    left: 14px;
+}
+
+
+/* ==================================================
+   RESPONSIVO
+================================================== */
+
+@media (min-width: 500px) {
+
+    body {
+        padding: 30px 0;
+    }
+
+    .app {
+        min-height: 650px;
+
+        height: 650px;
+
+        border-radius: 8px;
+
+        box-shadow:
+            0 10px 35px rgba(0, 0, 0, .15);
+    }
+
+    .bottom-nav {
+        position: absolute;
+    }
+}
+
+
+/* ==================================================
+   TELAS MUITO PEQUENAS
+================================================== */
+
+@media (max-width: 350px) {
+
+    .header {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .header-title h1 {
+        font-size: 18px;
+    }
+
+    .header-title span {
+        font-size: 9px;
+    }
+
+    .content {
+        padding-left: 17px;
+        padding-right: 17px;
+    }
+
+    .field-row {
+        grid-template-columns: 27px minmax(0, 1fr);
+    }
+
+    .media-section {
+        padding-left: 18px;
+    }
+
+    .submit-button {
+        width: calc(100% - 18px);
+
+        margin-left: 18px;
+    }
+}
