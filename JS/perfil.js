@@ -21,8 +21,8 @@ const saveEditBtn = document.getElementById('saveEditBtn');
 const editEmailInput = document.getElementById('editEmailInput');
 const editPhoneInput = document.getElementById('editPhoneInput');
 const editBirthInput = document.getElementById('editBirthInput');
-const editStateInput = document.getElementById('editStateInput');
-const editCityInput = document.getElementById('editCityInput');
+const hoje = new Date().toISOString().split('T')[0];
+editBirthInput.max = hoje;
 const editHandleText = document.getElementById('editHandleText');
 const editAvatarImg = document.getElementById('editAvatarImg');
 const editAvatarDefaultIcon = document.getElementById('editAvatarDefaultIcon');
@@ -74,7 +74,7 @@ async function carregarPerfil(){
   let profile, error;
   ({ data:profile, error } = await supabaseClient
     .from('profiles')
-    .select('username, avatar_url, bio, phone, birth_date, state, city')
+    .select('username, avatar_url, bio, phone, birth_date')
     .eq('id', currentUserId)
     .single());
 
@@ -183,8 +183,6 @@ editProfileBtn.addEventListener('click', () => {
   editEmailInput.value = currentEmail;
   editPhoneInput.value = currentProfile.phone || '';
   editBirthInput.value = currentProfile.birth_date || '';
-  editStateInput.value = currentProfile.state || '';
-  editCityInput.value = currentProfile.city || '';
   editStatus.textContent = '';
   editStatus.className = 'edit-status';
   editOverlay.classList.add('open');
@@ -199,8 +197,16 @@ saveEditBtn.addEventListener('click', async () => {
   const novoEmail = editEmailInput.value.trim();
   const novoTelefone = editPhoneInput.value.trim();
   const novaDataNascimento = editBirthInput.value || null; // string 'YYYY-MM-DD' ou null
-  const novoEstado = editStateInput.value.trim();
-  const novaCidade = editCityInput.value.trim();
+  if (novaDataNascimento) {
+  const hoje = new Date();
+  const dataNascimento = new Date(novaDataNascimento + 'T00:00:00');
+
+  if (dataNascimento > hoje) {
+    editStatus.textContent = 'A data de nascimento não pode ser uma data futura.';
+    editStatus.className = 'edit-status error';
+    return;
+  }
+}
   const novaSenha = editPasswordInput.value;
   const confirmarSenha = editPasswordConfirmInput.value;
 
@@ -254,8 +260,6 @@ saveEditBtn.addEventListener('click', async () => {
         bio: novaBio,
         phone: novoTelefone,
         birth_date: novaDataNascimento,
-        state: novoEstado,
-        city: novaCidade
     })
     .eq('id', currentUserId);
 
@@ -313,7 +317,7 @@ saveEditBtn.addEventListener('click', async () => {
   // Atualiza a tela principal do perfil com os novos valores
   usernameText.textContent = '@' + novoUsername;
   currentBio = novaBio;
-  currentProfile = { ...currentProfile, phone:novoTelefone, birth_date:novaDataNascimento, state:novoEstado, city:novaCidade };
+  currentProfile = { ...currentProfile, phone:novoTelefone, birth_date:novaDataNascimento};
   mostrarBio(novaBio);
 
   editStatus.textContent = 'Perfil atualizado!' + avisoEmail + avisoColunas;
