@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Feed · PetTok</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="CSS/feed.css">
+</head>
+
+<body>
+
+<div class="phone">
+
+    <!-- =========================
+         FEED
+    ========================== -->
+
+    <main class="feed" id="feed">
+
+        <!-- As publicações serão inseridas pelo JS -->
+        <div id="feedLoading" class="feed-loading">
+            <div class="loading-spinner"></div>
+            <span>Carregando pets...</span>
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         TOPO
+    ========================== -->
+
+    <header class="feed-top">
+
+        <button class="feed-top-btn" id="searchBtn" aria-label="Pesquisar">
+
+            <svg viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.3"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="m20 20-4-4"></path>
+
+            </svg>
+
+        </button>
+
+    </header>
+
+
+    <!-- =========================
+         BARRA DE NAVEGAÇÃO
+         Mesmo padrão do perfil.html
+    ========================== -->
+
+    <nav class="bottom-nav">
+
+        <!-- INÍCIO -->
+        <button
+            class="nav-item"
+            title="Início"
+            onclick="window.location.href='home.html'">
+
+            <svg viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+                <path d="M3 11.5 12 4l9 7.5"></path>
+                <path d="M5 10v10h14V10"></path>
+                <path d="M9 20v-6h6v6"></path>
+
+            </svg>
+
+        </button>
+
+
+        <!-- CADASTRAR PET -->
+        <button
+            class="nav-item"
+            title="Cadastrar pet"
+            onclick="window.location.href='cadastroPet.html'">
+
+            <svg viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round">
+
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+
+            </svg>
+
+        </button>
+
+
+        <!-- =====================
+             FEED - BOLINHA CENTRAL
+        ====================== -->
+
+        <button
+            class="nav-center active"
+            title="Feed"
+            onclick="window.location.href='feed.html'">
+
+            <svg viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+                <polygon points="8,5 19,12 8,19"></polygon>
+
+            </svg>
+
+        </button>
+
+
+        <!-- MENSAGENS -->
+        <button
+            class="nav-item"
+            title="Mensagens"
+            id="messagesBtn">
+
+            <svg viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+                <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.5-4A7.5 7.5 0 1 1 20 11.5Z"></path>
+
+            </svg>
+
+        </button>
+
+
+        <!-- PERFIL -->
+        <button
+            class="nav-item"
+            title="Perfil"
+            onclick="window.location.href='perfil.html'">
+
+            <svg viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+
+            </svg>
+
+        </button>
+
+    </nav>
+
+
+    <!-- =========================
+         AVISO DE INTERESSE
+    ========================== -->
+
+    <div class="interest-modal" id="interestModal">
+
+        <div class="interest-box">
+
+            <button
+                class="modal-close"
+                id="closeInterest">
+
+                ×
+
+            </button>
+
+            <div class="interest-icon">
+
+                🐾
+
+            </div>
+
+            <h2>Interessado nesse pet?</h2>
+
+            <p>
+                Em breve você poderá conversar diretamente
+                com o responsável pela adoção.
+            </p>
+
+            <button
+                class="interest-confirm"
+                id="confirmInterest">
+
+                Tenho interesse
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="JS/feed.js"></script>
+
+</body>
+
+</html>
