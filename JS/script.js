@@ -8,6 +8,8 @@
     const switchModeBtn = document.getElementById('switchModeBtn');
     const statusMsg = document.getElementById('statusMsg');
     const authForm = document.getElementById('authForm');
+    const birthField = document.getElementById('birthField');
+
 
     function setMode(newMode){
       mode = newMode;
@@ -15,12 +17,14 @@
       if(mode === 'signup'){
         formTitle.textContent = 'Cadastro';
         usernameField.style.display = 'block';
+        birthField.style.display = 'block';
         forgotWrap.style.visibility = 'hidden';
         submitBtn.textContent = 'Cadastrar';
         switchModeBtn.textContent = 'Já tem conta? Entrar';
       } else {
         formTitle.textContent = 'Login';
         usernameField.style.display = 'none';
+        birthField.style.display = 'none';
         forgotWrap.style.visibility = 'visible';
         submitBtn.textContent = 'Login';
         switchModeBtn.textContent = 'Não tem conta? Cadastre-se';
@@ -74,11 +78,14 @@
 
       if(mode === 'signup'){
         const username = document.getElementById('username').value.trim();
+        const dataNascimento = document.getElementById('dataNascimento').value;
 
         const { data, error } = await supabaseClient.auth.signUp({
           email,
           password,
-          options: { data: { username } }
+          options: { data:  username ,
+          data_nascimento: dataNascimento
+        }
         });
 
         if(error){
