@@ -16,6 +16,7 @@
     >
 
     <link rel="stylesheet" href="CSS/cadastroPet.css">
+    <link rel="stylesheet" href="CSS/configuracoes.css">
 </head>
 
 <body>
@@ -513,7 +514,7 @@
                         type="file"
                         id="petMedia"
                         name="petMedia"
-                        accept="image/*,video/*"
+                        accept="video/mp4,video/webm,video/quicktime"
                     >
 
                     <div class="upload-icon">
@@ -556,6 +557,14 @@
                         class="preview"
                         alt="Pré-visualização da imagem do pet"
                     >
+                    <video
+                    id="preview"
+                    class="preview"
+                    controls
+                    muted
+                    playsinline
+                    ></video>
+
 
                 </label>
 
@@ -707,7 +716,10 @@
 
 </div>
 
+<script src="JS/configuracoes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="JS/cadastroPet.js"></script>
+
 
 </body>
 </html>

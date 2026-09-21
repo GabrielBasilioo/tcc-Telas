@@ -1,18 +1,45 @@
-const form = document.getElementById("petForm");
+// ==================================================
+// SUPABASE
+// ==================================================
 
-const mediaInput = document.getElementById("petMedia");
-const uploadArea = document.querySelector(".upload-area");
-const preview = document.getElementById("preview");
+const SUPABASE_URL =
+    "https://blpueqrzgqypkabjnvlu.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_b3ObyBNc_RiI5yoq8klo-Q_aSfOYVAg";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+// ==================================================
+// ELEMENTOS
+// ==================================================
+
+const form =
+    document.getElementById("petForm");
+
+const mediaInput =
+    document.getElementById("petMedia");
+
+const uploadArea =
+    document.querySelector(".upload-area");
+
+const preview =
+    document.getElementById("preview");
 
 
 // ==================================================
 // ESPÉCIE
-// Permite selecionar apenas uma opção
 // ==================================================
 
-const especieInputs = document.querySelectorAll(
-    'input[name="especie"]'
-);
+const especieInputs =
+    document.querySelectorAll(
+        'input[name="especie"]'
+    );
 
 especieInputs.forEach((input) => {
 
@@ -36,7 +63,7 @@ especieInputs.forEach((input) => {
 
 
 // ==================================================
-// UPLOAD DE IMAGEM
+// PREVIEW DO VÍDEO
 // ==================================================
 
 function mostrarPreview(file) {
@@ -45,9 +72,14 @@ function mostrarPreview(file) {
         return;
     }
 
-    if (!file.type.startsWith("image/")) {
 
-        alert("Selecione uma imagem válida.");
+    // Aceita somente vídeo
+
+    if (!file.type.startsWith("video/")) {
+
+        alert(
+            "Selecione um vídeo válido."
+        );
 
         mediaInput.value = "";
 
@@ -58,274 +90,519 @@ function mostrarPreview(file) {
         return;
     }
 
-    const reader = new FileReader();
 
-    reader.onload = function (event) {
+    const videoUrl =
+        URL.createObjectURL(file);
 
-        preview.src = event.target.result;
 
-        preview.style.display = "block";
+    preview.src = videoUrl;
 
-    };
+    preview.style.display = "block";
 
-    reader.readAsDataURL(file);
+    preview.controls = true;
+
+    preview.muted = true;
+
+    preview.playsInline = true;
+
 }
 
 
-mediaInput.addEventListener("change", function () {
+// ==================================================
+// SELEÇÃO DO VÍDEO
+// ==================================================
 
-    const file = this.files[0];
+mediaInput.addEventListener(
+    "change",
+    function () {
 
-    mostrarPreview(file);
+        const file =
+            this.files[0];
 
-});
+        mostrarPreview(file);
+
+    }
+);
 
 
 // ==================================================
 // DRAG AND DROP
 // ==================================================
 
-uploadArea.addEventListener("dragover", function (event) {
+uploadArea.addEventListener(
+    "dragover",
+    function (event) {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    uploadArea.style.background =
-        "rgba(255, 121, 24, .08)";
-
-});
-
-
-uploadArea.addEventListener("dragleave", function () {
-
-    uploadArea.style.background = "";
-
-});
-
-
-uploadArea.addEventListener("drop", function (event) {
-
-    event.preventDefault();
-
-    uploadArea.style.background = "";
-
-    const file = event.dataTransfer.files[0];
-
-    if (!file) {
-        return;
-    }
-
-    if (!file.type.startsWith("image/")) {
-
-        alert("Por favor, envie uma imagem válida.");
-
-        return;
-    }
-
-    try {
-
-        mediaInput.files = event.dataTransfer.files;
-
-    } catch (error) {
-
-        console.warn(
-            "Não foi possível atribuir o arquivo diretamente ao input.",
-            error
-        );
+        uploadArea.style.background =
+            "rgba(255, 121, 24, .08)";
 
     }
+);
 
-    mostrarPreview(file);
 
-});
+uploadArea.addEventListener(
+    "dragleave",
+    function () {
+
+        uploadArea.style.background = "";
+
+    }
+);
+
+
+uploadArea.addEventListener(
+    "drop",
+    function (event) {
+
+        event.preventDefault();
+
+        uploadArea.style.background = "";
+
+        const file =
+            event.dataTransfer.files[0];
+
+
+        if (!file) {
+            return;
+        }
+
+
+        if (!file.type.startsWith("video/")) {
+
+            alert(
+                "Por favor, envie somente um vídeo."
+            );
+
+            return;
+        }
+
+
+        try {
+
+            mediaInput.files =
+                event.dataTransfer.files;
+
+        } catch (error) {
+
+            console.warn(
+                "Não foi possível atribuir o arquivo.",
+                error
+            );
+
+        }
+
+
+        mostrarPreview(file);
+
+    }
+);
 
 
 // ==================================================
 // CADASTRO
 // ==================================================
 
-form.addEventListener("submit", function (event) {
+form.addEventListener(
+    "submit",
+    async function (event) {
 
-    event.preventDefault();
+        event.preventDefault();
 
 
-    // ----------------------------------------------
-    // CAMPOS
-    // ----------------------------------------------
+        // ------------------------------------------
+        // CAMPOS
+        // ------------------------------------------
 
-    const nome =
-        document.getElementById("nome").value.trim();
+        const nome =
+            document
+                .getElementById("nome")
+                .value
+                .trim();
 
-    const especie =
-        document.querySelector(
-            'input[name="especie"]:checked'
+
+        const especie =
+            document.querySelector(
+                'input[name="especie"]:checked'
+            );
+
+
+        const raca =
+            document
+                .getElementById("raca")
+                .value
+                .trim();
+
+
+        const idade =
+            document
+                .getElementById("idade")
+                .value;
+
+
+        const descricao =
+            document
+                .getElementById("descricao")
+                .value
+                .trim();
+
+
+        const microchipado =
+            document.querySelector(
+                'input[name="microchipado"]:checked'
+            );
+
+
+        const castrado =
+            document.querySelector(
+                'input[name="castrado"]:checked'
+            );
+
+
+        const video =
+            mediaInput.files[0];
+
+
+        // ------------------------------------------
+        // VALIDAÇÕES
+        // ------------------------------------------
+
+        if (!nome) {
+
+            alert(
+                "Digite o nome do animal."
+            );
+
+            return;
+        }
+
+
+        if (!especie) {
+
+            alert(
+                "Selecione a espécie do animal."
+            );
+
+            return;
+        }
+
+
+        if (!raca) {
+
+            alert(
+                "Digite a raça do animal."
+            );
+
+            return;
+        }
+
+
+        if (idade === "") {
+
+            alert(
+                "Informe a idade do animal."
+            );
+
+            return;
+        }
+
+
+        if (!microchipado) {
+
+            alert(
+                "Informe se o animal é microchipado."
+            );
+
+            return;
+        }
+
+
+        if (!castrado) {
+
+            alert(
+                "Informe se o animal é castrado."
+            );
+
+            return;
+        }
+
+
+        if (!video) {
+
+            alert(
+                "Selecione um vídeo do animal."
+            );
+
+            return;
+        }
+
+
+        if (!video.type.startsWith("video/")) {
+
+            alert(
+                "O arquivo selecionado não é um vídeo válido."
+            );
+
+            return;
+        }
+
+
+        // ------------------------------------------
+        // USUÁRIO LOGADO
+        // ------------------------------------------
+
+        const {
+            data: sessionData,
+            error: sessionError
+        } =
+            await supabaseClient.auth.getSession();
+
+
+        if (sessionError) {
+
+            console.error(
+                "Erro ao verificar sessão:",
+                sessionError
+            );
+
+            alert(
+                "Não foi possível verificar seu login."
+            );
+
+            return;
+        }
+
+
+        const session =
+            sessionData.session;
+
+
+        if (!session) {
+
+            alert(
+                "Você precisa estar logado para cadastrar um pet."
+            );
+
+            return;
+        }
+
+
+        const user =
+            session.user;
+
+
+        // ------------------------------------------
+        // CONVERTE SIM/NÃO PARA BOOLEAN
+        // ------------------------------------------
+
+        const microchipadoBoolean =
+            microchipado.value === "sim";
+
+
+        const castradoBoolean =
+            castrado.value === "sim";
+
+
+        // ------------------------------------------
+        // ENVIA VÍDEO PARA O STORAGE
+        // ------------------------------------------
+
+        const extensao =
+            video.name
+                .split(".")
+                .pop()
+                .toLowerCase();
+
+
+        const nomeArquivo =
+            `${user.id}/${crypto.randomUUID()}.${extensao}`;
+
+
+        console.log(
+            "Enviando vídeo:",
+            nomeArquivo
         );
 
-    const raca =
-        document.getElementById("raca").value.trim();
 
-    const idade =
-        document.getElementById("idade").value;
+        const {
+            error: uploadError
+        } =
+            await supabaseClient
+                .storage
+                .from("videos")
+                .upload(
+                    nomeArquivo,
+                    video,
+                    {
+                        contentType:
+                            video.type,
 
-    const descricao =
-        document.getElementById("descricao").value.trim();
+                        cacheControl:
+                            "3600",
 
-    const microchipado =
-        document.querySelector(
-            'input[name="microchipado"]:checked'
+                        upsert:
+                            false
+                    }
+                );
+
+
+        if (uploadError) {
+
+            console.error(
+                "Erro ao enviar vídeo:",
+                uploadError
+            );
+
+            alert(
+                "Erro ao enviar o vídeo para o Storage."
+            );
+
+            return;
+        }
+
+
+        // ------------------------------------------
+        // PEGA URL DO VÍDEO
+        // ------------------------------------------
+
+        const {
+            data: publicUrlData
+        } =
+            supabaseClient
+                .storage
+                .from("videos")
+                .getPublicUrl(
+                    nomeArquivo
+                );
+
+
+        const mediaUrl =
+            publicUrlData.publicUrl;
+
+
+        console.log(
+            "URL do vídeo:",
+            mediaUrl
         );
 
-    const castrado =
-        document.querySelector(
-            'input[name="castrado"]:checked'
+
+        // ------------------------------------------
+        // SALVA DADOS NA TABELA PETS
+        // ------------------------------------------
+
+        const petData = {
+
+            user_id:
+                user.id,
+
+            nome:
+                nome,
+
+            especie:
+                especie.value,
+
+            raca:
+                raca,
+
+            idade:
+                Number(idade),
+
+            descricao:
+                descricao || null,
+
+            microchipado:
+                microchipadoBoolean,
+
+            castrado:
+                castradoBoolean,
+
+            media_url:
+                mediaUrl,
+
+            media_type:
+                "video"
+        };
+
+
+        console.log(
+            "Dados que serão enviados:",
+            petData
         );
 
 
-    // ----------------------------------------------
-    // VALIDAÇÕES
-    // ----------------------------------------------
-
-    if (!nome) {
-
-        alert("Digite o nome do animal.");
-
-        document.getElementById("nome").focus();
-
-        return;
-    }
+        const {
+            data: pet,
+            error: insertError
+        } =
+            await supabaseClient
+                .from("pets")
+                .insert(petData)
+                .select()
+                .single();
 
 
-    if (!especie) {
+        // ------------------------------------------
+        // ERRO AO SALVAR PET
+        // ------------------------------------------
 
-        alert("Selecione a espécie do animal.");
+        if (insertError) {
 
-        return;
-    }
-
-
-    if (!raca) {
-
-        alert("Digite a raça do animal.");
-
-        document.getElementById("raca").focus();
-
-        return;
-    }
+            console.error(
+                "Erro ao cadastrar pet:",
+                insertError
+            );
 
 
-    if (idade === "") {
+            // Remove o vídeo do Storage
+            // para não deixar arquivo órfão.
 
-        alert("Informe a idade do animal.");
+            await supabaseClient
+                .storage
+                .from("videos")
+                .remove([
+                    nomeArquivo
+                ]);
 
-        document.getElementById("idade").focus();
 
-        return;
-    }
+            alert(
+                "O vídeo foi enviado, mas os dados não puderam ser salvos no banco."
+            );
+
+            return;
+        }
 
 
-    if (!microchipado) {
+        // ------------------------------------------
+        // SUCESSO
+        // ------------------------------------------
+
+        console.log(
+            "Pet cadastrado:",
+            pet
+        );
+
 
         alert(
-            "Informe se o animal é microchipado."
+            `Pet "${nome}" cadastrado com sucesso!`
         );
 
-        return;
+
+        // ------------------------------------------
+        // LIMPA FORMULÁRIO
+        // ------------------------------------------
+
+        form.reset();
+
+        preview.pause();
+
+        preview.removeAttribute("src");
+
+        preview.load();
+
+        preview.style.display =
+            "none";
+
     }
 
-
-    if (!castrado) {
-
-        alert(
-            "Informe se o animal é castrado."
-        );
-
-        return;
-    }
-
-
-    // ----------------------------------------------
-    // DADOS DO PET
-    // ----------------------------------------------
-
-    const pet = {
-
-        id: Date.now(),
-
-        nome: nome,
-
-        especie: especie.value,
-
-        raca: raca,
-
-        idade: Number(idade),
-
-        descricao: descricao,
-
-        microchipado: microchipado.value,
-
-        castrado: castrado.value,
-
-        imagem:
-            mediaInput.files.length
-                ? mediaInput.files[0].name
-                : null,
-
-        criadoEm:
-            new Date().toISOString()
-
-    };
-
-
-    // ----------------------------------------------
-    // SALVAR NO LOCALSTORAGE
-    // ----------------------------------------------
-
-    const petsSalvos =
-        JSON.parse(
-            localStorage.getItem("pets")
-        ) || [];
-
-    petsSalvos.push(pet);
-
-    localStorage.setItem(
-        "pets",
-        JSON.stringify(petsSalvos)
-    );
-
-
-    // ----------------------------------------------
-    // LOG
-    // ----------------------------------------------
-
-    console.log(
-        "PET CADASTRADO:",
-        pet
-    );
-
-
-    // ----------------------------------------------
-    // SUCESSO
-    // ----------------------------------------------
-
-    alert(
-        `Pet "${nome}" cadastrado com sucesso!`
-    );
-
-
-    // ----------------------------------------------
-    // LIMPA FORMULÁRIO
-    // ----------------------------------------------
-
-    form.reset();
-
-    preview.src = "";
-
-    preview.style.display = "none";
-
-
-    // Mantém o usuário na tela de cadastro.
-    // Se quiser direcionar para outra tela,
-    // pode usar:
-    //
-    // window.location.href = "perfil.html";
-
-});
+);
