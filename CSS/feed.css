@@ -48,7 +48,7 @@ body {
 
     width: 395px;
     max-width: 100vw;
-
+    min-height: 879px;
     height: 800px;
     max-height: 100vh;
 
@@ -468,44 +468,35 @@ body {
 /* =========================
    NAV INFERIOR
 ========================= */
+/* =========================
+   MENU INFERIOR
+   IGUAL AO PERFIL
+   ========================= */
 
 .bottom-nav {
-
     position: absolute;
-
     bottom: 0;
     left: 0;
     right: 0;
-
     height: 78px;
-
-    background: white;
-
+    
+    background: #fff;
     border-radius: 26px 26px 0 0;
-
-    box-shadow:
-        0 -6px 24px rgba(0,0,0,.08);
+    box-shadow: 0 -6px 24px rgba(0, 0, 0, .06);
 
     display: flex;
-
     align-items: center;
-
     justify-content: space-around;
 
     padding: 0 8px;
-
     z-index: 30;
 }
 
-
 .nav-item {
-
     background: none;
-
     border: none;
-
+    
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -517,62 +508,36 @@ body {
     height: 40px;
 }
 
-
 .nav-item svg {
-
     width: 24px;
     height: 24px;
 }
 
-
 .nav-item.active {
-
+    
     color: var(--orange);
 }
 
-
-/* =========================
-   BOLINHA CENTRAL
-========================= */
-
 .nav-center {
-
+    box-shadow: 0 10px 20px rgba(255,122,41,.4);
     width: 62px;
     height: 62px;
-
     border-radius: 50%;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--orange-light),
-            var(--orange)
-        );
-
-    display: flex;
-
+    
+    background: linear-gradient(135deg, var(--orange-light), var(--orange));
+    display: flex;    
     align-items: center;
     justify-content: center;
-
     margin-top: -30px;
-
-    box-shadow:
-        0 10px 20px rgba(255,122,41,.4);
-
-    border: 4px solid white;
-
+    border: 4px solid #fff;
+    overflow: hidden;
     cursor: pointer;
-
-    padding: 0;
 }
-
-
 .nav-center svg {
-
-    width: 27px;
-    height: 27px;
-
-    margin-left: 3px;
+    
+    width: 28px;
+    height: 28px;
+    color: #fff;
 }
 
 
@@ -776,4 +741,22 @@ body {
 
     }
 
+}
+
+/* NAV DO FEED — TEMA ESCURO */
+html[data-theme="dark"] .bottom-nav {
+    background: #181818;
+    box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* BOTÃO HOME CENTRAL — TEMA ESCURO */
+html[data-theme="dark"] .nav-center {
+    background: linear-gradient(135deg, #FFA35C, #FF7A29);
+    border: 4px solid #181818;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* ÍCONE HOME */
+html[data-theme="dark"] .nav-center svg {
+    color: #fff;
 }
