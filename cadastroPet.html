@@ -514,7 +514,7 @@
                         type="file"
                         id="petMedia"
                         name="petMedia"
-                        accept="video/mp4,video/webm,video/quicktime"
+                        accept="image/*, video/*"
                     >
 
                     <div class="upload-icon">
@@ -553,7 +553,7 @@
                     <span>ou arraste e solte aqui</span>
 
                     <img
-                        id="preview"
+                        id="previewImg"
                         class="preview"
                         alt="Pré-visualização da imagem do pet"
                     >
@@ -593,26 +593,10 @@
 
         <!-- INÍCIO -->
 
-        <button
-            type="button"
-            class="nav-item"
-            title="Início"
-            aria-label="Início"
-            onclick="window.location.href='home.html'"
-        >
-
-            <svg viewBox="0 0 24 24">
-                <path
-                    d="M3 11.5L12 4L21 11.5V20H14V14H10V20H3V11.5Z"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.8"
-                    stroke-linejoin="round"
-                />
-            </svg>
-
-        </button>
-
+        <button class="nav-item active" aria-label="Início" onclick="window.location.href='home.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+  
+      </button>
 
         <!-- CADASTRAR -->
 

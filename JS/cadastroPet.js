@@ -28,8 +28,11 @@ const mediaInput =
 const uploadArea =
     document.querySelector(".upload-area");
 
-const preview =
+const previewVideo =
     document.getElementById("preview");
+
+const previewImg =
+    document.getElementById("previewImg");
 
 
 // ==================================================
@@ -63,8 +66,19 @@ especieInputs.forEach((input) => {
 
 
 // ==================================================
-// PREVIEW DO VÍDEO
+// PREVIEW (IMAGEM OU VÍDEO)
 // ==================================================
+
+function limparPreview() {
+
+    previewVideo.pause();
+    previewVideo.removeAttribute("src");
+    previewVideo.load();
+    previewVideo.style.display = "none";
+
+    previewImg.removeAttribute("src");
+    previewImg.style.display = "none";
+}
 
 function mostrarPreview(file) {
 
@@ -72,44 +86,43 @@ function mostrarPreview(file) {
         return;
     }
 
+    const ehImagem = file.type.startsWith("image/");
+    const ehVideo = file.type.startsWith("video/");
 
-    // Aceita somente vídeo
-
-    if (!file.type.startsWith("video/")) {
+    if (!ehImagem && !ehVideo) {
 
         alert(
-            "Selecione um vídeo válido."
+            "Selecione uma imagem ou vídeo válido."
         );
 
         mediaInput.value = "";
 
-        preview.src = "";
-
-        preview.style.display = "none";
-
         return;
     }
 
+    limparPreview();
 
-    const videoUrl =
-        URL.createObjectURL(file);
+    const url = URL.createObjectURL(file);
 
+    if (ehVideo) {
 
-    preview.src = videoUrl;
+        previewVideo.src = url;
+        previewVideo.style.display = "block";
+        previewVideo.controls = true;
+        previewVideo.muted = true;
+        previewVideo.playsInline = true;
 
-    preview.style.display = "block";
+    } else {
 
-    preview.controls = true;
-
-    preview.muted = true;
-
-    preview.playsInline = true;
+        previewImg.src = url;
+        previewImg.style.display = "block";
+    }
 
 }
 
 
 // ==================================================
-// SELEÇÃO DO VÍDEO
+// SELEÇÃO DA MÍDIA
 // ==================================================
 
 mediaInput.addEventListener(
@@ -169,10 +182,10 @@ uploadArea.addEventListener(
         }
 
 
-        if (!file.type.startsWith("video/")) {
+        if (!file.type.startsWith("image/") && !file.type.startsWith("video/")) {
 
             alert(
-                "Por favor, envie somente um vídeo."
+                "Por favor, envie somente uma imagem ou vídeo."
             );
 
             return;
@@ -260,7 +273,7 @@ form.addEventListener(
             );
 
 
-        const video =
+        const midia =
             mediaInput.files[0];
 
 
@@ -328,20 +341,20 @@ form.addEventListener(
         }
 
 
-        if (!video) {
+        if (!midia) {
 
             alert(
-                "Selecione um vídeo do animal."
+                "Selecione uma imagem ou vídeo do animal."
             );
 
             return;
         }
 
 
-        if (!video.type.startsWith("video/")) {
+        if (!midia.type.startsWith("image/") && !midia.type.startsWith("video/")) {
 
             alert(
-                "O arquivo selecionado não é um vídeo válido."
+                "O arquivo selecionado não é uma imagem ou vídeo válido."
             );
 
             return;
@@ -405,11 +418,15 @@ form.addEventListener(
 
 
         // ------------------------------------------
-        // ENVIA VÍDEO PARA O STORAGE
+        // ENVIA MÍDIA PARA O STORAGE
         // ------------------------------------------
 
+        const midiaTipo =
+            midia.type.startsWith("video/") ? "video" : "imagem";
+
+
         const extensao =
-            video.name
+            midia.name
                 .split(".")
                 .pop()
                 .toLowerCase();
@@ -420,7 +437,7 @@ form.addEventListener(
 
 
         console.log(
-            "Enviando vídeo:",
+            "Enviando mídia:",
             nomeArquivo
         );
 
@@ -433,10 +450,10 @@ form.addEventListener(
                 .from("videos")
                 .upload(
                     nomeArquivo,
-                    video,
+                    midia,
                     {
                         contentType:
-                            video.type,
+                            midia.type,
 
                         cacheControl:
                             "3600",
@@ -450,12 +467,12 @@ form.addEventListener(
         if (uploadError) {
 
             console.error(
-                "Erro ao enviar vídeo:",
+                "Erro ao enviar mídia:",
                 uploadError
             );
 
             alert(
-                "Erro ao enviar o vídeo para o Storage."
+                "Erro ao enviar a mídia para o Storage."
             );
 
             return;
@@ -463,7 +480,7 @@ form.addEventListener(
 
 
         // ------------------------------------------
-        // PEGA URL DO VÍDEO
+        // PEGA URL DA MÍDIA
         // ------------------------------------------
 
         const {
@@ -482,7 +499,7 @@ form.addEventListener(
 
 
         console.log(
-            "URL do vídeo:",
+            "URL da mídia:",
             mediaUrl
         );
 
@@ -521,7 +538,7 @@ form.addEventListener(
                 mediaUrl,
 
             media_type:
-                "video"
+                midiaTipo
         };
 
 
@@ -554,7 +571,7 @@ form.addEventListener(
             );
 
 
-            // Remove o vídeo do Storage
+            // Remove a mídia do Storage
             // para não deixar arquivo órfão.
 
             await supabaseClient
@@ -566,7 +583,7 @@ form.addEventListener(
 
 
             alert(
-                "O vídeo foi enviado, mas os dados não puderam ser salvos no banco."
+                "A mídia foi enviada, mas os dados não puderam ser salvos no banco."
             );
 
             return;
@@ -594,14 +611,7 @@ form.addEventListener(
 
         form.reset();
 
-        preview.pause();
-
-        preview.removeAttribute("src");
-
-        preview.load();
-
-        preview.style.display =
-            "none";
+        limparPreview();
 
     }
 
