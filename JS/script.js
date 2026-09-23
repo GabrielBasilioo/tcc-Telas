@@ -83,9 +83,12 @@
         const { data, error } = await supabaseClient.auth.signUp({
           email,
           password,
-          options: { data:  username ,
-          data_nascimento: dataNascimento
-        }
+          options: {
+            data: {
+              username,
+              data_nascimento: dataNascimento
+            }
+          }
         });
 
         if(error){
