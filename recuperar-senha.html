@@ -201,7 +201,8 @@
 
       // Monta o link de volta para "nova-senha.html" usando o mesmo endereço
       // onde esta página está hospedada — funciona em qualquer domínio.
-      const redirectTo = window.location.href.replace('recuperar-senha.html', 'nova-senha.html');
+      // Força o envio do link correto hospedado no GitHub Pages
+      const redirectTo = 'https://gabrielbasilioo.github.io/tcc-Telas/nova-senha.html';
 
       const { error } = await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo });
 
