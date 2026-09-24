@@ -49,16 +49,7 @@
       statusMsg.classList.add('error');
     }
 
-    document.getElementById('forgotLink').addEventListener('click', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      if(!email){
-        statusMsg.textContent = 'Digite seu email acima primeiro.';
-        return;
-      }
-      const { error } = await supabaseClient.auth.resetPasswordForEmail(email);
-      statusMsg.textContent = error ? error.message : 'Enviamos um link de recuperação para seu email.';
-    });
+    
 
     authForm.addEventListener('submit', async (e) => {
       e.preventDefault();
