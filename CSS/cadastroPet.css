@@ -28,7 +28,7 @@ html[data-theme="dark"] {
     --check-text: #e2e2e2;
     --upload-text: #f1f1f1;
     --nav-bg: #181818;
-    --nav-border: #181818;
+    --nav-border: #ffffff;
 }
 
 * {
@@ -49,7 +49,7 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 24px 0;
-    transition: background .25s ease;
+    transition: .25s ease;
 }
 
 .app {
@@ -64,23 +64,54 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-    transition: background .25s ease;
+    transition:  .25s ease;
+}
+
+:root {
+    --orange-light: #FF9A56;
+    --orange-dark: #FF8A3D;
+    --app-bg: #1a1a1a;
 }
 
 .header {
     position: relative;
     flex-shrink: 0;
-    background: linear-gradient(135deg,var(--orange-light),var(--orange-dark));
-    padding: 22px 22px 46px;
-    border-radius: 0 0 50% 50% / 0 0 34px 34px;
+    background: linear-gradient(135deg, var(--orange-light), var(--orange-dark));
+    padding: 22px 22px 0;
+    padding-bottom: 45px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    color: #fff;
+    overflow: visible;
+}
+
+.header-content {
+    position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
     gap: 14px;
-    color: #fff;
+    width: 100%;
+    padding-bottom: 45px;
+}
+
+.header-wave {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.header-wave path {
+    fill: var(--app-bg);
 }
 
 .back-button {
-    background: rgba(255,255,255,.25);
+    background: rgba(255, 255, 255, 0.25);
     border: none;
     width: 34px;
     height: 34px;
@@ -92,35 +123,45 @@ body {
     flex-shrink: 0;
     color: #fff;
     padding: 0;
+    transition: background 0.2s;
 }
 
-.back-button svg { width: 18px; height: 18px; }
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
 
-.header-title { min-width: 0; }
+.back-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+.header-title {
+    flex: 1;
+    min-width: 0;
+}
 
 .header-title h1 {
     font-family: 'Baloo 2', sans-serif;
     font-weight: 800;
     font-size: 20px;
     line-height: 1.1;
-    letter-spacing: .3px;
+    letter-spacing: 0.3px;
     color: #fff;
-    white-space: nowrap;
 }
 
 .header-title span {
     display: block;
-    margin-top: 2px;
+    margin-top: 4px;
     font-size: 10px;
     font-weight: 600;
-    color: rgba(255,255,255,.9);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .header-paw {
-    width: 25px;
-    height: 25px;
-    margin-left: auto;
+    width: 28px;
+    height: 28px;
     flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .content {

@@ -517,22 +517,19 @@ body {
     
     color: var(--orange);
 }
-
-.nav-center {
-    box-shadow: 0 10px 20px rgba(255,122,41,.4);
+  .nav-center{
     width: 62px;
     height: 62px;
     border-radius: 50%;
-    
     background: linear-gradient(135deg, var(--orange-light), var(--orange));
-    display: flex;    
-    align-items: center;
-    justify-content: center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     margin-top: -30px;
+    box-shadow: 0 10px 20px rgba(255,122,41,0.4);
     border: 4px solid #fff;
-    overflow: hidden;
-    cursor: pointer;
-}
+    overflow:hidden;
+  }
 .nav-center svg {
     
     width: 28px;
@@ -752,8 +749,8 @@ html[data-theme="dark"] .bottom-nav {
 /* BOTÃO HOME CENTRAL — TEMA ESCURO */
 html[data-theme="dark"] .nav-center {
     background: linear-gradient(135deg, #FFA35C, #FF7A29);
-    border: 4px solid #181818;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+    border: 4px solid #ffffff;
+    box-shadow: 0 10px 20px rgba(255,122,41,0.4);
 }
 
 /* ÍCONE HOME */
