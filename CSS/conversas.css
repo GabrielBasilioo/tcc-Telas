@@ -1,0 +1,578 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+
+    background: #eeeeee;
+
+    font-family: 'Nunito', sans-serif;
+
+    display: flex;
+    justify-content: center;
+}
+
+
+/* =========================================
+   CELULAR
+========================================= */
+
+.phone {
+    width: 100%;
+    max-width: 430px;
+
+    min-height: 100vh;
+
+    background: #ffffff;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   CABEÇALHO
+========================================= */
+
+.top-header {
+
+    height: 72px;
+
+    background: #ff8618;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 22px;
+}
+
+.top-header h1 {
+
+    font-family: 'Baloo 2', sans-serif;
+
+    font-size: 27px;
+
+    font-weight: 800;
+
+    line-height: 1;
+}
+
+
+/* botão nova conversa */
+
+.new-message-btn {
+
+    width: 34px;
+
+    height: 34px;
+
+    border-radius: 50%;
+
+    border: 2px solid white;
+
+    background: transparent;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.new-message-btn svg {
+
+    width: 19px;
+
+    height: 19px;
+}
+
+
+/* =========================================
+   CONTEÚDO
+========================================= */
+
+.content {
+
+    padding: 18px 20px 100px;
+}
+
+
+/* =========================================
+   PESQUISA
+========================================= */
+
+.search-box {
+
+    width: 100%;
+
+    height: 30px;
+
+    border: 1px solid #d6d6d6;
+
+    border-radius: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 10px;
+
+    margin-bottom: 22px;
+}
+
+.search-box svg {
+
+    width: 15px;
+
+    height: 15px;
+
+    color: #8b8b8b;
+
+    flex-shrink: 0;
+}
+
+.search-box input {
+
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    padding-left: 7px;
+
+    font-family: 'Nunito', sans-serif;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    color: #444;
+}
+
+.search-box input::placeholder {
+
+    color: #999;
+}
+
+
+/* =========================================
+   LISTA DE CONVERSAS
+========================================= */
+
+.conversation-list {
+
+    width: 100%;
+}
+
+
+/* =========================================
+   ITEM
+========================================= */
+
+.conversation-item {
+
+    width: 100%;
+
+    min-height: 65px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 7px 2px;
+
+    border-bottom: 1px solid #eeeeee;
+
+    cursor: pointer;
+
+    transition: background .15s ease;
+}
+
+.conversation-item:hover {
+
+    background: #fafafa;
+}
+
+
+/* =========================================
+   FOTO
+========================================= */
+
+.avatar-wrapper {
+
+    width: 46px;
+
+    height: 46px;
+
+    position: relative;
+
+    flex-shrink: 0;
+}
+
+.avatar {
+
+    width: 46px;
+
+    height: 46px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    background: #eeeeee;
+}
+
+
+/* online */
+
+.online-dot {
+
+    position: absolute;
+
+    width: 10px;
+
+    height: 10px;
+
+    background: #28c840;
+
+    border-radius: 50%;
+
+    right: -1px;
+
+    bottom: 2px;
+
+    border: 2px solid white;
+}
+
+
+/* =========================================
+   INFORMAÇÕES
+========================================= */
+
+.conversation-info {
+
+    min-width: 0;
+
+    flex: 1;
+
+    margin-left: 10px;
+}
+
+.conversation-name {
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    color: #171717;
+
+    margin-bottom: 2px;
+}
+
+.last-message {
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    color: #555;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    max-width: 190px;
+}
+
+
+/* =========================================
+   LADO DIREITO
+========================================= */
+
+.conversation-meta {
+
+    height: 42px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    padding: 2px 2px;
+}
+
+.message-time {
+
+    font-size: 7px;
+
+    color: #777;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   CONTADOR
+========================================= */
+
+.unread-badge {
+
+    min-width: 14px;
+
+    height: 14px;
+
+    padding: 0 4px;
+
+    border-radius: 50px;
+
+    background: #ff8a18;
+
+    color: white;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+/* =========================================
+   SEM CONVERSAS
+========================================= */
+
+.empty-state {
+
+    text-align: center;
+
+    padding: 50px 25px;
+
+    color: #777;
+}
+
+.empty-state-icon {
+
+    font-size: 40px;
+
+    margin-bottom: 10px;
+}
+
+.empty-state h2 {
+
+    font-family: 'Baloo 2', sans-serif;
+
+    font-size: 20px;
+
+    color: #444;
+
+    margin-bottom: 4px;
+}
+
+.empty-state p {
+
+    font-size: 12px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.loading {
+
+    text-align: center;
+
+    padding: 30px;
+
+    font-size: 12px;
+
+    color: #888;
+}
+
+
+/* =========================================
+   ERRO
+========================================= */
+
+.error-message {
+
+    text-align: center;
+
+    padding: 30px;
+
+    color: #d33;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   MENU INFERIOR
+========================================= */
+
+.bottom-nav {
+
+    position: fixed;
+
+    bottom: 0;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 100%;
+
+    max-width: 430px;
+
+    height: 63px;
+
+    background: white;
+
+    border-top: 1px solid #ddd;
+
+    border-radius: 15px 15px 0 0;
+
+    display: grid;
+
+    grid-template-columns: repeat(5, 1fr);
+
+    align-items: center;
+
+    z-index: 20;
+}
+
+.nav-item {
+
+    border: none;
+
+    background: transparent;
+
+    color: #777;
+
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.nav-item svg {
+
+    width: 27px;
+
+    height: 27px;
+}
+
+.nav-item.active {
+
+    color: #ff8618;
+}
+
+
+/* =========================================
+   CENTRO DO MENU
+========================================= */
+
+.nav-center {
+
+    width: 48px;
+
+    height: 48px;
+
+    border-radius: 50%;
+
+    background: #ff8618;
+
+    margin: auto;
+
+    cursor: pointer;
+
+    position: relative;
+}
+
+.nav-center::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 27px;
+
+    height: 27px;
+
+    border-radius: 50%;
+
+    background-image: url("../img/logo.png");
+
+    background-size: contain;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+
+/* =========================================
+   DESKTOP
+========================================= */
+
+@media (min-width: 600px) {
+
+    body {
+        padding: 20px 0;
+    }
+
+    .phone {
+
+        min-height: calc(100vh - 40px);
+
+        border-radius: 20px;
+
+        box-shadow: 0 5px 30px rgba(0,0,0,.12);
+
+    }
+
+    .bottom-nav {
+
+        bottom: 20px;
+
+        border-radius: 0 0 20px 20px;
+    }
+}

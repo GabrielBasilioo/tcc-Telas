@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <title>Conversa · PetTok</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <link rel="stylesheet" href="CSS/chat.css">
+
+</head>
+
+
+<body>
+
+<div class="phone">
+
+    <!-- =========================
+         CABEÇALHO
+    ========================== -->
+
+    <header class="chat-header">
+
+        <button
+            id="backBtn"
+            class="back-btn"
+            aria-label="Voltar"
+        >
+
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+
+                <path d="M19 12H5"></path>
+
+                <path d="M12 19l-7-7 7-7"></path>
+
+            </svg>
+
+        </button>
+
+
+        <img
+            id="userAvatar"
+            class="chat-avatar"
+            src="https://placehold.co/100x100"
+            alt="Usuário"
+        >
+
+
+        <div class="chat-user-info">
+
+            <strong id="userName">
+                Usuário
+            </strong>
+
+            <span>
+
+                <i class="online-dot"></i>
+
+                Online
+
+            </span>
+
+        </div>
+
+
+        <button
+            id="menuBtn"
+            class="menu-btn"
+            aria-label="Opções"
+        >
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+    </header>
+
+
+    <!-- =========================
+         MENSAGENS
+    ========================== -->
+
+    <main
+        id="messagesContainer"
+        class="messages-container"
+    >
+
+        <div class="loading">
+            Carregando conversa...
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         CAMPO DE MENSAGEM
+    ========================== -->
+
+    <form
+        id="messageForm"
+        class="message-form"
+    >
+
+        <button
+            type="button"
+            id="attachmentBtn"
+            class="attachment-btn"
+            aria-label="Anexar"
+        >
+
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+
+                <path d="m21.4 11.6-8.8 8.8a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5">
+                </path>
+
+            </svg>
+
+        </button>
+
+
+        <input
+            type="text"
+            id="messageInput"
+            placeholder="Digite uma mensagem"
+            autocomplete="off"
+            maxlength="2000"
+        >
+
+
+        <button
+            type="submit"
+            id="sendBtn"
+            class="send-btn"
+            aria-label="Enviar"
+        >
+
+            <svg
+                viewBox="0 0 24 24"
+                fill="white"
+                stroke="white"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+
+                <path d="M22 2 11 13"></path>
+
+                <path d="m22 2-7 20-4-9-9-4Z"></path>
+
+            </svg>
+
+        </button>
+
+    </form>
+
+
+    <!-- =========================
+         MENU INFERIOR
+    ========================== -->
+
+    <nav class="bottom-nav">
+
+        <!-- HOME -->
+
+        <button
+            class="nav-item"
+            title="Início"
+            onclick="window.location.href='home.html'"
+        >
+
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+
+                <path d="M3 11.5 12 4l9 7.5"></path>
+
+                <path d="M5 10v10h14V10"></path>
+
+                <path d="M9 20v-6h6v6"></path>
+
+            </svg>
+
+        </button>
+
+
+        <!-- CADASTRAR PET -->
+
+        <button
+            class="nav-item"
+            title="Cadastrar pet"
+            onclick="window.location.href='cadastroPet.html'"
+        >
+
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+            >
+
+                <line
+                    x1="12"
+                    y1="5"
+                    x2="12"
+                    y2="19"
+                ></line>
+
+                <line
+                    x1="5"
+                    y1="12"
+                    x2="19"
+                    y2="12"
+                ></line>
+
+            </svg>
+
+        </button>
+
+
+        <!-- FEED -->
+
+        <button
+            class="nav-center"
+            title="Feed"
+            onclick="window.location.href='feed.html'"
+        >
+
+            🐾
+
+        </button>
+
+
+        <!-- MENSAGENS -->
+
+        <button
+            class="nav-item active"
+            title="Mensagens"
+            onclick="window.location.href='conversas.html'"
+        >
+
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+
+                <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.5-4A7.5 7.5 0 1 1 20 11.5Z"></path>
+
+            </svg>
+
+        </button>
+
+
+        <!-- PERFIL -->
+
+        <button
+            class="nav-item"
+            title="Perfil"
+            onclick="window.location.href='perfil.html'"
+        >
+
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+
+                <circle
+                    cx="12"
+                    cy="8"
+                    r="4"
+                ></circle>
+
+                <path
+                    d="M4 20c0-4 4-6 8-6s8 2 8 6"
+                ></path>
+
+            </svg>
+
+        </button>
+
+    </nav>
+
+</div>
+
+
+<script src="JS/chat.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Conversas · PetTok</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <link rel="stylesheet" href="CSS/conversas.css">
+</head>
+
+<body>
+
+<div class="phone">
+
+    <!-- CABEÇALHO -->
+
+    <header class="top-header">
+
+        <h1>Conversas</h1>
+
+        <button class="new-message-btn" id="newMessageBtn" aria-label="Nova conversa">
+
+            <svg viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+                <path d="M12 20h9"/>
+
+                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/>
+
+            </svg>
+
+        </button>
+
+    </header>
+
+
+    <!-- CONTEÚDO -->
+
+    <main class="content">
+
+        <!-- PESQUISA -->
+
+        <div class="search-box">
+
+            <svg viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+                <circle cx="11" cy="11" r="7"></circle>
+
+                <path d="m20 20-4-4"></path>
+
+            </svg>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Buscar conversas..."
+                autocomplete="off">
+
+        </div>
+
+
+        <!-- LISTA -->
+
+        <section id="conversationList" class="conversation-list">
+
+            <div class="loading">
+                Carregando conversas...
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- MENU INFERIOR -->
+
+    <nav class="bottom-nav">
+
+        <!-- HOME -->
+
+        <button
+            class="nav-item"
+            aria-label="Início"
+            onclick="window.location.href='home.html'">
+
+            <svg viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+                <path d="M3 11.5 12 4l9 7.5"/>
+
+                <path d="M5 10v10h14V10"/>
+
+                <path d="M9 20v-6h6v6"/>
+
+            </svg>
+
+        </button>
+
+
+        <!-- ADOÇÃO -->
+
+        <button
+            class="nav-item"
+            aria-label="Adoção"
+            onclick="window.location.href='cadastroPet.html'">
+
+            <svg viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+                <path d="M12 5v14"/>
+                <path d="M5 12h14"/>
+
+            </svg>
+
+        </button>
+
+
+        <!-- FEED -->
+
+        <div
+            class="nav-center"
+            title="Feed"
+            onclick="window.location.href='feed.html'">
+
+        </div>
+
+
+        <!-- CONVERSAS -->
+
+        <button
+            class="nav-item active"
+            aria-label="Conversas">
+
+            <svg viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+                <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.5-4A7.5 7.5 0 1 1 20 11.5Z"/>
+
+            </svg>
+
+        </button>
+
+
+        <!-- PERFIL -->
+
+        <button
+            class="nav-item"
+            aria-label="Perfil"
+            onclick="window.location.href='perfil.html'">
+
+            <svg viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+                <circle cx="12" cy="8" r="4"/>
+
+                <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+
+            </svg>
+
+        </button>
+
+    </nav>
+
+</div>
+
+
+<script src="JS/conversas.js"></script>
+
+</body>
+</html>

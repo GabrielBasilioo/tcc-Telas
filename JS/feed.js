@@ -316,9 +316,10 @@ function criarPublicacao(pet) {
             }
 
             window.location.href =
-                `mensagens.html?usuario=${encodeURIComponent(
-                    pet.user_id
-                )}`;
+    `chat.html?usuario=${encodeURIComponent(
+        pet.user_id
+    )}`;
+
         }
     );
 
