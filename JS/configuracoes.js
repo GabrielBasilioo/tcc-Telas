@@ -1,7 +1,3 @@
-const THEME_KEY='pettok-theme';
-function applyTheme(theme){document.documentElement.dataset.theme=theme;document.getElementById('lightBtn').classList.toggle('active',theme==='light');document.getElementById('darkBtn').classList.toggle('active',theme==='dark');document.getElementById('themeText').textContent=theme==='dark'?'Tema escuro ativado':'Tema claro ativado'}
-function setTheme(theme){localStorage.setItem(THEME_KEY,theme);applyTheme(theme);toast(theme==='dark'?'Tema escuro ativado 🌙':'Tema claro ativado ☀️')}
-applyTheme(localStorage.getItem(THEME_KEY)==='dark'?'dark':'light');
 function go(page){location.href=page}
 function toast(text){const el=document.getElementById('toast');el.textContent=text;el.classList.add('show');clearTimeout(window._toast);window._toast=setTimeout(()=>el.classList.remove('show'),2200)}
 function modal(title,text,extra=''){document.getElementById('modalTitle').textContent=title;document.getElementById('modalText').textContent=text;document.getElementById('modalExtra').textContent=extra;document.getElementById('modal').classList.add('open')}
