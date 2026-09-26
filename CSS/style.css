@@ -105,7 +105,7 @@ h1.title{
 
   .field{
     position:relative;
-    margin-bottom: 30px;
+    margin-bottom: 24px;
   }
 
   .field input{
@@ -272,6 +272,7 @@ h1.title{
     transform: scaleX(0);
     transform-origin: left;
     transition: transform .3s ease;
+    
   }
 
   .switch-mode button:hover::after{
@@ -290,41 +291,6 @@ h1.title{
     margin: 30px 0 20px;
   }
 
-  .socials{
-    display:flex;
-    justify-content:center;
-    gap: 18px;
-  }
-
-  .social-btn{
-    width: 54px;
-    height: 54px;
-    border-radius:50%;
-    border: 2px solid #fff;
-    background:transparent;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-    cursor:pointer;
-    transition: .3s ease;
-  }
-
-  .social-btn:hover{
-    transform: scale(1.05);
-    background: #fff;
-    box-shadow: 0 0 0.3;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-  }
-
-  .social-btn i {
-    color: #fff;
-    font-size: 20px;
-  }
-
-  .social-btn:hover i{
-    color: black;
-  }
 
 
 
