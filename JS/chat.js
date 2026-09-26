@@ -77,6 +77,8 @@ let currentUser = null;
 let receiverProfile = null;
 
 let realtimeChannel = null;
+let presenceChannel = null;
+let receiverOnline = false;
 
 
 // ============================================
@@ -154,6 +156,10 @@ async function iniciarChat() {
     await carregarPerfil();
 
 
+
+    await iniciarPresenca();
+
+
     // ----------------------------------------
     // MENSAGENS
     // ----------------------------------------
@@ -172,6 +178,119 @@ async function iniciarChat() {
 
 }
 
+async function iniciarPresenca() {
+
+    presenceChannel =
+        supabaseClient.channel(
+            'usuarios-online',
+            {
+                config: {
+                    presence: {
+                        key: currentUser.id
+                    }
+                }
+            }
+        );
+
+    presenceChannel.on(
+        'presence',
+        {
+            event: 'sync'
+        },
+        () => {
+
+            const state =
+                presenceChannel.presenceState();
+
+            let onlineUsers =
+                new Set();
+
+            Object.values(state).forEach(
+                presences => {
+
+                    presences.forEach(
+                        presence => {
+
+                            if (
+                                presence.user_id
+                            ) {
+                                onlineUsers.add(
+                                    presence.user_id
+                                );
+                            }
+
+                        }
+                    );
+
+                }
+            );
+
+            receiverOnline =
+                onlineUsers.has(
+                    receiverId
+                );
+
+            atualizarStatusUsuario();
+
+        }
+    );
+
+    await presenceChannel.subscribe(
+        async status => {
+
+            if (
+                status === 'SUBSCRIBED'
+            ) {
+
+                await presenceChannel.track({
+                    user_id:
+                        currentUser.id
+                });
+
+            }
+
+        }
+    );
+
+}
+
+function atualizarStatusUsuario() {
+
+    const status =
+        document.querySelector(
+            '.chat-user-info span'
+        );
+
+    const dot =
+        document.querySelector(
+            '.online-dot'
+        );
+
+    if (!status || !dot) {
+        return;
+    }
+
+    if (receiverOnline) {
+
+        dot.classList.remove(
+            'offline'
+        );
+
+        status.lastChild.textContent =
+            'Online';
+
+    } else {
+
+        dot.classList.add(
+            'offline'
+        );
+
+        status.lastChild.textContent =
+            'Offline';
+
+    }
+
+}
 
 // ============================================
 // CARREGAR PERFIL
