@@ -119,109 +119,407 @@ function mostrarBio(bio){
   bioCard.appendChild(p);
 }
 
-// ---------- PUBLICAÇÕES DOS PETS ----------
+// ---------- PUBLICAÇÕES / CURTIDAS ----------
+
+const tabs = document.querySelectorAll('.tabs .tab');
+
+let abaAtual = 'publicacoes';
+
+
+tabs.forEach((tab, index) => {
+
+    tab.addEventListener('click', async () => {
+
+        tabs.forEach(item => {
+            item.classList.remove('active');
+        });
+
+        tab.classList.add('active');
+
+
+        if (index === 0) {
+
+            abaAtual = 'publicacoes';
+
+            await carregarPublicacoes();
+
+        }
+
+        else if (index === 1) {
+
+            abaAtual = 'salvos';
+
+            postsGrid.innerHTML = '';
+
+        }
+
+        else if (index === 2) {
+
+            abaAtual = 'curtidas';
+
+            await carregarCurtidas();
+
+        }
+
+    });
+
+});
+
+
+/* =========================================================
+   PUBLICAÇÕES DO USUÁRIO
+========================================================= */
 
 async function carregarPublicacoes() {
 
-  if (!supabaseClient || !currentUserId) {
-      return;
-  }
+    if (!supabaseClient || !currentUserId) {
+        return;
+    }
 
-  const { data, error } = await supabaseClient
-      .from('pets')
-      .select(`
-          id,
-          nome,
-          especie,
-          raca,
-          idade,
-          descricao,
-          media_url,
-          media_type
-      `)
-      .eq('user_id', currentUserId)
-      .order('id', { ascending: false });
 
-  if (error) {
-      console.error(
-          'Erro ao carregar publicações:',
-          error.message
-      );
+    const { data, error } =
+        await supabaseClient
+            .from('pets')
+            .select(`
+                id,
+                nome,
+                especie,
+                raca,
+                idade,
+                descricao,
+                media_url,
+                media_type
+            `)
+            .eq(
+                'user_id',
+                currentUserId
+            )
+            .order(
+                'id',
+                {
+                    ascending: false
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            'Erro ao carregar publicações:',
+            error.message
+        );
+
+        return;
+    }
+
+
+    postsGrid.innerHTML = '';
+
+
+    if (!data || data.length === 0) {
+        return;
+    }
+
+
+    data.forEach(
+        pet => {
+
+            adicionarPublicacaoPet(
+                pet
+            );
+
+        }
+    );
+}
+
+
+/* =========================================================
+   PUBLICAÇÃO DO PET
+========================================================= */
+
+function adicionarPublicacaoPet(
+    pet
+) {
+
+    const tile =
+        document.createElement('div');
+
+
+    tile.className =
+        'post-tile';
+
+
+    tile.dataset.petId =
+        pet.id;
+
+
+    tile.style.cursor =
+        'pointer';
+
+
+    tile.addEventListener(
+        'click',
+        () => {
+
+            window.location.href =
+                `feed.html?pet=${encodeURIComponent(
+                    pet.id
+                )}`;
+
+        }
+    );
+
+
+    if (
+        pet.media_type === 'video'
+    ) {
+
+        const video =
+            document.createElement('video');
+
+
+        video.src =
+            pet.media_url;
+
+
+        video.muted =
+            true;
+
+        video.playsInline =
+            true;
+
+        video.loop =
+            true;
+
+
+        video.addEventListener(
+            'mouseenter',
+            () => {
+
+                video.play();
+
+            }
+        );
+
+
+        video.addEventListener(
+            'mouseleave',
+            () => {
+
+                video.pause();
+
+                video.currentTime =
+                    0;
+
+            }
+        );
+
+
+        tile.appendChild(
+            video
+        );
+
+    } else {
+
+        const img =
+            document.createElement('img');
+
+
+        img.src =
+            pet.media_url;
+
+
+        img.alt =
+            `Publicação de ${pet.nome}`;
+
+
+        tile.appendChild(
+            img
+        );
+
+    }
+
+
+    postsGrid.appendChild(
+        tile
+    );
+}
+
+
+/* =========================================================
+   CARREGAR CURTIDAS
+========================================================= */
+
+async function carregarCurtidas() {
+
+  if (
+      !supabaseClient ||
+      !currentUserId
+  ) {
       return;
   }
 
   postsGrid.innerHTML = '';
 
-  if (!data || data.length === 0) {
+  const { data: likes, error: likesError } =
+      await supabaseClient
+          .from('likes')
+          .select(`
+              pet_id,
+              created_at,
+              pets (
+                  id,
+                  nome,
+                  media_url,
+                  media_type
+              )
+          `)
+          .eq(
+              'user_id',
+              currentUserId
+          )
+          .order(
+              'created_at',
+              {
+                  ascending: false
+              }
+          );
+
+  if (likesError) {
+
+      console.error(
+          'Erro ao carregar curtidas:',
+          likesError.message
+      );
+
       return;
   }
 
-  data.forEach(pet => {
-      adicionarPublicacaoPet(pet);
-  });
+  if (
+      !likes ||
+      likes.length === 0
+  ) {
+      return;
+  }
+
+  likes.forEach(
+      like => {
+
+          if (!like.pets) {
+              return;
+          }
+
+          adicionarPublicacaoCurtida(
+              like.pets
+          );
+
+      }
+  );
 }
 
 
-function adicionarPublicacaoPet(pet) {
+/* =========================================================
+   MOSTRAR PUBLICAÇÃO CURTIDA
+========================================================= */
+
+function adicionarPublicacaoCurtida(
+  pet
+) {
 
   const tile =
       document.createElement('div');
 
-  tile.className = 'post-tile';
+  tile.className =
+      'post-tile';
 
-  tile.dataset.petId = pet.id;
+  tile.dataset.petId =
+      pet.id;
 
-  tile.style.cursor = 'pointer';
+  tile.style.cursor =
+      'pointer';
 
-tile.addEventListener('click', () => {
+  tile.addEventListener(
+      'click',
+      () => {
 
-    window.location.href =
-        `feed.html?pet=${encodeURIComponent(pet.id)}`;
+          window.location.href =
+              `feed.html?pet=${encodeURIComponent(
+                  pet.id
+              )}`;
 
-});
+      }
+  );
 
-  if (
-      pet.media_type === 'video'
-  ) {
+  if (!pet.media_url) {
+      return;
+  }
+
+  const ehVideo =
+      pet.media_type === 'video' ||
+      /\.(mp4|webm|mov)(\?.*)?$/i.test(
+          pet.media_url
+      );
+
+  if (ehVideo) {
 
       const video =
           document.createElement('video');
 
-      video.src = pet.media_url;
+      video.src =
+          pet.media_url;
 
-      video.muted = true;
-      video.playsInline = true;
-      video.loop = true;
+      video.muted =
+          true;
+
+      video.playsInline =
+          true;
+
+      video.loop =
+          true;
 
       video.addEventListener(
           'mouseenter',
-          () => video.play()
+          () => {
+              video.play();
+          }
       );
 
       video.addEventListener(
           'mouseleave',
           () => {
+
               video.pause();
-              video.currentTime = 0;
+
+              video.currentTime =
+                  0;
+
           }
       );
 
-      tile.appendChild(video);
+      tile.appendChild(
+          video
+      );
 
   } else {
 
       const img =
           document.createElement('img');
 
-      img.src = pet.media_url;
+      img.src =
+          pet.media_url;
 
       img.alt =
-          `Publicação de ${pet.nome}`;
+          pet.nome ||
+          'Publicação curtida';
 
-      tile.appendChild(img);
+      tile.appendChild(
+          img
+      );
   }
 
-  postsGrid.appendChild(tile);
+  postsGrid.appendChild(
+      tile
+  );
 }
 
 // ---------- EDITAR PERFIL ----------
@@ -350,6 +648,8 @@ saveEditBtn.addEventListener('click', async () => {
     return;
   }
 
+
+  
   // 2) Se o email foi alterado, atualiza no Supabase Auth (login).
   //    Por segurança, o Supabase envia um link de confirmação para o
   //    e-mail novo antes de efetivar a troca — por isso avisamos o usuário.

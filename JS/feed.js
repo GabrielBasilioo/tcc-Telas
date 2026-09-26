@@ -97,10 +97,44 @@ async function carregarFeed() {
         return;
     }
 
+    const {
+        data: likes,
+        error: likesError
+    } = await supabaseClient
+        .from('likes')
+        .select('pet_id')
+        .eq(
+            'user_id',
+            currentUser.id
+        );
+    
+    if (likesError) {
+    
+        console.error(
+            'Erro ao carregar curtidas:',
+            likesError
+        );
+    
+    }
+    
+    const petsCurtidos = new Set(
+        (likes || []).map(
+            like => like.pet_id
+        )
+    );
+
+
+
+
     feed.innerHTML = '';
 
     pets.forEach((pet) => {
-        criarPublicacao(pet);
+
+        criarPublicacao(
+            pet,
+            petsCurtidos.has(pet.id)
+        );
+    
     });
     
     if (petSelecionado) {
@@ -133,7 +167,11 @@ async function carregarFeed() {
     }
 }
 
-function criarPublicacao(pet) {
+function criarPublicacao(
+    pet,
+    jaCurtido = false
+
+) {
     const post =
         document.createElement('article');
 
@@ -309,30 +347,25 @@ function criarPublicacao(pet) {
     actions.className =
         'post-actions';
 
-    const like =
-        criarBotao(
-            '♡',
-            'Curtir'
-        );
+        const like =
+    criarBotao(
+        jaCurtido ? '♥' : '♡',
+        'Curtir'
+    );
 
+if (jaCurtido) {
+    like.classList.add('liked');
+}
+    
     like.addEventListener(
         'click',
-        () => {
-            like.classList.toggle(
-                'liked'
+        async () => {
+    
+            await alternarLike(
+                pet.id,
+                like
             );
-
-            const icon =
-                like.querySelector(
-                    '.action-circle'
-                );
-
-            icon.textContent =
-                like.classList.contains(
-                    'liked'
-                )
-                    ? '♥'
-                    : '♡';
+    
         }
     );
 
@@ -549,6 +582,157 @@ function configurarPesquisa() {
         }
     );
 }
+
+async function alternarLike(
+    petId,
+    button
+) {
+    if (!currentUser) {
+
+        alert(
+            'Você precisa estar logado para curtir.'
+        );
+
+        return;
+    }
+
+    button.disabled = true;
+
+
+    // Verifica se o usuário já curtiu esse pet
+    const {
+        data: likeExistente,
+        error: buscaError
+    } = await supabaseClient
+        .from('likes')
+        .select('pet_id')
+        .eq(
+            'pet_id',
+            petId
+        )
+        .eq(
+            'user_id',
+            currentUser.id
+        )
+        .maybeSingle();
+
+
+    if (buscaError) {
+
+        console.error(
+            'Erro ao verificar curtida:',
+            buscaError
+        );
+
+        button.disabled = false;
+
+        return;
+    }
+
+
+    // =========================
+    // DESCURTIR
+    // =========================
+
+    if (likeExistente) {
+
+        const {
+            error: deleteError
+        } = await supabaseClient
+            .from('likes')
+            .delete()
+            .eq(
+                'pet_id',
+                petId
+            )
+            .eq(
+                'user_id',
+                currentUser.id
+            );
+
+
+        if (deleteError) {
+
+            console.error(
+                'Erro ao remover curtida:',
+                deleteError
+            );
+
+            alert(
+                'Não foi possível remover a curtida.'
+            );
+
+        } else {
+
+            button.classList.remove(
+                'liked'
+            );
+
+            const icon =
+                button.querySelector(
+                    '.action-circle'
+                );
+
+            if (icon) {
+                icon.textContent =
+                    '♡';
+            }
+        }
+
+
+    } else {
+
+        // =========================
+        // CURTIR
+        // =========================
+
+        const {
+            error: insertError
+        } = await supabaseClient
+            .from('likes')
+            .insert({
+                pet_id:
+                    petId,
+
+                user_id:
+                    currentUser.id
+            });
+
+
+        if (insertError) {
+
+            console.error(
+                'Erro ao salvar curtida:',
+                insertError
+            );
+
+            alert(
+                'Não foi possível curtir a publicação.'
+            );
+
+        } else {
+
+            button.classList.add(
+                'liked'
+            );
+
+            const icon =
+                button.querySelector(
+                    '.action-circle'
+                );
+
+            if (icon) {
+                icon.textContent =
+                    '♥';
+            }
+        }
+    }
+
+
+    button.disabled = false;
+}
+
+
 
 async function iniciarFeed() {
     const logado =
