@@ -7,8 +7,6 @@ const bioCard = document.getElementById('bioCard');
 const avatarInput = document.getElementById('avatarInput');
 const avatarImg = document.getElementById('avatarImg');
 const avatarDefaultIcon = document.getElementById('avatarDefaultIcon');
-const postInput = document.getElementById('postInput');
-const addPostTile = document.getElementById('addPostTile');
 const postsGrid = document.getElementById('postsGrid');
 const editOverlay = document.getElementById('editOverlay');
 const editProfileBtn = document.getElementById('editProfileBtn');
@@ -121,55 +119,109 @@ function mostrarBio(bio){
   bioCard.appendChild(p);
 }
 
-// ---------- PUBLICAÇÕES (múltiplas, listadas direto do Storage) ----------
+// ---------- PUBLICAÇÕES DOS PETS ----------
 
-async function carregarPublicacoes(){
-  const { data, error } = await supabaseClient.storage.from(POSTS_BUCKET).list(currentUserId, {
-    sortBy: { column: 'created_at', order: 'desc' }
-  });
-  if(error || !data) return;
+async function carregarPublicacoes() {
 
-  postsGrid.querySelectorAll('.post-tile:not(.add-tile)').forEach(tile => tile.remove());
-
-  data.forEach(file => {
-    const caminho = `${currentUserId}/${file.name}`;
-    const { data:urlData } = supabaseClient.storage.from(POSTS_BUCKET).getPublicUrl(caminho);
-    adicionarPublicacao(urlData.publicUrl + '?t=' + Date.now(), caminho);
-  });
-}
-
-function adicionarPublicacao(url, caminhoArquivo){
-  const tile = document.createElement('div');
-  tile.className = 'post-tile';
-  tile.dataset.path = caminhoArquivo;
-
-  const img = document.createElement('img');
-  img.src = url;
-  img.alt = 'Publicação';
-  tile.appendChild(img);
-
-  const removeBtn = document.createElement('button');
-  removeBtn.className = 'post-remove-btn';
-  removeBtn.textContent = '-';
-  removeBtn.setAttribute('aria-label', 'Remover publicação');
-  removeBtn.addEventListener('click', () => removerPublicacao(tile));
-  tile.appendChild(removeBtn);
-
-  postsGrid.insertBefore(tile, addPostTile);
-  return tile;
-}
-
-async function removerPublicacao(tile){
-  const caminhoArquivo = tile.dataset.path;
-  if(!caminhoArquivo || !confirm('Remover esta publicação?')) return;
-
-  const { error } = await supabaseClient.storage.from(POSTS_BUCKET).remove([caminhoArquivo]);
-  if(error){
-    console.error('Erro ao remover publicação:', error.message);
-    alert('Não foi possível remover a publicação: ' + error.message);
-    return;
+  if (!supabaseClient || !currentUserId) {
+      return;
   }
-  tile.remove();
+
+  const { data, error } = await supabaseClient
+      .from('pets')
+      .select(`
+          id,
+          nome,
+          especie,
+          raca,
+          idade,
+          descricao,
+          media_url,
+          media_type
+      `)
+      .eq('user_id', currentUserId)
+      .order('id', { ascending: false });
+
+  if (error) {
+      console.error(
+          'Erro ao carregar publicações:',
+          error.message
+      );
+      return;
+  }
+
+  postsGrid.innerHTML = '';
+
+  if (!data || data.length === 0) {
+      return;
+  }
+
+  data.forEach(pet => {
+      adicionarPublicacaoPet(pet);
+  });
+}
+
+
+function adicionarPublicacaoPet(pet) {
+
+  const tile =
+      document.createElement('div');
+
+  tile.className = 'post-tile';
+
+  tile.dataset.petId = pet.id;
+
+  tile.style.cursor = 'pointer';
+
+tile.addEventListener('click', () => {
+
+    window.location.href =
+        `feed.html?pet=${encodeURIComponent(pet.id)}`;
+
+});
+
+  if (
+      pet.media_type === 'video'
+  ) {
+
+      const video =
+          document.createElement('video');
+
+      video.src = pet.media_url;
+
+      video.muted = true;
+      video.playsInline = true;
+      video.loop = true;
+
+      video.addEventListener(
+          'mouseenter',
+          () => video.play()
+      );
+
+      video.addEventListener(
+          'mouseleave',
+          () => {
+              video.pause();
+              video.currentTime = 0;
+          }
+      );
+
+      tile.appendChild(video);
+
+  } else {
+
+      const img =
+          document.createElement('img');
+
+      img.src = pet.media_url;
+
+      img.alt =
+          `Publicação de ${pet.nome}`;
+
+      tile.appendChild(img);
+  }
+
+  postsGrid.appendChild(tile);
 }
 
 // ---------- EDITAR PERFIL ----------

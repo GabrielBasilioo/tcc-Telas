@@ -13,6 +13,11 @@ const feedLoading = document.getElementById('feedLoading');
 
 let currentUser = null;
 
+const petSelecionado =
+    new URLSearchParams(
+        window.location.search
+    ).get('pet');
+
 async function verificarUsuario() {
     const { data, error } =
         await supabaseClient.auth.getSession();
@@ -97,6 +102,35 @@ async function carregarFeed() {
     pets.forEach((pet) => {
         criarPublicacao(pet);
     });
+    
+    if (petSelecionado) {
+        setTimeout(() => {
+    
+            const publicacao =
+                document.querySelector(
+                    `.feed-post[data-pet-id="${petSelecionado}"]`
+                );
+    
+            if (publicacao) {
+    
+                publicacao.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+    
+                publicacao.classList.add(
+                    'post-destacado'
+                );
+    
+                setTimeout(() => {
+                    publicacao.classList.remove(
+                        'post-destacado'
+                    );
+                }, 2000);
+            }
+    
+        }, 100);
+    }
 }
 
 function criarPublicacao(pet) {

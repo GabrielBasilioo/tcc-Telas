@@ -616,19 +616,11 @@ html[data-theme="dark"] .username {
     display: block;
 }
 
-.post-tile.add-tile {
-    background: #fff;
-    border: 2px dashed #E6C9AE;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.post-tile.add-tile svg {
-    width: 26px;
-    height: 26px;
-    color: var(--orange);
+.post-tile video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .post-remove-btn {
