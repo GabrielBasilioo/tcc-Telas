@@ -37,6 +37,8 @@ const searchInput =
 let currentUser = null;
 
 let conversations = [];
+let onlineUsers = new Set();
+let presenceChannel = null;
 
 
 // ============================================
@@ -72,12 +74,13 @@ async function iniciar() {
 
 
     currentUser =
-        data.user;
+    data.user;
 
+await iniciarPresenca();
 
-    await carregarConversas();
+await carregarConversas();
 
-    iniciarRealtime();
+iniciarRealtime();
 
 }
 
@@ -419,12 +422,16 @@ function criarItem(
     // ----------------------------------------
 
     const online =
-        document.createElement(
-            'span'
-        );
+    document.createElement(
+        'span'
+    );
 
     online.className =
-        'online-dot';
+    'online-dot';
+
+    if (!onlineUsers.has(profile.id)) {
+        online.classList.add('offline');
+    }
 
     avatarWrapper.appendChild(
         online
@@ -721,5 +728,64 @@ function iniciarRealtime() {
             }
         )
         .subscribe();
+
+}
+
+async function iniciarPresenca() {
+
+    presenceChannel =
+        supabaseClient.channel(
+            'usuarios-online',
+            {
+                config: {
+                    presence: {
+                        key: currentUser.id
+                    }
+                }
+            }
+        );
+
+
+    presenceChannel.on(
+        'presence',
+        {
+            event: 'sync'
+        },
+        () => {
+
+            const state =
+                presenceChannel.presenceState();
+
+            onlineUsers =
+                new Set(
+                    Object.keys(state)
+                );
+
+
+            renderizar(
+                conversations
+            );
+
+        }
+    );
+
+
+    await presenceChannel.subscribe(
+        async status => {
+
+            if (status === 'SUBSCRIBED') {
+
+                await presenceChannel.track({
+                    user_id:
+                        currentUser.id,
+
+                    online_at:
+                        new Date().toISOString()
+                });
+
+            }
+
+        }
+    );
 
 }

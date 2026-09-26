@@ -242,24 +242,16 @@ body {
 /* online */
 
 .online-dot {
-
-    position: absolute;
-
-    width: 10px;
-
-    height: 10px;
-
-    background: #28c840;
-
+    width: 11px;
+    height: 11px;
     border-radius: 50%;
-
-    right: -1px;
-
-    bottom: 2px;
-
+    background: #22c55e;
     border: 2px solid white;
 }
 
+.online-dot.offline {
+    background: #9ca3af;
+}
 
 /* =========================================
    INFORMAÇÕES
