@@ -88,6 +88,74 @@ iniciarRealtime();
 // ============================================
 // CARREGAR
 // ============================================
+async function iniciarPresenca() {
+
+    presenceChannel =
+        supabaseClient.channel(
+            'usuarios-online'
+        );
+
+    presenceChannel.on(
+        'presence',
+        {
+            event: 'sync'
+        },
+        () => {
+
+            const state =
+    presenceChannel.presenceState();
+
+const idsOnline = new Set();
+
+Object.values(state).forEach(
+    presences => {
+
+        presences.forEach(
+            presence => {
+
+                if (presence.user_id) {
+                    idsOnline.add(
+                        presence.user_id
+                    );
+                }
+
+            }
+        );
+
+    }
+);
+
+onlineUsers = idsOnline;
+
+console.log(
+    "USUÁRIOS ONLINE:",
+    [...onlineUsers]
+);
+
+renderizar(
+    conversations
+);
+
+        }
+    );
+
+    await presenceChannel.subscribe(
+        async status => {
+
+            if (status === 'SUBSCRIBED') {
+
+                await presenceChannel.track({
+                    user_id:
+                        currentUser.id
+                });
+
+            }
+
+        }
+    );
+
+}
+
 
 async function carregarConversas() {
 
@@ -733,18 +801,18 @@ function iniciarRealtime() {
 
 async function iniciarPresenca() {
 
-    presenceChannel =
-        supabaseClient.channel(
-            'usuarios-online',
-            {
-                config: {
-                    presence: {
-                        key: currentUser.id
-                    }
+    console.log("Iniciando presença...");
+
+    presenceChannel = supabaseClient.channel(
+        'usuarios-online',
+        {
+            config: {
+                presence: {
+                    key: currentUser.id
                 }
             }
-        );
-
+        }
+    );
 
     presenceChannel.on(
         'presence',
@@ -756,36 +824,49 @@ async function iniciarPresenca() {
             const state =
                 presenceChannel.presenceState();
 
+            console.log(
+                "Estado da presença:",
+                state
+            );
+
             onlineUsers =
                 new Set(
                     Object.keys(state)
                 );
 
-
-            renderizar(
-                conversations
-            );
-
+            renderizar(conversations);
         }
     );
-
 
     await presenceChannel.subscribe(
         async status => {
 
+            console.log(
+                "Status da presença:",
+                status
+            );
+
             if (status === 'SUBSCRIBED') {
 
                 await presenceChannel.track({
-                    user_id:
-                        currentUser.id,
-
-                    online_at:
-                        new Date().toISOString()
+                    user_id: currentUser.id
                 });
 
-            }
+                console.log(
+                    "Usuário registrado:",
+                    currentUser.id
+                );
 
+                console.log(
+                    "MEU ID:",
+                    currentUser.id
+                );
+                
+                console.log(
+                    "PRESENCE:",
+                    presenceChannel.presenceState()
+                );
+            }
         }
     );
-
 }
