@@ -181,7 +181,8 @@ async function carregarConversas() {
     // ----------------------------------------
 
     conversations =
-        profiles.map(
+    profiles
+        .map(
             profile => {
 
                 const userMessages =
@@ -194,8 +195,14 @@ async function carregarConversas() {
                     );
 
 
+                // NÃO criar conversa se não houver mensagem
+                if (userMessages.length === 0) {
+                    return null;
+                }
+
+
                 const lastMessage =
-                    userMessages[0] || null;
+                    userMessages[0];
 
 
                 const unreadCount =
@@ -210,16 +217,16 @@ async function carregarConversas() {
 
 
                 return {
-
                     profile,
-
                     lastMessage,
-
                     unreadCount
-
                 };
 
             }
+        )
+        .filter(
+            conversation =>
+                conversation !== null
         );
 
 
