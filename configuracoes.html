@@ -23,15 +23,28 @@
   <main class="settings-content">
     <h2>CONTA</h2>
     <section class="settings-card">
-      <button class="setting-row" onclick="go('perfil.html')"><span class="row-icon">👤</span><span class="row-text"><b>Meu perfil</b><small>Edite suas informações pessoais</small></span><span class="chevron">›</span></button>
-      <button class="setting-row" onclick="toast('Área de segurança')"><span class="row-icon">♢</span><span class="row-text"><b>Segurança</b><small>Senha, login e privacidade</small></span><span class="chevron">›</span></button>
-      <button class="setting-row" onclick="notifications()"><span class="row-icon">♧</span><span class="row-text"><b>Notificações</b><small>Gerencie seus alertas</small></span><span class="chevron">›</span></button>
-      <button class="setting-row" onclick="toast('Seus pets favoritos aparecerão aqui.')"><span class="row-icon">♡</span><span class="row-text"><b>Pets favoritos</b><small>Veja e gerencie seus favoritos</small></span><span class="chevron">›</span></button>
+      <button class="setting-row" onclick="go('perfil.html')"><span class="row-icon">
+        
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+    </span><span class="row-text"><b>Meu perfil</b><small>Edite suas informações pessoais</small></span><span class="chevron">›</span></button>
+      
+    
+    <button class="setting-row" onclick="toast('Área de segurança')">
+        <span class="row-icon"><img src="IMG/cadeado.png" alt="Cadeado">
+        </span>
+        <span class="row-text"><b>Segurança</b><small>Senha, login e privacidade</small></span><span class="chevron">›</span></button>
+      
+
+
+        <button class="setting-row" onclick="notifications()"><span class="row-icon"><img src="IMG/notificacao.png" alt=""></span><span class="row-text"><b>Notificações</b><small>Gerencie seus alertas</small></span><span class="chevron">›</span></button>
+      
+      
+        <button class="setting-row" onclick="toast('Seus pets favoritos aparecerão aqui.')"><span class="row-icon">♡</span><span class="row-text"><b>Pets favoritos</b><small>Veja e gerencie seus favoritos</small></span><span class="chevron">›</span></button>
     </section>
 
     <h2>PREFERÊNCIAS</h2>
     <section class="settings-card">
-      <button class="setting-row" onclick="toast('Preferências de adoção')"><span class="row-icon">♧</span><span class="row-text"><b>Preferências de adoção</b><small>Configure seus filtros padrão</small></span><span class="chevron">›</span></button>
+      <button class="setting-row" onclick="toast('Preferências de adoção')"><span class="row-icon"><img src="IMG/pata.png" alt="preferências"></span><span class="row-text"><b>Preferências de adoção</b><small>Configure seus filtros padrão</small></span><span class="chevron">›</span></button>
       <button class="setting-row" onclick="locationAccess()"><span class="row-icon">⌖</span><span class="row-text"><b>Localização</b><small id="locationText">Gerencie sua localização</small></span><span class="chevron">›</span></button>
       <div class="setting-row theme-row">
         <span class="row-icon">☾</span>
@@ -54,13 +67,67 @@
   </main>
 
   <nav class="bottom-nav">
-    <button onclick="go('home.html')" aria-label="Início">⌂</button>
-    <button onclick="toast('Adoção')" aria-label="Adoção">♡</button>
-    <button class="add" onclick="go('cadastroPet.html')" aria-label="Cadastrar pet">+</button>
-    <button onclick="toast('Mensagens')" aria-label="Mensagens">➤</button>
-    <button class="active" onclick="go('perfil.html')" aria-label="Perfil">♙</button>
-  </nav>
 
+  <!-- Início -->
+  <button class="nav-item"
+          title="Início"
+          aria-label="Início"
+          onclick="window.location.href='home.html'">
+    <svg viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 11.5 12 4l9 7.5"/>
+      <path d="M5 10v10h14V10"/>
+      <path d="M9 20v-6h6v6"/>
+    </svg>
+  </button>
+
+  <!-- Cadastrar pet -->
+  <button class="nav-item"
+          title="Cadastrar pet"
+          aria-label="Cadastrar pet"
+          onclick="window.location.href='cadastroPet.html'">
+    <svg viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 5v14"/>
+      <path d="M5 12h14"/>
+    </svg>
+  </button>
+
+  <!-- Feed / botão central -->
+  <div class="nav-center"
+       title="Feed"
+       aria-label="Feed"
+       onclick="window.location.href='feed.html'">
+  </div>
+
+  <!-- Mensagens -->
+  <button class="nav-item"
+          title="Mensagens"
+          aria-label="Mensagens"
+          onclick="window.location.href='conversas.html'">
+    <svg viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.5-4A7.5 7.5 0 1 1 20 11.5Z"/>
+    </svg>
+  </button>
+
+  <!-- Perfil -->
+  <button class="nav-item active"
+          title="Perfil"
+          aria-label="Perfil"
+          onclick="window.location.href='perfil.html'">
+    <svg viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+    </svg>
+  </button>
+
+</nav>
   <div id="toast" class="toast"></div>
   <div id="modal" class="modal" onclick="if(event.target===this)closeModal()">
     <div class="modal-box"><button class="modal-x" onclick="closeModal()">×</button><h3 id="modalTitle"></h3><p id="modalText"></p><small id="modalExtra"></small><button class="modal-ok" onclick="closeModal()">Entendi</button></div>

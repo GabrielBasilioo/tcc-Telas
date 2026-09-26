@@ -1,8 +1,13 @@
+/* =========================================================
+   CONFIGURAÇÕES — alinhada ao visual da tela PERFIL
+   ========================================================= */
 
 :root {
     --orange: #FF7A29;
     --orange-dark: #F26A15;
+    --orange-light: #FFA35C;
     --header: #FF7F20;
+
     --page: #EDEDED;
     --surface: #FFF;
     --surface2: #FAFAFA;
@@ -13,7 +18,7 @@
     --icon: #FF8740;
 }
 
-html[data-theme=dark] {
+html[data-theme="dark"] {
     --page: #0E0F11;
     --surface: #1A1C1F;
     --surface2: #23262A;
@@ -33,13 +38,14 @@ html[data-theme=dark] {
 body {
     min-height: 100vh;
     background: var(--page);
-    font-family: Nunito, sans-serif;
+    font-family: 'Nunito', sans-serif;
     color: var(--text);
     display: flex;
     justify-content: center;
     transition: .2s;
 }
 
+/* Mesmo tamanho/base da tela Perfil */
 .phone {
     width: 395px;
     min-height: 879px;
@@ -50,17 +56,23 @@ body {
     box-shadow: 0 20px 50px #0002;
 }
 
+/* =========================================================
+   HEADER
+   ========================================================= */
+
 .settings-header {
     height: 87px;
-    background: var(--header);
+    background: linear-gradient(135deg, var(--orange-light), var(--orange-dark));
     color: #fff;
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 0 16px;
     position: relative;
 }
 
-.settings-header:after {
+/* mesma "onda" usada na identidade das telas */
+.settings-header::after {
     content: "";
     position: absolute;
     left: -12%;
@@ -72,6 +84,9 @@ body {
 }
 
 .back-btn {
+    position: absolute;
+    left: 16px;
+    top: 27px;
     border: 0;
     background: transparent;
     color: #fff;
@@ -79,10 +94,14 @@ body {
     height: 32px;
     z-index: 2;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .back-btn svg {
     width: 23px;
+    height: 23px;
     fill: none;
     stroke: currentColor;
     stroke-width: 2;
@@ -91,102 +110,145 @@ body {
 }
 
 .header-title {
-    flex: 1;
+    position: relative;
+    flex: none;
     text-align: center;
-    margin-right: 32px;
     margin-top: -8px;
     z-index: 2;
 }
 
 .header-title h1 {
-    font: 800 20px/20px 'Baloo 2';
+    font: 800 20px/20px 'Baloo 2', sans-serif;
 }
 
 .header-title span {
+    display: block;
     font-size: 10px;
     font-weight: 600;
+    margin-top: 2px;
 }
 
+/* =========================================================
+   CONTEÚDO
+   ========================================================= */
+
 .settings-content {
-    padding: 0 12px 100px;
+    position: relative;
+    z-index: 1;
+    padding: 0 22px 100px;
 }
 
 .settings-content h2 {
+    font-family: 'Baloo 2', sans-serif;
     font-size: 10px;
     font-weight: 800;
     margin: 0 0 5px;
+    color: var(--text);
 }
 
 .settings-content h2:not(:first-child) {
-    margin-top: 8px;
+    margin-top: 10px;
 }
 
+/* Cards mais próximos do Perfil:
+   arredondamento visível + superfície limpa */
 .settings-card {
-    border: 1px solid var(--line);
-    border-radius: 5px;
-    overflow: hidden;
-    background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface);
 }
 
 .setting-row {
-    width: 100%;
-    min-height: 43px;
-    padding: 5px 10px;
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    background: transparent;
-    color: var(--text);
-    border: 0;
-    border-bottom: 1px solid var(--line);
-    text-align: left;
-    cursor: pointer;
+  width: 100%;
+  min-height: 58px;
+  padding: 9px 14px;
+
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  background: transparent;
+  color: var(--text);
+
+  border: 0;
+  border-bottom: 1px solid var(--line);
+
+  text-align: left;
+  cursor: pointer;
+
+  transition: background .2s ease;
 }
 
 .setting-row:last-child {
-    border-bottom: 0;
+  border-bottom: 0;
 }
 
 .setting-row:hover {
-    background: var(--surface2);
+  background: var(--surface2);
+}
+.setting-row:active {
+    background: rgba(255, 122, 41, .06);
 }
 
+/* Configuração do icone*/
 .row-icon {
-    width: 19px;
-    flex: 0 0 19px;
-    text-align: center;
-    color: var(--icon);
-    font-size: 21px;
-    line-height: 1;
-}
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--icon);
+
+  font-size: 25px;
+  line-height: 1;
+
+  border-radius: 10px;
+}  
+
+/* Configuração do ccss dos texto*/
 .row-text {
-    min-width: 0;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    line-height: 12px;
-}
+  min-width: 0;
+  flex: 1;
 
-.row-text b {
-    font-size: 11px;
-    font-weight: 700;
+  display: flex;
+  flex-direction: column;
+
+  
+}
+img{
+    width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
 }
 
 .row-text small {
-    font-size: 8px;
-    color: var(--muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-size: 9px;
+  color: var(--muted);
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+/* Configuração da seta de voltar*/
 
 .chevron {
-    font-size: 22px;
-    line-height: 15px;
-    color: var(--muted);
-    font-weight: 300;
+  font-size: 25px;
+  line-height: 1;
+
+  color: var(--muted);
+
+  font-weight: 300;
+
+  padding-left: 5px;
 }
+
+/* =========================================================
+   TEMA
+   ========================================================= */
 
 .theme-row {
     cursor: default;
@@ -217,17 +279,26 @@ body {
     color: #fff;
 }
 
+/* =========================================================
+   SAIR
+   ========================================================= */
+
 .logout {
-    height: 23px;
+    height: 34px;
     width: 100%;
-    margin-top: 9px;
+    margin-top: 10px;
     border: 1px solid var(--orange);
-    border-radius: 5px;
+    border-radius: 18px;
     background: transparent;
     color: var(--orange);
     font-size: 10px;
     font-weight: 800;
     cursor: pointer;
+    transition: .15s;
+}
+
+.logout:hover {
+    background: rgba(255, 122, 41, .07);
 }
 
 .logout span {
@@ -235,11 +306,17 @@ body {
     vertical-align: -1px;
 }
 
+/* =========================================================
+   NAVBAR
+   IMPORTANTE: o HTML precisa usar a mesma estrutura da tela
+   Perfil: 4 nav-items + nav-center + Perfil.
+   ========================================================= */
+
 .bottom-nav {
     position: absolute;
+    bottom: 0;
     left: 0;
     right: 0;
-    bottom: 0;
     height: 78px;
     background: var(--nav);
     border-radius: 26px 26px 0 0;
@@ -248,6 +325,7 @@ body {
     align-items: center;
     justify-content: space-around;
     padding: 0 8px;
+    z-index: 10;
 }
 
 .bottom-nav button {
@@ -258,23 +336,57 @@ body {
     height: 40px;
     font-size: 27px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bottom-nav button svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .bottom-nav .active {
     color: var(--orange);
 }
 
-.bottom-nav .add {
+/* Botão central exatamente no conceito usado no Perfil */
+.bottom-nav .nav-center {
     width: 62px;
     height: 62px;
-    margin-top: -30px;
-    border: 4px solid var(--nav);
+    flex: 0 0 62px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #FFA35C, var(--orange));
-    color: #fff;
-    font-size: 31px;
-    box-shadow: 0 10px 20px #ff7a2966;
+    background: linear-gradient(
+        135deg,
+        var(--orange-light),
+        var(--orange)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -30px;
+    box-shadow: 0 10px 20px rgba(255, 122, 41, .4);
+    border: 4px solid var(--nav);
+    overflow: hidden;
+    cursor: pointer;
 }
+
+.bottom-nav .nav-center::before {
+        color: #fff;
+    font-family: 'Nunito', sans-serif;
+    font-size: 31px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
 
 .toast {
     position: absolute;
@@ -299,6 +411,10 @@ body {
     transform: translate(-50%, 0);
 }
 
+/* =========================================================
+   MODAL
+   ========================================================= */
+
 .modal {
     position: absolute;
     inset: 0;
@@ -317,20 +433,21 @@ body {
 .modal-box {
     width: 100%;
     padding: 20px;
-    border-radius: 15px;
+    border-radius: 18px;
     background: var(--surface);
     box-shadow: 0 15px 40px #0005;
     position: relative;
 }
 
 .modal-box h3 {
-    font: 800 19px 'Baloo 2';
+    font: 800 19px 'Baloo 2', sans-serif;
     margin-bottom: 7px;
 }
 
 .modal-box p {
     font-size: 12px;
     line-height: 1.5;
+    color: var(--text);
 }
 
 .modal-box small {
@@ -353,20 +470,33 @@ body {
 
 .modal-ok {
     width: 100%;
-    height: 34px;
+    height: 38px;
     margin-top: 15px;
     border: 0;
-    border-radius: 18px;
-    background: var(--orange);
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--orange-light), var(--orange-dark));
     color: #fff;
     font-weight: 800;
     cursor: pointer;
 }
 
-@media(max-width:395px) {
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+
+@media (max-width: 395px) {
+    body {
+        align-items: stretch;
+        padding: 0;
+    }
+
     .phone {
         min-height: 100vh;
         box-shadow: none;
     }
-}
 
+    .settings-content {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}

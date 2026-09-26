@@ -67,11 +67,6 @@ body {
     transition:  .25s ease;
 }
 
-:root {
-    --orange-light: #FF9A56;
-    --orange-dark: #FF8A3D;
-    --app-bg: #1a1a1a;
-}
 
 .header {
     position: relative;

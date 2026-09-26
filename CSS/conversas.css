@@ -3,7 +3,14 @@
     margin: 0;
     padding: 0;
 }
-
+:root {
+    --orange: #FF7A29;
+    --orange-dark: #F26A15;
+    --orange-light: #FFA35C;
+    --gray-text: #8A8A8F;
+    --gray-icon: #B9B9C0;
+    --divider: #F0EEEC;
+}
 body {
     min-height: 100vh;
 
@@ -20,18 +27,16 @@ body {
    CELULAR
 ========================================= */
 
-.phone {
-    width: 100%;
-    max-width: 430px;
-
-    min-height: 100vh;
-
-    background: #ffffff;
-
-    position: relative;
-
+  .phone{
+    width: 395px;
+    max-width: 100vw;
+    height: 800px;
+    background: #fff;
+    border-radius: 28px;
     overflow: hidden;
-}
+    box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+    position: relative;
+  }
 
 
 /* =========================================
@@ -437,115 +442,70 @@ body {
 ========================================= */
 
 .bottom-nav {
-
-    position: fixed;
-
+    position: absolute;
     bottom: 0;
-
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    width: 100%;
-
-    max-width: 430px;
-
-    height: 63px;
-
-    background: white;
-
-    border-top: 1px solid #ddd;
-
-    border-radius: 15px 15px 0 0;
-
-    display: grid;
-
-    grid-template-columns: repeat(5, 1fr);
-
+    left: 0;
+    right: 0;
+    height: 78px;
+    background: #fff;
+    
+    border-radius: 50px 50px 0 0;
+    box-shadow: 0 -6px 24px rgba(0, 0, 0, .06);
+    display: flex;
     align-items: center;
-
-    z-index: 20;
+    justify-content: space-around;
+    padding: 0 8px;
+    z-index: 3;
 }
 
 .nav-item {
-
+    
+    background: none;
     border: none;
-
-    background: transparent;
-
-    color: #777;
-
-    height: 100%;
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     cursor: pointer;
+    color: var(--gray-icon);
+    width: 40px;
+    height: 40px;
 }
 
 .nav-item svg {
-
-    width: 27px;
-
-    height: 27px;
+    width: 24px;
+    height: 24px;
 }
 
 .nav-item.active {
-
-    color: #ff8618;
+    color: var(--orange);
 }
-
-
-/* =========================================
-   CENTRO DO MENU
-========================================= */
 
 .nav-center {
-
-    width: 48px;
-
-    height: 48px;
-
+    width: 62px;
+    height: 62px;
     border-radius: 50%;
-
-    background: #ff8618;
-
-    margin: auto;
-
+    background: linear-gradient(
+        135deg,
+        var(--orange-light),
+        var(--orange)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -30px;
+    box-shadow: 0 10px 20px rgba(255, 122, 41, .4);
+    border: 5px solid #fff;
+    overflow: hidden;
     cursor: pointer;
-
-    position: relative;
 }
 
-.nav-center::after {
-
-    content: "";
-
-    position: absolute;
-
-    width: 27px;
-
-    height: 27px;
-
-    border-radius: 50%;
-
-    background-image: url("../img/logo.png");
-
-    background-size: contain;
-
-    background-position: center;
-
-    background-repeat: no-repeat;
-
-    top: 50%;
-
-    left: 50%;
-
-    transform: translate(-50%, -50%);
+.nav-center svg {
+    width: 28px;
+    height: 28px;
+    color: #fff;
 }
+
+
 
 
 /* =========================================
@@ -570,9 +530,8 @@ body {
 
     .bottom-nav {
 
-        bottom: 20px;
 
-        border-radius: 0 0 20px 20px;
+        border-radius: 26px 26px 20px 20px;
     }
 }
 
@@ -580,6 +539,9 @@ body {
    TEMA ESCURO
 ========================================= */
 
+html[data-theme="dark"] .nav-item.active {
+    color: var(--orange);
+}
 html[data-theme="dark"] body {
     background: #121212;
 }

@@ -94,22 +94,45 @@
   </div>
 
   <nav class="bottom-nav">
-    <button class="nav-item" title="Início" onclick="window.location.href='home.html'">
+
+    <button class="nav-item"
+     title="Início" 
+     onclick="window.location.href='home.html'">
+
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+    
     </button>
-    <button class="nav-item" title="Cadastrar" onclick="window.location.href='cadastroPet.html'">
+
+    <button class="nav-item" 
+    title="Cadastrar" 
+    onclick="window.location.href='cadastroPet.html'">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M12 5v14"/>
-  <path d="M5 12h14"/>
-</svg> </button>
-    <!-- Círculo central do menu: reservado para o FEED DE VÍDEOS (rolagem
-         estilo TikTok) que ainda vai ser feito. Por enquanto só decorativo,
-         sem nenhuma ação (antes ele abria o upload de foto — removido). -->
+          <path d="M12 5v14"/>
+          <path d="M5 12h14"/>
+      </svg>
+ </button>
+
     <div class="nav-center" title="Feed" onclick="window.location.href='feed.html'">
       </div>
-    <button class="nav-item" title="Nova mensagem">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.5-4A7.5 7.5 0 1 1 20 11.5Z"/></svg>
-    </button>
+    <button
+            class="nav-item"
+            title="Mensagens"
+            id="messagesBtn"
+            onclick="window.location.href='conversas.html'"
+            >
+
+            <svg viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+                <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.5-4A7.5 7.5 0 1 1 20 11.5Z"></path>
+
+            </svg>
+
+        </button>
     <button class="nav-item active" title="Perfil">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
     </button>

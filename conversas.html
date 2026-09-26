@@ -92,108 +92,82 @@
 
     <!-- MENU INFERIOR -->
 
-    <nav class="bottom-nav">
+    
+  <nav class="bottom-nav">
+<button class="nav-item"
+    title="Início"
+    onclick="window.location.href='home.html'">
 
-        <!-- HOME -->
+    <svg viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M3 11.5 12 4l9 7.5"/>
+        <path d="M5 10v10h14V10"/>
+        <path d="M9 20v-6h6v6"/>
+    </svg>
 
-        <button
-            class="nav-item"
-            aria-label="Início"
-            onclick="window.location.href='home.html'">
+</button>
 
-            <svg viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round">
+<button class="nav-item"
+    title="Cadastrar"
+    onclick="window.location.href='cadastroPet.html'">
 
-                <path d="M3 11.5 12 4l9 7.5"/>
+    <svg viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M12 5v14"/>
+        <path d="M5 12h14"/>
+    </svg>
 
-                <path d="M5 10v10h14V10"/>
+</button>
 
-                <path d="M9 20v-6h6v6"/>
+<div class="nav-center"
+    title="Feed"
+    onclick="window.location.href='feed.html'">
+</div>
 
-            </svg>
+<button class="nav-item active"
+    title="Mensagens"
+    id="messagesBtn"
+    onclick="window.location.href='conversas.html'">
 
-        </button>
+    <svg viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
 
+        <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.5-4A7.5 7.5 0 1 1 20 11.5Z"></path>
 
-        <!-- ADOÇÃO -->
+    </svg>
 
-        <button
-            class="nav-item"
-            aria-label="Adoção"
-            onclick="window.location.href='cadastroPet.html'">
+</button>
 
-            <svg viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round">
+<button class="nav-item"
+    title="Perfil"
+    onclick="window.location.href='perfil.html'">
 
-                <path d="M12 5v14"/>
-                <path d="M5 12h14"/>
+    <svg viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
 
-            </svg>
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
 
-        </button>
+    </svg>
 
-
-        <!-- FEED -->
-
-        <div
-            class="nav-center"
-            title="Feed"
-            onclick="window.location.href='feed.html'">
-
-        </div>
-
-
-        <!-- CONVERSAS -->
-
-        <button
-            class="nav-item active"
-            aria-label="Conversas">
-
-            <svg viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round">
-
-                <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.5-4A7.5 7.5 0 1 1 20 11.5Z"/>
-
-            </svg>
-
-        </button>
-
-
-        <!-- PERFIL -->
-
-        <button
-            class="nav-item"
-            aria-label="Perfil"
-            onclick="window.location.href='perfil.html'">
-
-            <svg viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round">
-
-                <circle cx="12" cy="8" r="4"/>
-
-                <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
-
-            </svg>
-
-        </button>
-
-    </nav>
+</button>
+  </nav>
 
 </div>
 

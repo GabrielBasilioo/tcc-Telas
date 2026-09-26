@@ -698,9 +698,12 @@ html[data-theme="dark"] .username {
     justify-content: center;
     margin-top: -30px;
     box-shadow: 0 10px 20px rgba(255, 122, 41, .4);
-    border: 4px solid #fff;
+    border: 4px solid #ffffff;
     overflow: hidden;
     cursor: pointer;
+}
+html[data-theme="dark"] .nav-center {
+    border-color: var(--nav-bg);
 }
 
 .nav-center svg {
