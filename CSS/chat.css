@@ -677,3 +677,63 @@ body {
 
     }
 }
+
+/* =========================================
+   TEMA ESCURO
+========================================= */
+
+html[data-theme="dark"] body {
+    background: #121212;
+}
+
+html[data-theme="dark"] .phone {
+    background: #1e1e1e;
+}
+
+html[data-theme="dark"] .messages-container {
+    background: #1e1e1e;
+}
+
+html[data-theme="dark"] .message-form {
+    background: #1e1e1e;
+}
+
+html[data-theme="dark"] .message-row.received .message-bubble {
+    background: #333333;
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .message-form input {
+    background: #292929;
+    border-color: #444;
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .message-form input::placeholder {
+    color: #999;
+}
+
+html[data-theme="dark"] .attachment-btn {
+    color: #aaa;
+}
+
+html[data-theme="dark"] .bottom-nav {
+    background: #1e1e1e;
+    border-top-color: #333;
+}
+
+html[data-theme="dark"] .nav-item {
+    color: #aaa;
+}
+
+html[data-theme="dark"] .loading {
+    color: #aaa;
+}
+
+html[data-theme="dark"] .empty-chat {
+    color: #aaa;
+}
+
+html[data-theme="dark"] .empty-chat strong {
+    color: #ffffff;
+}

@@ -575,3 +575,72 @@ body {
         border-radius: 0 0 20px 20px;
     }
 }
+
+/* =========================================
+   TEMA ESCURO
+========================================= */
+
+html[data-theme="dark"] body {
+    background: #121212;
+}
+
+html[data-theme="dark"] .phone {
+    background: #1e1e1e;
+}
+
+html[data-theme="dark"] .search-box {
+    border-color: #444;
+}
+
+html[data-theme="dark"] .search-box input {
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .search-box input::placeholder {
+    color: #999;
+}
+
+html[data-theme="dark"] .conversation-item {
+    border-bottom-color: #333;
+}
+
+html[data-theme="dark"] .conversation-item:hover {
+    background: #292929;
+}
+
+html[data-theme="dark"] .conversation-name {
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .last-message {
+    color: #bdbdbd;
+}
+
+html[data-theme="dark"] .message-time {
+    color: #aaa;
+}
+
+html[data-theme="dark"] .empty-state {
+    color: #aaa;
+}
+
+html[data-theme="dark"] .empty-state h2 {
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .loading {
+    color: #aaa;
+}
+
+html[data-theme="dark"] .bottom-nav {
+    background: #1e1e1e;
+    border-top-color: #333;
+}
+
+html[data-theme="dark"] .nav-item {
+    color: #aaa;
+}
+
+html[data-theme="dark"] .avatar {
+    border-color: #333;
+}
