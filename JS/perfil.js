@@ -8,6 +8,11 @@ const avatarInput = document.getElementById('avatarInput');
 const avatarImg = document.getElementById('avatarImg');
 const avatarDefaultIcon = document.getElementById('avatarDefaultIcon');
 const postsGrid = document.getElementById('postsGrid');
+const addPostTile =
+    document.getElementById('addPostTile');
+
+const postInput =
+    document.getElementById('postInput');
 const editOverlay = document.getElementById('editOverlay');
 const editProfileBtn = document.getElementById('editProfileBtn');
 const closeEdit = document.getElementById('closeEdit');
@@ -61,8 +66,50 @@ async function carregarPerfil(){
   if(sessionError){ console.error('Erro ao verificar sessão:', sessionError.message); return; }
   if(!sessionData.session){ window.location.href = 'login.html'; return; }
 
-  currentUserId = sessionData.session.user.id;
+  sessionUserId =
+    sessionData.session.user.id;
+
+currentUserId =
+    perfilVisitadoId ||
+    sessionUserId;
+
+visualizandoOutroPerfil =
+    currentUserId !== sessionUserId;
+
+currentEmail =
+    sessionData.session.user.email || '';
   currentEmail = sessionData.session.user.email || '';
+
+
+
+  const editProfileBtn =
+  document.getElementById('editProfileBtn');
+
+const followProfileBtn =
+  document.getElementById('followProfileBtn');
+
+if (visualizandoOutroPerfil) {
+
+  if (editProfileBtn) {
+      editProfileBtn.style.display = 'none';
+  }
+
+  if (followProfileBtn) {
+      followProfileBtn.style.display = 'block';
+  }
+
+} else {
+
+  if (editProfileBtn) {
+      editProfileBtn.style.display = 'block';
+  }
+
+  if (followProfileBtn) {
+      followProfileBtn.style.display = 'none';
+  }
+}
+
+
 
   // ⚠️ IMPORTANTE: além de "username, avatar_url, bio" (que já existiam),
   // esta busca tenta trazer também "phone, birth_date, state, city" —
@@ -109,6 +156,14 @@ async function carregarPerfil(){
   mostrarBio(currentBio);
 
   carregarPublicacoes();
+
+
+  if (visualizandoOutroPerfil) {
+    await verificarSeguindo();
+}
+
+await carregarContadoresSeguidores();
+  
 }
 
 function mostrarBio(bio){
@@ -718,31 +773,340 @@ avatarInput.addEventListener('change', async () => {
 
 // ---------- NOVA PUBLICAÇÃO ----------
 
-addPostTile.addEventListener('click', () => postInput.click());
+if (addPostTile && postInput) {
 
-postInput.addEventListener('change', async () => {
-  const file = postInput.files[0];
-  if(!file) return;
-  if(!supabaseClient || !currentUserId){ alert('Usuário não identificado.'); return; }
+    addPostTile.addEventListener(
+        'click',
+        () => postInput.click()
+    );
 
-  const extensao = file.name.split('.').pop().toLowerCase();
-  const nomeArquivo = `${Date.now()}.${extensao}`; // nome único: não sobrescreve publicações anteriores
-  const caminhoArquivo = `${currentUserId}/${nomeArquivo}`;
+    postInput.addEventListener(
+        'change',
+        async () => {
 
-  const tilePreview = adicionarPublicacao(URL.createObjectURL(file), caminhoArquivo);
+            const file = postInput.files[0];
 
-  const { error:uploadError } = await supabaseClient.storage.from(POSTS_BUCKET).upload(caminhoArquivo, file, { contentType:file.type });
+            if (!file) return;
 
-  if(uploadError){
-    console.error('Erro ao enviar publicação:', uploadError.message);
-    alert('Não foi possível enviar a publicação: ' + uploadError.message);
-    tilePreview.remove();
-    postInput.value = '';
-    return;
-  }
+            if (!supabaseClient || !currentUserId) {
+                alert('Usuário não identificado.');
+                return;
+            }
 
-  const { data:urlData } = supabaseClient.storage.from(POSTS_BUCKET).getPublicUrl(caminhoArquivo);
-  tilePreview.querySelector('img').src = urlData.publicUrl + '?t=' + Date.now();
+            const extensao =
+                file.name.split('.').pop().toLowerCase();
 
-  postInput.value = '';
-});
+            const nomeArquivo =
+                `${Date.now()}.${extensao}`;
+
+            const caminhoArquivo =
+                `${currentUserId}/${nomeArquivo}`;
+
+            const tilePreview =
+                adicionarPublicacao(
+                    URL.createObjectURL(file),
+                    caminhoArquivo
+                );
+
+            const { error: uploadError } =
+                await supabaseClient
+                    .storage
+                    .from(POSTS_BUCKET)
+                    .upload(
+                        caminhoArquivo,
+                        file,
+                        {
+                            contentType: file.type
+                        }
+                    );
+
+            if (uploadError) {
+
+                console.error(
+                    'Erro ao enviar publicação:',
+                    uploadError.message
+                );
+
+                alert(
+                    'Não foi possível enviar a publicação: ' +
+                    uploadError.message
+                );
+
+                tilePreview.remove();
+                postInput.value = '';
+
+                return;
+            }
+
+            const { data: urlData } =
+                supabaseClient
+                    .storage
+                    .from(POSTS_BUCKET)
+                    .getPublicUrl(caminhoArquivo);
+
+            tilePreview.querySelector('img').src =
+                urlData.publicUrl +
+                '?t=' +
+                Date.now();
+
+            postInput.value = '';
+        }
+    );
+}
+
+
+async function verificarSeguindo() {
+
+    if (!visualizandoOutroPerfil) {
+        return;
+    }
+
+    const followProfileBtn =
+        document.getElementById(
+            'followProfileBtn'
+        );
+
+    if (!followProfileBtn) {
+        return;
+    }
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from('followers')
+        .select('id')
+        .eq(
+            'follower_id',
+            sessionUserId
+        )
+        .eq(
+            'following_id',
+            currentUserId
+        )
+        .maybeSingle();
+
+    if (error) {
+
+        console.error(
+            'Erro ao verificar seguimento:',
+            error
+        );
+
+        return;
+    }
+
+    if (data) {
+
+        followProfileBtn.textContent =
+            'Seguindo';
+
+        followProfileBtn.classList.add(
+            'following'
+        );
+
+    } else {
+
+        followProfileBtn.textContent =
+            'Seguir';
+
+        followProfileBtn.classList.remove(
+            'following'
+        );
+    }
+}
+
+async function alternarSeguir() {
+
+    console.log('BOTÃO SEGUIR CLICADO');
+
+    if (!visualizandoOutroPerfil) {
+        console.log('Não está visualizando outro perfil');
+        return;
+    }
+
+
+    if (!visualizandoOutroPerfil) {
+        return;
+    }
+
+    const followProfileBtn =
+        document.getElementById(
+            'followProfileBtn'
+        );
+
+    if (!followProfileBtn) {
+        return;
+    }
+
+    followProfileBtn.disabled = true;
+
+    const {
+        data: seguindo,
+        error: buscaError
+    } = await supabaseClient
+        .from('followers')
+        .select('id')
+        .eq(
+            'follower_id',
+            sessionUserId
+        )
+        .eq(
+            'following_id',
+            currentUserId
+        )
+        .maybeSingle();
+
+    if (buscaError) {
+
+        console.error(
+            'Erro ao verificar seguimento:',
+            buscaError
+        );
+
+        followProfileBtn.disabled = false;
+
+        return;
+    }
+
+    // DEIXAR DE SEGUIR
+    if (seguindo) {
+
+        const {
+            error
+        } = await supabaseClient
+            .from('followers')
+            .delete()
+            .eq(
+                'id',
+                seguindo.id
+            );
+
+        if (error) {
+
+            console.error(
+                'Erro ao deixar de seguir:',
+                error
+            );
+
+        } else {
+
+            followProfileBtn.textContent =
+                'Seguir';
+
+            followProfileBtn.classList.remove(
+                'following'
+            );
+        }
+
+    }
+
+    // SEGUIR
+    else {
+
+        const {
+            error
+        } = await supabaseClient
+            .from('followers')
+            .insert({
+                follower_id:
+                    sessionUserId,
+
+                following_id:
+                    currentUserId
+            });
+
+        if (error) {
+
+            console.error(
+                'Erro ao seguir usuário:',
+                error
+            );
+
+        } else {
+
+            followProfileBtn.textContent =
+                'Seguindo';
+
+            followProfileBtn.classList.add(
+                'following'
+            );
+        }
+    }
+
+    followProfileBtn.disabled = false;
+
+    await carregarContadoresSeguidores();
+}
+async function carregarContadoresSeguidores() {
+
+    const statSeguindo =
+        document.getElementById(
+            'statSeguindo'
+        );
+
+    const statSeguidores =
+        document.getElementById(
+            'statSeguidores'
+        );
+
+    const {
+        count: seguindo,
+        error: seguindoError
+    } = await supabaseClient
+        .from('followers')
+        .select('*', {
+            count: 'exact',
+            head: true
+        })
+        .eq(
+            'follower_id',
+            currentUserId
+        );
+
+    const {
+        count: seguidores,
+        error: seguidoresError
+    } = await supabaseClient
+        .from('followers')
+        .select('*', {
+            count: 'exact',
+            head: true
+        })
+        .eq(
+            'following_id',
+            currentUserId
+        );
+
+    if (seguindoError) {
+        console.error(
+            'Erro ao carregar seguindo:',
+            seguindoError
+        );
+    }
+
+    if (seguidoresError) {
+        console.error(
+            'Erro ao carregar seguidores:',
+            seguidoresError
+        );
+    }
+
+    if (statSeguindo) {
+        statSeguindo.textContent =
+            seguindo || 0;
+    }
+
+    if (statSeguidores) {
+        statSeguidores.textContent =
+            seguidores || 0;
+    }
+}
+const followProfileBtn =
+    document.getElementById('followProfileBtn');
+
+if (followProfileBtn) {
+    followProfileBtn.onclick = async () => {
+        await alternarSeguir();
+    };
+}
