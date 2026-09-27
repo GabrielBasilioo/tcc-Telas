@@ -124,17 +124,65 @@ async function carregarFeed() {
     );
 
 
+    const userIds = [
+        ...new Set(
+            pets
+                .map(pet => pet.user_id)
+                .filter(Boolean)
+        )
+    ];
+    
+    let profiles = [];
+    
+    if (userIds.length > 0) {
+    
+        const {
+            data: profilesData,
+            error: profilesError
+        } = await supabaseClient
+            .from('profiles')
+            .select(`
+                id,
+                username,
+                avatar_url
+            `)
+            .in(
+                'id',
+                userIds
+            );
+    
+        if (profilesError) {
+    
+            console.error(
+                'Erro ao carregar perfis:',
+                profilesError
+            );
+    
+        } else {
+    
+            profiles =
+                profilesData || [];
+    
+        }
+    }
+
 
 
     feed.innerHTML = '';
 
     pets.forEach((pet) => {
 
+        const profile =
+            profiles.find(
+                profile =>
+                    profile.id === pet.user_id
+            );
+    
         criarPublicacao(
             pet,
+            profile,
             petsCurtidos.has(pet.id)
         );
-    
     });
     
     if (petSelecionado) {
@@ -169,8 +217,8 @@ async function carregarFeed() {
 
 function criarPublicacao(
     pet,
-    jaCurtido = false
-
+    profile,
+    jaCurtido = false,
 ) {
     const post =
         document.createElement('article');
@@ -248,6 +296,11 @@ function criarPublicacao(
         );
     }
 
+    
+    
+
+
+
     const info =
         document.createElement('div');
 
@@ -261,13 +314,56 @@ function criarPublicacao(
     nome.textContent =
         pet.nome || 'Pet';
 
-    const owner =
+        const owner =
         document.createElement('div');
-
+    
     owner.className = 'pet-owner';
-
-    owner.textContent =
-        'Pet para adoção';
+    
+    owner.style.display = 'flex';
+    owner.style.alignItems = 'center';
+    owner.style.gap = '10px';
+    owner.style.cursor = 'pointer';
+    
+    const ownerAvatar =
+        document.createElement('img');
+    
+    ownerAvatar.src =
+        profile?.avatar_url ||
+        'IMG/avatar-default.png';
+    
+    ownerAvatar.alt =
+        profile?.username || 'Usuário';
+    
+    ownerAvatar.style.width = '40px';
+    ownerAvatar.style.height = '40px';
+    ownerAvatar.style.borderRadius = '50%';
+    ownerAvatar.style.objectFit = 'cover';
+    
+    const ownerUsername =
+        document.createElement('span');
+    
+    ownerUsername.textContent =
+        profile?.username || 'Usuário';
+    
+    ownerUsername.style.fontWeight = '600';
+    
+    owner.appendChild(ownerAvatar);
+    owner.appendChild(ownerUsername);
+    
+    owner.addEventListener(
+        'click',
+        () => {
+    
+            if (!pet.user_id) {
+                return;
+            }
+    
+            window.location.href =
+                `perfil.html?id=${encodeURIComponent(
+                    pet.user_id
+                )}`;
+        }
+    );
 
     const detalhes =
         document.createElement('div');

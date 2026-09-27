@@ -30,15 +30,20 @@ const editPasswordInput =
 const editPasswordConfirmInput =
     document.getElementById('editPasswordConfirmInput');
 
-
+let currentBio = '';
 let supabaseClient = null;
 let currentUserId = null;
-let currentBio = '';
-// Guarda a última versão do perfil carregado do banco (username, bio,
-// phone, birth_date, state, city) + o email de login (auth.users), para
-// preencher a tela de edição sem precisar buscar tudo de novo.
-let currentProfile = {};
+let currentProfile = null;
 let currentEmail = '';
+
+let sessionUserId = null;
+let visualizandoOutroPerfil = false;
+
+const perfilUrlParams =
+    new URLSearchParams(window.location.search);
+
+const perfilVisitadoId =
+    perfilUrlParams.get('id');
 
 try{
   supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
