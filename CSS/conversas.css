@@ -44,31 +44,123 @@ body {
 ========================================= */
 
 .top-header {
+    position: relative;
+    flex-shrink: 0;
 
-    height: 72px;
+    background: linear-gradient(135deg, #FFA35C, #F26A15);
 
-    background: #ff8618;
-
-    color: white;
+    padding: 16px 22px 0;
+    padding-bottom: 30px;
 
     display: flex;
+    align-items: flex-start;
 
+    color: #fff;
+    overflow: visible;
+}
+
+.header-content {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
     align-items: center;
 
-    justify-content: space-between;
+    gap: 14px;
+    width: 100%;
 
-    padding: 0 22px;
+    padding-bottom: 30px;
+}
+
+.header-wave {
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 60px;
+
+    z-index: 0;
+
+    pointer-events: none;
+}
+
+.header-wave path {
+    fill: #fff;
+}
+
+.back-button {
+    background: rgba(255, 255, 255, 0.25);
+
+    border: none;
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    flex-shrink: 0;
+
+    color: #fff;
+
+    padding: 0;
+
+    transition: .2s, transform .2s;
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: translateX(-2px);
+}
+
+.back-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+.header-title {
+    flex: 1;
+    min-width: 0;
 }
 
 .top-header h1 {
-
     font-family: 'Baloo 2', sans-serif;
 
-    font-size: 27px;
-
     font-weight: 800;
+    font-size: 22px;
 
-    line-height: 1;
+    line-height: 1.1;
+    letter-spacing: .3px;
+
+    color: #fff;
+}
+
+.header-title span {
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    color: rgba(255, 255, 255, .9);
+}
+
+.header-paw {
+    width: 28px;
+    height: 28px;
+
+    flex-shrink: 0;
+
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .1));
+
+    transform: rotate(-8deg);
 }
 
 
@@ -135,7 +227,7 @@ body {
 
     padding: 0 10px;
 
-    margin-bottom: 22px;
+    margin-bottom: 12px;
 }
 
 .search-box svg {
@@ -194,19 +286,19 @@ body {
 
     width: 100%;
 
-    min-height: 65px;
+    min-height: 58px;
 
     display: flex;
 
     align-items: center;
 
-    padding: 7px 2px;
+    padding: 5px 2px;
 
     border-bottom: 1px solid #eeeeee;
 
     cursor: pointer;
 
-    transition: background .15s ease;
+    transition: .15s ease;
 }
 
 .conversation-item:hover {
@@ -221,9 +313,9 @@ body {
 
 .avatar-wrapper {
 
-    width: 46px;
+    width: 42px;
 
-    height: 46px;
+    height: 42px;
 
     position: relative;
 
@@ -232,9 +324,9 @@ body {
 
 .avatar {
 
-    width: 46px;
+    width: 42px;
 
-    height: 46px;
+    height: 42px;
 
     border-radius: 50%;
 
@@ -469,7 +561,16 @@ body {
     color: var(--gray-icon);
     width: 40px;
     height: 40px;
+    border-radius: 50%;
+    transition: .3s ease;
 }
+
+.nav-item:hover {
+    transform: scale(1.05);
+    color: var(--orange);
+}
+
+
 
 .nav-item svg {
     width: 24px;
@@ -494,7 +595,7 @@ body {
     justify-content: center;
     margin-top: -30px;
     box-shadow: 0 10px 20px rgba(255, 122, 41, .4);
-    border: 5px solid #fff;
+    border: 4px solid #fff;
     overflow: hidden;
     cursor: pointer;
 }
@@ -601,6 +702,10 @@ html[data-theme="dark"] .bottom-nav {
 
 html[data-theme="dark"] .nav-item {
     color: #aaa;
+}
+
+html[data-theme="dark"] .nav-center {
+    border-color: #181818;
 }
 
 html[data-theme="dark"] .avatar {

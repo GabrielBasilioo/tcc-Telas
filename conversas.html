@@ -22,12 +22,36 @@
 <div class="phone">
 
     <!-- CABEÇALHO -->
+<header class="top-header">
+    <svg class="header-wave" viewBox="0 0 395 60" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,30 Q99,10 197,30 T395,30 L395,60 L0,60 Z" />
+    </svg>
 
-    <header class="top-header">
+    <div class="header-content">
+        <button
+            type="button"
+            class="back-button"
+            aria-label="Voltar"
+            onclick="history.back()"
+        >
+            <svg viewBox="0 0 24 24">
+                <path
+                    d="M15 5L8 12L15 19"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+        </button>
 
-        <h1>Conversas</h1>
-
-    </header>
+        <div class="header-title">
+            <h1>Conversas</h1>
+            <span>Fale com quem faz parte da adoção</span>
+        </div>
+    </div>
+</header>
 
 
     <!-- CONTEÚDO -->

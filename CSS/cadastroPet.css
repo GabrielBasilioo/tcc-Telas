@@ -28,7 +28,7 @@ html[data-theme="dark"] {
     --check-text: #e2e2e2;
     --upload-text: #f1f1f1;
     --nav-bg: #181818;
-    --nav-border: #ffffff;
+    --nav-border: #181818;
 }
 
 * {
@@ -72,7 +72,7 @@ body {
     position: relative;
     flex-shrink: 0;
     background: linear-gradient(135deg, var(--orange-light), var(--orange-dark));
-    padding: 22px 22px 0;
+    padding: 16px 22px 0;
     padding-bottom: 45px;
     display: flex;
     align-items: flex-start;
@@ -88,7 +88,7 @@ body {
     align-items: center;
     gap: 14px;
     width: 100%;
-    padding-bottom: 45px;
+    padding-bottom: 30px;
 }
 
 .header-wave {
@@ -406,7 +406,7 @@ textarea {
     justify-content: space-around;
     padding: 0 8px;
     z-index: 3;
-    transition: background .25s ease;
+    transition: .25s ease;
 }
 
 .nav-item {
@@ -419,7 +419,14 @@ textarea {
     color: var(--gray-icon);
     width: 40px;
     height: 40px;
+    transition: .3s ease;
 }
+
+.nav-item:hover {
+    transform: scale(1.05);
+    color: var(--orange);
+}
+
 
 .nav-item svg { width: 24px; height: 24px; }
 .nav-item.active { color: var(--orange); }

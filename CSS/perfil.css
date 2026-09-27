@@ -93,6 +93,12 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: .3s ease;
+}
+
+.icon-circle:hover{
+    transform: scale(1.05);
+    box-shadow: 0 7px 20px var(--orange-light);
 }
 
 .icon-circle svg {
@@ -260,6 +266,12 @@ html[data-theme="dark"] .username {
     cursor: pointer;
     margin-bottom: 20px;
     box-shadow: 0 8px 18px rgba(255, 122, 41, .3);
+    transition: .3s ease;
+}
+
+.edit-profile-btn:hover{
+    transform: scale(1.05);
+    box-shadow: 0 7px 20px var(--orange-light);
 }
 
 .edit-profile-btn svg {
@@ -673,7 +685,17 @@ html[data-theme="dark"] .username {
     color: var(--gray-icon);
     width: 40px;
     height: 40px;
+    transition: .3s ease;
+    border-radius: 50%;
 }
+
+.nav-item:hover {
+    transform: scale(1.05);
+    color: var(--orange-dark);
+}
+
+
+
 
 .nav-item svg {
     width: 24px;
@@ -701,9 +723,18 @@ html[data-theme="dark"] .username {
     border: 4px solid #ffffff;
     overflow: hidden;
     cursor: pointer;
+    transition: .3s ease;
 }
+
+.nav-center:hover{
+    transform: scale(1.05);
+    box-shadow: 0 7px 70px var(--orange);
+    border: none;
+}
+
 html[data-theme="dark"] .nav-center {
     border-color: var(--nav-bg);
+    border: 4px solid #181818;
 }
 
 .nav-center svg {

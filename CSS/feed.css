@@ -310,31 +310,21 @@ body {
     font-weight: 800;
 }
 
-
 /* =========================
    AÇÕES
 ========================= */
 
 .post-actions {
-
     position: absolute;
-
-    right: 14px;
-
+    right: 12px;
     bottom: 105px;
-
     z-index: 8;
 
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
-    gap: 15px;
+    gap: 22px;
 }
-
-
 .action {
 
     border: none;
@@ -387,8 +377,8 @@ body {
 
 .action-circle svg {
 
-    width: 22px;
-    height: 22px;
+    width: 40px;
+    height: 40px;
 }
 
 
@@ -504,9 +494,20 @@ body {
 
     color: var(--gray-icon);
 
+    border-radius: 50%;
     width: 40px;
     height: 40px;
+    transition: .3s ease;
 }
+
+.nav-item:hover {
+    transform: scale(1.05);
+    color: var(--orange);
+}
+
+
+
+
 
 .nav-item svg {
     width: 24px;
@@ -517,25 +518,30 @@ body {
     
     color: var(--orange);
 }
-  .nav-center{
-    width: 62px;
-    height: 62px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--orange-light), var(--orange));
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    margin-top: -30px;
-    box-shadow: 0 10px 20px rgba(255,122,41,0.4);
-    border: 4px solid #fff;
-    overflow:hidden;
-  }
-.nav-center svg {
-    
-    width: 28px;
-    height: 28px;
-    color: #fff;
+
+.nav-center {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--orange-light), var(--orange));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -30px;
+
+border: 4px solid rgba(24, 24, 24, 0.75);
+box-shadow: 0 7px 16px #FF7A29;
+
+
+  overflow: hidden;
 }
+
+.nav-center svg {
+  width: 28px;
+  height: 28px;
+  color: #181818;
+}
+
 
 
 /* =========================
@@ -760,7 +766,7 @@ html[data-theme="dark"] .bottom-nav {
 /* BOTÃO HOME CENTRAL — TEMA ESCURO */
 html[data-theme="dark"] .nav-center {
     background: linear-gradient(135deg, #FFA35C, #FF7A29);
-    border: 4px solid #ffffff;
+    border: 4px solid #fff;
     box-shadow: 0 10px 20px rgba(255,122,41,0.4);
 }
 
@@ -768,3 +774,4 @@ html[data-theme="dark"] .nav-center {
 html[data-theme="dark"] .nav-center svg {
     color: #fff;
 }
+
