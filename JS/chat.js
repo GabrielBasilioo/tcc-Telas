@@ -540,6 +540,10 @@ function adicionarMensagemNaTela(
         'message-bubble';
 
 
+
+    bubble.dataset.messageId =
+    message.id;
+
     const content =
         document.createElement(
             'span'
@@ -852,8 +856,15 @@ function adicionarMensagemRealtime(
         );
 
 
+        const isMine =
+        message.sender_id === currentUser.id;
+    
     row.className =
-        'message-row received';
+        `message-row ${
+            isMine
+                ? 'sent'
+                : 'received'
+        }`;
 
     bubble.className =
         'message-bubble';
