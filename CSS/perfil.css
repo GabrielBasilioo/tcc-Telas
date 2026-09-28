@@ -1,4 +1,3 @@
-
 :root {
     --orange: #FF7A29;
     --orange-dark: #F26A15;
@@ -796,3 +795,99 @@ html[data-theme="dark"] .nav-center {
     box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.1);
 }
 
+
+/* =====================================================================
+   EDITAR PERFIL: cabeçalho com onda, avatar sem corte e tema claro/escuro
+   ===================================================================== */
+
+.edit-overlay {
+    --ed-bg: #fff;
+    --ed-card: #F6F5F4;
+    --ed-field: #fff;
+    --ed-border: #E4E2DF;
+    --ed-text: #2c2c2c;
+    --ed-label: #8A8A8F;
+    background: var(--ed-bg);
+    transition: background .25s ease;
+}
+
+html[data-theme="dark"] .edit-overlay {
+    --ed-bg: #151515;
+    --ed-card: #202020;
+    --ed-field: #292929;
+    --ed-border: #414141;
+    --ed-text: #f1f1f1;
+    --ed-label: #a5a5aa;
+}
+
+/* Cabeçalho: sem borda arredondada, onda desenhada por cima */
+.edit-header {
+    padding: 16px 22px 62px;
+    border-radius: 0;
+}
+
+.edit-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 40px;
+    pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 395 60' preserveAspectRatio='none'%3E%3Cpath fill='%23fff' d='M0,30 Q99,10 197,30 T395,30 L395,60 L0,60 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+
+html[data-theme="dark"] .edit-header::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 395 60' preserveAspectRatio='none'%3E%3Cpath fill='%23151515' d='M0,30 Q99,10 197,30 T395,30 L395,60 L0,60 Z'/%3E%3C/svg%3E");
+}
+
+/* Avatar sobe por cima do cabeçalho sem ser cortado pelo scroll */
+.edit-scroll-area {
+    position: relative;
+    z-index: 2;
+    margin-top: -46px;
+}
+
+.edit-avatar-wrap { margin-top: 0; }
+
+.edit-avatar-circle,
+.edit-avatar-btn { border-color: var(--ed-bg); }
+
+/* Cores por tema */
+.edit-username-row span.handle,
+.info-card-title,
+.edit-status { color: var(--ed-text); }
+
+.edit-status.error { color: #D64545; }
+.edit-status.success { color: #2E9E4F; }
+
+.info-card { background: var(--ed-card); }
+
+.edit-overlay .edit-field label,
+.edit-overlay .password-fields label { color: var(--ed-label); }
+
+.edit-overlay .edit-field input,
+.edit-overlay .edit-field textarea,
+.edit-overlay .edit-field .input-with-icon,
+.edit-overlay .password-fields input {
+    background: var(--ed-field);
+    border-color: var(--ed-border);
+    color: var(--ed-text);
+}
+
+.edit-overlay .edit-field .input-with-icon input {
+    background: transparent;
+    border: none;
+}
+
+.edit-overlay .edit-field input::placeholder,
+.edit-overlay .edit-field textarea::placeholder,
+.edit-overlay .password-fields input::placeholder { color: #aaa; }
+
+.edit-overlay .edit-field input:focus,
+.edit-overlay .edit-field textarea:focus,
+.edit-overlay .edit-field .input-with-icon:has(input:focus),
+.edit-overlay .password-fields input:focus {
+    border-color: var(--orange);
+    box-shadow: none;
+}
