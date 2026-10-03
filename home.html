@@ -9,18 +9,17 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="CSS/home.css">
 <link rel="stylesheet" href="CSS/configuracoes.css">
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
 </head>
 <body>
 
   <div class="phone">
 
     <!-- MAPA (embed simples, sem API key — depois trocar pela Maps JavaScript API) -->
-    <iframe
-      class="map-frame"
-      src="https://maps.google.com/maps?q=São+Paulo&z=13&output=embed"
-      loading="lazy"
-      allowfullscreen>
-    </iframe>
+    <div id="map"></div>
 
     <!-- CARTÃO DE BUSCA -->
     <div class="search-card">
@@ -86,44 +85,36 @@
       <div class="filter-panel">
 
         <div class="filter-panel-header">
-          <h2>Filtrar pets</h2>
+          <h2>Filtrar instituições</h2>
           <button class="close-filter" id="closeFilter" aria-label="Fechar">
             <svg viewBox="0 0 24 24" fill="none" stroke="#4a4a4a" stroke-width="2.4" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
           </button>
         </div>
 
         <div class="filter-group">
-          <h3>Tipo de pet</h3>
+          <h3>Tipo de instituição</h3>
           <div class="chip-row" data-group="tipo">
-            <button class="chip" data-value="cachorro">Cachorro</button>
-            <button class="chip" data-value="gato">Gato</button>
-            <button class="chip" data-value="outro">Outro</button>
+            <button class="chip" data-value="ONG">ONG</button>
+            <button class="chip" data-value="Abrigo">Abrigo</button>
+            <button class="chip" data-value="Centro de adoção">Centro de adoção</button>
+            <button class="chip" data-value="Instituição">Instituição</button>
           </div>
         </div>
-
+        
         <div class="filter-group">
-          <h3>Porte</h3>
-          <div class="chip-row" data-group="porte">
-            <button class="chip" data-value="pequeno">Pequeno</button>
-            <button class="chip" data-value="medio">Médio</button>
-            <button class="chip" data-value="grande">Grande</button>
+          <h3>Animais</h3>
+          <div class="chip-row" data-group="animais">
+            <button class="chip" data-value="caes">Cães</button>
+            <button class="chip" data-value="gatos">Gatos</button>
+            <button class="chip" data-value="outros">Outros</button>
           </div>
         </div>
-
+        
         <div class="filter-group">
-          <h3>Idade</h3>
-          <div class="chip-row" data-group="idade">
-            <button class="chip" data-value="filhote">Filhote</button>
-            <button class="chip" data-value="adulto">Adulto</button>
-            <button class="chip" data-value="idoso">Idoso</button>
-          </div>
-        </div>
-
-        <div class="filter-group">
-          <h3>Saúde</h3>
-          <div class="chip-row" data-group="saude">
-            <button class="chip" data-value="vacinado">Vacinado</button>
-            <button class="chip" data-value="castrado">Castrado</button>
+          <h3>Serviços</h3>
+          <div class="chip-row" data-group="servicos">
+            <button class="chip" data-value="adocao">Adoção</button>
+            <button class="chip" data-value="doacoes">Recebe doações</button>
           </div>
         </div>
 
@@ -143,10 +134,8 @@
 
   </div>
   <script src="JS/tema.js"></script>
-  <script src="JS/home.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="JS/feed.js"></script>
-
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="JS/home.js"></script>
 
 </body>
 </html>
