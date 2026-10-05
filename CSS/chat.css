@@ -545,13 +545,13 @@ body {
     transform: scale(1.05);
     color: var(--orange);
 }
-
-
-
 .nav-item svg {
     width: 24px;
     height: 24px;
 }
+
+
+
 
 .nav-item.active {
     color: var(--orange);
@@ -576,11 +576,6 @@ body {
     cursor: pointer;
 }
 
-.nav-center svg {
-    width: 28px;
-    height: 28px;
-    color: #fff;
-}
 
 
 
@@ -660,22 +655,6 @@ body {
    DESKTOP
 ========================================= */
 
-@media (min-width: 600px) {
-
-    body {
-        padding: 20px 0;
-    }
-
-    .phone {
-
-        height: calc(100vh - 40px);
-
-        border-radius: 20px;
-
-        box-shadow: 0 5px 30px rgba(0, 0, 0, .12);
-
-    }
-}
 
 /* =========================================
    TEMA ESCURO
@@ -687,6 +666,9 @@ html[data-theme="dark"] body {
     background: #121212;
 }
 
+html[data-theme="dark"] .nav-center  {
+    border: 3px solid #000000;
+}
 html[data-theme="dark"] .phone {
     background: #1e1e1e;
 }

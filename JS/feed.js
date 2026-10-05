@@ -213,7 +213,342 @@ async function carregarFeed() {
     
         }, 100);
     }
+    
 }
+function configurarAudioDosVideos() {
+    if (!feed) {
+        return;
+    }
+
+    let videoAtivo = null;
+
+    const observer =
+        new IntersectionObserver(
+            (entries) => {
+
+                entries.forEach(entry => {
+
+                    const video =
+                        entry.target;
+
+                    if (entry.isIntersecting) {
+
+                        /*
+                         * Se já existe outro vídeo tocando,
+                         * pausa e deixa sem som.
+                         */
+                        if (
+                            videoAtivo &&
+                            videoAtivo !== video
+                        ) {
+
+                            videoAtivo.pause();
+
+                            videoAtivo.muted = true;
+
+                            videoAtivo.currentTime = 0;
+                        }
+
+                        /*
+                         * Esse passa a ser o vídeo ativo.
+                         */
+                        videoAtivo = video;
+
+                        /*
+                         * Sempre começa do início
+                         * quando entra na tela.
+                         */
+                        video.currentTime = 0;
+
+                        video.muted = false;
+
+                        video.volume = 1;
+
+                        video.play().catch(error => {
+
+                            /*
+                             * Se o navegador bloquear
+                             * o áudio automático,
+                             * mantém o vídeo sem som.
+                             */
+                            console.log(
+                                'Autoplay com áudio bloqueado:',
+                                error
+                            );
+
+                            video.muted = true;
+
+                            video.play().catch(() => {});
+                        });
+
+                    } else {
+
+                        /*
+                         * Saiu da tela:
+                         * pausa e volta para o começo.
+                         */
+                        video.pause();
+
+                        video.muted = true;
+
+                        video.currentTime = 0;
+
+                        if (
+                            videoAtivo === video
+                        ) {
+                            videoAtivo = null;
+                        }
+                    }
+                });
+            },
+            {
+                root: feed,
+
+                /*
+                 * Só considera ativo quando
+                 * pelo menos 70% do vídeo está visível.
+                 */
+                threshold: 0.7
+            }
+        );
+
+
+    function observarVideos() {
+
+        const videos =
+            feed.querySelectorAll(
+                'video'
+            );
+
+        videos.forEach(video => {
+
+            if (
+                video.dataset.audioConfigurado
+            ) {
+                return;
+            }
+
+            video.dataset.audioConfigurado =
+                'true';
+
+            video.autoplay = false;
+
+            video.muted = true;
+
+            video.loop = true;
+
+            video.playsInline = true;
+
+            video.setAttribute(
+                'playsinline',
+                ''
+            );
+            video.addEventListener(
+    'click',
+    () => {
+
+        if (video.paused) {
+
+            // Se o vídeo estava pausado,
+            // continua de onde parou
+            video.muted = false;
+
+            video.play().catch(() => {
+                video.muted = true;
+                video.play().catch(() => {});
+            });
+
+        } else {
+
+            // Pausa o vídeo
+            video.pause();
+        }
+
+    }
+);
+
+
+            observer.observe(video);
+        });
+    }
+
+
+    observarVideos();
+
+
+    /*
+     * Observa os clones criados pelo
+     * sistema de loop infinito.
+     */
+    const mutationObserver =
+        new MutationObserver(() => {
+
+            observarVideos();
+
+        });
+
+
+    mutationObserver.observe(
+        feed,
+        {
+            childList: true,
+            subtree: true
+        }
+    );
+}
+
+
+function configurarLoopFeed() {
+    if (!feed) {
+        return;
+    }
+
+    let postsOriginais = [
+        ...feed.querySelectorAll('.feed-post')
+    ];
+
+    if (postsOriginais.length < 2) {
+        return;
+    }
+
+    // Remove clones antigos
+    feed.querySelectorAll('.feed-post-clone')
+        .forEach(clone => clone.remove());
+
+    /*
+     * Criamos uma cópia ANTES dos posts originais
+     * e outra DEPOIS.
+     *
+     * Fica assim:
+     *
+     * [1] [2] [3] [4]
+     * [1] [2] [3] [4]
+     * [1] [2] [3] [4]
+     *
+     * O usuário começa no bloco do meio.
+     */
+
+    const alturaOriginal =
+        postsOriginais.reduce(
+            (total, post) =>
+                total + post.offsetHeight,
+            0
+        );
+
+    // =========================
+    // CLONES DO FINAL
+    // =========================
+
+    const clonesAntes =
+        postsOriginais.map(post => {
+
+            const clone =
+                post.cloneNode(true);
+
+            clone.classList.add(
+                'feed-post-clone'
+            );
+
+            return clone;
+        });
+
+    // Coloca os clones do último bloco
+    // antes dos posts originais
+    clonesAntes
+        .reverse()
+        .forEach(clone => {
+            feed.prepend(clone);
+        });
+
+    // =========================
+    // CLONES DO COMEÇO
+    // =========================
+
+    postsOriginais.forEach(post => {
+
+        const clone =
+            post.cloneNode(true);
+
+        clone.classList.add(
+            'feed-post-clone'
+        );
+
+        feed.appendChild(clone);
+    });
+
+    /*
+     * Agora existem 3 blocos:
+     *
+     * bloco anterior
+     * bloco original
+     * bloco seguinte
+     *
+     * Começamos exatamente no bloco original.
+     */
+
+    feed.scrollTop =
+        alturaOriginal;
+
+    let ajustando = false;
+
+    feed.addEventListener(
+        'scroll',
+        () => {
+
+            if (ajustando) {
+                return;
+            }
+
+            /*
+             * Se passou para o bloco seguinte,
+             * volta exatamente um bloco.
+             *
+             * Para o usuário parece que
+             * continuou normalmente.
+             */
+
+            if (
+                feed.scrollTop >=
+                alturaOriginal * 2
+            ) {
+
+                ajustando = true;
+
+                feed.scrollTop -=
+                    alturaOriginal;
+
+                requestAnimationFrame(() => {
+                    ajustando = false;
+                });
+
+                return;
+            }
+
+            /*
+             * Se voltou para o bloco anterior,
+             * avança exatamente um bloco.
+             *
+             * Assim também existe loop
+             * de baixo para cima.
+             */
+
+            if (
+                feed.scrollTop <= 0
+            ) {
+
+                ajustando = true;
+
+                feed.scrollTop +=
+                    alturaOriginal;
+
+                requestAnimationFrame(() => {
+                    ajustando = false;
+                });
+            }
+        }
+    );
+}
+
 
 function criarPublicacao(
     pet,
@@ -240,29 +575,36 @@ function criarPublicacao(
             )
         ) {
             const video =
-                document.createElement('video');
+    document.createElement('video');
 
-            video.src = pet.media_url;
+video.src =
+    pet.media_url;
 
-            video.className =
-                'post-media';
+video.className =
+    'post-media';
 
-            video.autoplay = true;
-            video.loop = true;
-            video.muted = true;
-            video.playsInline = true;
+video.loop = true;
 
-            video.addEventListener(
-                'error',
-                () => {
-                    mostrarPlaceholder(
-                        media,
-                        pet
-                    );
-                }
-            );
+video.muted = true;
 
-            media.appendChild(video);
+video.playsInline = true;
+
+video.setAttribute(
+    'playsinline',
+    '');
+
+video.addEventListener(
+    'error',
+    () => {
+        mostrarPlaceholder(
+            media,
+            pet
+        );
+    }
+);
+
+media.appendChild(video);
+
         } else {
             const imagem =
                 document.createElement('img');
@@ -839,8 +1181,9 @@ async function iniciarFeed() {
     }
 
     configurarPesquisa();
-
     await carregarFeed();
+    configurarAudioDosVideos();
+    configurarLoopFeed();
 }
 
 iniciarFeed();

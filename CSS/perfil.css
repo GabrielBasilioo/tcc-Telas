@@ -708,6 +708,10 @@ html[data-theme="dark"] .username {
     transition: .3s ease;
     border-radius: 50%;
 }
+.nav-item svg {
+    width: 24px;
+    height: 24px;
+}
 
 .nav-item:hover {
     transform: scale(1.05);
@@ -715,12 +719,6 @@ html[data-theme="dark"] .username {
 }
 
 
-
-
-.nav-item svg {
-    width: 24px;
-    height: 24px;
-}
 
 .nav-item.active {
     color: var(--orange);
@@ -757,11 +755,6 @@ html[data-theme="dark"] .nav-center {
     border: 4px solid #181818;
 }
 
-.nav-center svg {
-    width: 28px;
-    height: 28px;
-    color: #fff;
-}
 
 /* =========================
    CAMPOS DE SENHA
