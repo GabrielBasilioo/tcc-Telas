@@ -25,7 +25,6 @@ body {
 body {
     background: #1e1e1e;
     font-family: 'Nunito', sans-serif;
-    overflow: hidden;
 }
 
 
@@ -40,11 +39,16 @@ body {
         #FFEFE0 55%,
         #FFFFFF 55%
     );
+
     border-radius: 28px;
     overflow: hidden;
     box-shadow: 0 20px 50px rgba(0, 0, 0, .18);
     position: relative;
+
+    display: flex;
+    flex-direction: column;
 }
+
 
 .doodles {
     position: absolute;
@@ -78,10 +82,17 @@ body {
 
 .content {
     position: relative;
-    height: 100%;
+    z-index: 1;
+    flex: 1;
     overflow-y: auto;
+    scrollbar-width: none;
     padding: 26px 22px 110px;
 }
+
+.content::-webkit-scrollbar {
+    display: none;
+}
+
 
 
 .top-bar {
