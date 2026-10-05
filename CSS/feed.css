@@ -46,11 +46,11 @@ body {
 
 .phone {
 
-    width: 395px;
-    max-width: 100vw;
-    min-height: 879px;
-    height: 800px;
-    max-height: 100vh;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    height: 100%;
+    max-height: 100%;
 
     background: #000;
 
@@ -725,26 +725,6 @@ box-shadow: 0 7px 16px #FF7A29;
 }
 
 
-/* =========================
-   RESPONSIVO
-========================= */
-
-@media (max-width: 430px) {
-
-    body {
-        align-items: stretch;
-    }
-
-    .phone {
-
-        width: 100vw;
-        height: 100vh;
-
-        border-radius: 0;
-
-    }
-
-}
 
 .post-destacado {
     box-shadow:
@@ -766,7 +746,7 @@ html[data-theme="dark"] .bottom-nav {
 /* BOTÃO HOME CENTRAL — TEMA ESCURO */
 html[data-theme="dark"] .nav-center {
     background: linear-gradient(135deg, #FFA35C, #FF7A29);
-    border: 4px solid #fff;
+    border: 4px solid #000000;
     box-shadow: 0 10px 20px rgba(255,122,41,0.4);
 }
 

@@ -13,20 +13,27 @@
     padding: 0;
 }
 
+html,
 body {
-    background: #EDEDED;
-    font-family: 'Nunito', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 24px 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
+body {
+    background: #1e1e1e;
+    font-family: 'Nunito', sans-serif;
+    overflow: hidden;
+}
+
+
 .phone {
-    width: 395px;
-    max-width: 100vw;
-    min-height: 879px;
+    width: 100%;
+    min-height: 100vh;
+    height: 100dvh;
+
     background: linear-gradient(
         180deg,
         #FFF4EA 0%,
@@ -296,7 +303,7 @@ html[data-theme="dark"] .username {
     background: #fff;
     display: none;
     flex-direction: column;
-    z-index: 10;
+    z-index: 1;
     overflow: hidden;
 }
 
@@ -348,7 +355,6 @@ html[data-theme="dark"] .username {
     color: #fff;
 }
 
-/* -- Área com scroll: avatar + formulário -- */
 
 .edit-scroll-area {
     flex: 1;
@@ -671,7 +677,8 @@ html[data-theme="dark"] .username {
     align-items: center;
     justify-content: space-around;
     padding: 0 8px;
-    z-index: 3;
+    overflow: visible;
+    z-index: 100;
 }
 
 .nav-item {
@@ -799,7 +806,6 @@ html[data-theme="dark"] .nav-center {
 /* =====================================================================
    EDITAR PERFIL: cabeçalho com onda, avatar sem corte e tema claro/escuro
    ===================================================================== */
-
 .edit-overlay {
     --ed-bg: #fff;
     --ed-card: #F6F5F4;
