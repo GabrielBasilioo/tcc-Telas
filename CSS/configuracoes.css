@@ -47,7 +47,7 @@ body {
     transition: .2s;
 }
 
-/* Mesmo tamanho/base da tela de Cadastro */
+
 .phone {
     width: 100%;
     max-width: 100%;
@@ -70,7 +70,7 @@ body {
 
 .settings-header {
     flex-shrink: 0;
-    height: 87px;
+    height: 107px;
     background: linear-gradient(135deg, var(--orange-light), var(--orange-dark));
     color: #fff;
     display: flex;
