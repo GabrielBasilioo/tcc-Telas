@@ -904,3 +904,11 @@ html[data-theme="dark"] .edit-header::after {
     border-color: var(--orange);
     box-shadow: none;
 }
+@media (min-width: 1000px) {
+    body {
+        width: 900px;
+        min-height: 100vh;
+        margin: 0 auto;
+        background: #EDEDED;
+    }
+}

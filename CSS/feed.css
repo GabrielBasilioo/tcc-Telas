@@ -529,7 +529,7 @@ body {
   justify-content: center;
   margin-top: -30px;
 
-border: 4px solid rgba(24, 24, 24, 0.75);
+border: 4px solid rgba(252, 252, 252, 0.75);
 box-shadow: 0 7px 16px #FF7A29;
 
 
@@ -754,4 +754,16 @@ html[data-theme="dark"] .nav-center {
 html[data-theme="dark"] .nav-center svg {
     color: #fff;
 }
+html[data-theme="dark"] body {
+    background: #000;
+}
 
+@media (min-width: 1000px) {
+    body {
+        width: 900px;
+        min-height: 100vh;
+        margin: 0 auto;
+        background: #EDEDED;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+    }
+}
