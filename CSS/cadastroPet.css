@@ -60,6 +60,7 @@ body {
     overflow: hidden;
     box-shadow: 0 20px 50px rgba(0,0,0,.18);
     position: relative;
+    display: flex;
     flex-direction: column;
     transition:  .25s ease;
 }
