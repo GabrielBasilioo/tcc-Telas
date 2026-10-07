@@ -3,20 +3,35 @@
     margin: 0;
     padding: 0;
 }
+
+
+/* =========================================
+   VARIÁVEIS
+========================================= */
+
 :root {
     --orange: #FF7A29;
     --orange-dark: #F26A15;
     --orange-light: #FFA35C;
+
     --gray-text: #8A8A8F;
     --gray-icon: #B9B9C0;
+
     --divider: #F0EEEC;
 }
+
+
+/* =========================================
+   HTML / BODY
+========================================= */
 
 html,
 body {
     width: 100%;
+    height: 100%;
     min-height: 100%;
 }
+
 
 body {
     background: #eeeeee;
@@ -25,27 +40,35 @@ body {
 
     display: flex;
     justify-content: center;
+    align-items: stretch;
 
+    overflow: hidden;
 }
 
 
 /* =========================================
-   CELULAR
+   CELULAR / CONTAINER
+   TELA INTEIRA
 ========================================= */
 
-  .phone {
-    width: 800px;
-    height: 900px;
+.phone {
+    width: 100%;
+    max-width: 100%;
+
+    height: 100%;
+    min-height: 100dvh;
+    max-height: 100dvh;
 
     background: #fff;
-    border-radius: 28px;
-    overflow: hidden;
-
-    box-shadow: 0 20px 50px rgba(0,0,0,0.18);
 
     position: relative;
-}
 
+    overflow: hidden;
+
+    border-radius: 0;
+
+    box-shadow: none;
+}
 
 
 /* =========================================
@@ -53,7 +76,6 @@ body {
 ========================================= */
 
 .chat-header {
-
     height: 56px;
 
     background: #ff8618;
@@ -69,13 +91,16 @@ body {
     position: relative;
 
     z-index: 10;
+
+    flex-shrink: 0;
 }
 
 
-/* voltar */
+/* =========================================
+   BOTÃO VOLTAR
+========================================= */
 
 .back-btn {
-
     width: 32px;
 
     height: 40px;
@@ -97,18 +122,18 @@ body {
     flex-shrink: 0;
 }
 
+
 .back-btn svg {
-
     width: 26px;
-
     height: 26px;
 }
 
 
-/* avatar */
+/* =========================================
+   AVATAR
+========================================= */
 
 .chat-avatar {
-
     width: 44px;
 
     height: 44px;
@@ -125,10 +150,11 @@ body {
 }
 
 
-/* informações */
+/* =========================================
+   INFORMAÇÕES DO USUÁRIO
+========================================= */
 
 .chat-user-info {
-
     display: flex;
 
     flex-direction: column;
@@ -140,8 +166,8 @@ body {
     min-width: 0;
 }
 
-.chat-user-info strong {
 
+.chat-user-info strong {
     font-size: 13px;
 
     font-weight: 800;
@@ -155,8 +181,8 @@ body {
     max-width: 170px;
 }
 
-.chat-user-info span {
 
+.chat-user-info span {
     display: flex;
 
     align-items: center;
@@ -169,10 +195,11 @@ body {
 }
 
 
-/* online */
+/* =========================================
+   ONLINE
+========================================= */
 
 .online-dot {
-
     width: 6px;
 
     height: 6px;
@@ -183,14 +210,18 @@ body {
 
     display: inline-block;
 }
+
+
 .online-dot.offline {
     background: #9ca3af;
 }
 
-/* menu */
+
+/* =========================================
+   MENU DO CHAT
+========================================= */
 
 .menu-btn {
-
     margin-left: auto;
 
     width: 32px;
@@ -214,8 +245,8 @@ body {
     cursor: pointer;
 }
 
-.menu-btn span {
 
+.menu-btn span {
     width: 4px;
 
     height: 4px;
@@ -231,18 +262,19 @@ body {
 ========================================= */
 
 .messages-container {
-
     position: absolute;
 
     top: 56px;
 
-    bottom: 106px;
+    bottom: 121px;
 
     left: 0;
 
     right: 0;
 
     overflow-y: auto;
+
+    overflow-x: hidden;
 
     padding: 18px 9px 15px;
 
@@ -252,11 +284,14 @@ body {
 }
 
 
-/* barra de rolagem */
+/* =========================================
+   BARRA DE ROLAGEM
+========================================= */
 
 .messages-container::-webkit-scrollbar {
     width: 3px;
 }
+
 
 .messages-container::-webkit-scrollbar-thumb {
     background: #ddd;
@@ -265,12 +300,18 @@ body {
 }
 
 
+.messages-container {
+    scrollbar-width: thin;
+
+    scrollbar-color: #ddd transparent;
+}
+
+
 /* =========================================
    MENSAGEM
 ========================================= */
 
 .message-row {
-
     width: 100%;
 
     display: flex;
@@ -278,21 +319,22 @@ body {
     margin-bottom: 16px;
 }
 
-.message-row.sent {
 
+.message-row.sent {
     justify-content: flex-end;
 }
 
-.message-row.received {
 
+.message-row.received {
     justify-content: flex-start;
 }
 
 
-/* balão */
+/* =========================================
+   BALÃO
+========================================= */
 
 .message-bubble {
-
     position: relative;
 
     max-width: 72%;
@@ -309,14 +351,16 @@ body {
 
     word-break: break-word;
 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, .12);
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, .12);
 }
 
 
-/* enviada */
+/* =========================================
+   MENSAGEM ENVIADA
+========================================= */
 
 .message-row.sent .message-bubble {
-
     background: #ff9b0b;
 
     color: #ffffff;
@@ -325,10 +369,11 @@ body {
 }
 
 
-/* recebida */
+/* =========================================
+   MENSAGEM RECEBIDA
+========================================= */
 
 .message-row.received .message-bubble {
-
     background: #f1f1f1;
 
     color: #4c4c4c;
@@ -337,10 +382,11 @@ body {
 }
 
 
-/* horário */
+/* =========================================
+   HORÁRIO
+========================================= */
 
 .message-time {
-
     position: absolute;
 
     right: 7px;
@@ -360,19 +406,22 @@ body {
 ========================================= */
 
 .message-form {
-    border-radius: 26px 26px 0 0;
-    box-shadow: 0 -6px 24px rgba(0, 0, 0, .06);
     position: absolute;
 
     left: 0;
 
     right: 0;
 
-    bottom: 63px;
+    bottom: 78px;
 
     height: 43px;
 
     background: #fff;
+
+    border-radius: 26px 26px 0 0;
+
+    box-shadow:
+        0 -6px 24px rgba(0, 0, 0, .06);
 
     display: flex;
 
@@ -384,10 +433,11 @@ body {
 }
 
 
-/* anexo */
+/* =========================================
+   ANEXO
+========================================= */
 
 .attachment-btn {
-
     width: 30px;
 
     height: 36px;
@@ -409,18 +459,18 @@ body {
     flex-shrink: 0;
 }
 
+
 .attachment-btn svg {
-
     width: 20px;
-
     height: 20px;
 }
 
 
-/* input */
+/* =========================================
+   INPUT
+========================================= */
 
 .message-form input {
-
     flex: 1;
 
     height: 30px;
@@ -444,24 +494,26 @@ body {
     min-width: 0;
 }
 
-.message-form input::placeholder {
 
+.message-form input::placeholder {
     color: #aaa;
 }
 
 
-/* foco */
+/* =========================================
+   FOCO INPUT
+========================================= */
 
 .message-form input:focus {
-
     border-color: #ff941e;
 }
 
 
-/* enviar */
+/* =========================================
+   ENVIAR
+========================================= */
 
 .send-btn {
-
     width: 31px;
 
     height: 31px;
@@ -485,20 +537,19 @@ body {
     flex-shrink: 0;
 }
 
+
 .send-btn svg {
-
     width: 17px;
-
     height: 17px;
 }
 
-.send-btn:active {
 
+.send-btn:active {
     transform: scale(.92);
 }
 
-.send-btn:disabled {
 
+.send-btn:disabled {
     opacity: .5;
 
     cursor: default;
@@ -508,73 +559,127 @@ body {
 /* =========================================
    MENU INFERIOR
 ========================================= */
+
 .bottom-nav {
     position: absolute;
+
     bottom: 0;
+
     left: 0;
+
     right: 0;
+
+    width: 100%;
+
     height: 78px;
+
     background: #fff;
-    
-    box-shadow: 0 -6px 24px rgba(0, 0, 0, .06);
+
+    box-shadow:
+        0 -6px 24px rgba(0, 0, 0, .06);
+
     display: flex;
+
     align-items: center;
+
     justify-content: space-around;
+
     padding: 0 8px;
-    z-index: 3;
+
+    z-index: 30;
 }
+
+
+/* =========================================
+   ITENS DO MENU
+========================================= */
 
 .nav-item {
     background: none;
+
     border: none;
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
+
     cursor: pointer;
+
     color: var(--gray-icon);
+
     width: 40px;
+
     height: 40px;
+
     border-radius: 50%;
+
     transition: .3s ease;
 }
 
+
 .nav-item:hover {
     transform: scale(1.05);
+
     color: var(--orange);
 }
+
+
 .nav-item svg {
     width: 24px;
+
     height: 24px;
 }
-
-
 
 
 .nav-item.active {
     color: var(--orange);
 }
 
+
+/* =========================================
+   BOTÃO CENTRAL
+========================================= */
+
 .nav-center {
     width: 54px;
+
     height: 54px;
+
     border-radius: 50%;
-    background: linear-gradient(
-        135deg,
-        var(--orange-light),
-        var(--orange)
-    );
-    margin-top: 7px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange-light),
+            var(--orange)
+        );
+
+    margin-top: -22px;
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
-    box-shadow: 0 10px 20px rgba(255, 122, 41, .4);
+
+    box-shadow:
+        0 10px 20px rgba(255, 122, 41, .4);
+
     border: 4px solid #fff;
+
     overflow: hidden;
+
     cursor: pointer;
 }
 
 
+.nav-center svg {
+    width: 28px;
 
+    height: 28px;
+}
 
 
 /* =========================================
@@ -582,7 +687,6 @@ body {
 ========================================= */
 
 .loading {
-
     height: 100%;
 
     display: flex;
@@ -604,7 +708,6 @@ body {
 ========================================= */
 
 .empty-chat {
-
     height: 100%;
 
     display: flex;
@@ -622,15 +725,15 @@ body {
     padding: 30px;
 }
 
-.empty-chat .icon {
 
+.empty-chat .icon {
     font-size: 42px;
 
     margin-bottom: 10px;
 }
 
-.empty-chat strong {
 
+.empty-chat strong {
     font-family: 'Baloo 2', sans-serif;
 
     font-size: 20px;
@@ -640,8 +743,8 @@ body {
     margin-bottom: 3px;
 }
 
-.empty-chat span {
 
+.empty-chat span {
     font-size: 10px;
 
     font-weight: 700;
@@ -650,69 +753,211 @@ body {
 
 /* =========================================
    DESKTOP
+   FULLSCREEN
 ========================================= */
+
+@media (min-width: 1000px) {
+
+    html,
+    body {
+        width: 100%;
+
+        height: 100%;
+
+        min-height: 100%;
+
+        overflow: hidden;
+    }
+
+
+    body {
+        width: 100%;
+
+        min-height: 100dvh;
+
+        margin: 0;
+
+        background: #EDEDED;
+
+        box-shadow: none;
+    }
+
+
+    .phone {
+        width: 100%;
+
+        max-width: 100%;
+
+        height: 100dvh;
+
+        min-height: 100dvh;
+
+        max-height: 100dvh;
+
+        border-radius: 0;
+
+        box-shadow: none;
+    }
+
+
+    .messages-container {
+        top: 56px;
+
+        bottom: 121px;
+    }
+
+
+    .message-form {
+        bottom: 78px;
+    }
+
+
+    .bottom-nav {
+        bottom: 0;
+
+        height: 78px;
+    }
+}
+
+
+/* =========================================
+   MOBILE
+   FULLSCREEN
+========================================= */
+
+@media (max-width: 999px) {
+
+    html,
+    body {
+        width: 100%;
+
+        height: 100%;
+
+        min-height: 100dvh;
+    }
+
+
+    body {
+        overflow: hidden;
+    }
+
+
+    .phone {
+        width: 100%;
+
+        height: 100dvh;
+
+        min-height: 100dvh;
+
+        max-height: 100dvh;
+
+        border-radius: 0;
+
+        box-shadow: none;
+    }
+
+
+    .messages-container {
+        top: 56px;
+
+        bottom: 121px;
+    }
+
+
+    .message-form {
+        bottom: 78px;
+    }
+
+
+    .bottom-nav {
+        bottom: 0;
+
+        height: 78px;
+    }
+}
 
 
 /* =========================================
    TEMA ESCURO
 ========================================= */
-html[data-theme="dark"] .nav-item.active {
-    color: var(--orange);
-}
+
 html[data-theme="dark"] body {
     background: #121212;
 }
 
-html[data-theme="dark"] .nav-center  {
-    border: 3px solid #000000;
-}
+
 html[data-theme="dark"] .phone {
     background: #1e1e1e;
 }
+
+
+html[data-theme="dark"] .nav-item.active {
+    color: var(--orange);
+}
+
+
+html[data-theme="dark"] .nav-center {
+    border: 3px solid #000000;
+}
+
 
 html[data-theme="dark"] .messages-container {
     background: #1e1e1e;
 }
 
+
 html[data-theme="dark"] .message-form {
     background: #1e1e1e;
 }
 
+
 html[data-theme="dark"] .message-row.received .message-bubble {
     background: #333333;
+
     color: #ffffff;
 }
 
+
 html[data-theme="dark"] .message-form input {
     background: #292929;
+
     border-color: #444;
+
     color: #ffffff;
 }
+
 
 html[data-theme="dark"] .message-form input::placeholder {
     color: #999;
 }
 
+
 html[data-theme="dark"] .attachment-btn {
     color: #aaa;
 }
 
+
 html[data-theme="dark"] .bottom-nav {
     background: #1e1e1e;
+
     border-top-color: #333;
 }
+
 
 html[data-theme="dark"] .nav-item {
     color: #aaa;
 }
 
+
 html[data-theme="dark"] .loading {
     color: #aaa;
 }
 
+
 html[data-theme="dark"] .empty-chat {
     color: #aaa;
 }
+
 
 html[data-theme="dark"] .empty-chat strong {
     color: #ffffff;
