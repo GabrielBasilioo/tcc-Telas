@@ -123,6 +123,22 @@ async function carregarFeed() {
         )
     );
 
+    
+const { data: salvos, error: salvosError } =
+await supabaseClient
+    .from('saved_pets')
+    .select('pet_id')
+    .eq('user_id', currentUser.id);
+
+if (salvosError) {
+console.error('Erro ao carregar salvos:', salvosError);
+}
+
+const petsSalvos = new Set(
+(salvos || []).map(item => item.pet_id)
+);
+
+
 
     const userIds = [
         ...new Set(
@@ -181,7 +197,8 @@ async function carregarFeed() {
         criarPublicacao(
             pet,
             profile,
-            petsCurtidos.has(pet.id)
+            petsCurtidos.has(pet.id),
+            petsSalvos.has(pet.id)
         );
     });
     
@@ -554,6 +571,7 @@ function criarPublicacao(
     pet,
     profile,
     jaCurtido = false,
+    jaSalvo = false
 ) {
     const post =
         document.createElement('article');
@@ -841,11 +859,26 @@ if (jaCurtido) {
         }
     );
 
-    const save =
-        criarBotao(
-            '🔖',
-            'Salvar'
-        );
+    
+const save = criarBotao(
+    jaSalvo ? '🔖' : '🔖',
+    jaSalvo ? 'Salvo' : 'Salvar'
+
+    
+);
+
+
+
+
+
+if (jaSalvo) {
+    save.classList.add('saved');
+}
+
+save.addEventListener('click', async () => {
+    await alternarSalvo(pet.id, save);
+});
+
 
     save.addEventListener(
         'click',
@@ -1169,6 +1202,68 @@ async function alternarLike(
 
     button.disabled = false;
 }
+
+
+async function alternarSalvo(petId, button) {
+    if (!currentUser) {
+        alert('Você precisa estar logado para salvar.');
+        return;
+    }
+
+    button.disabled = true;
+
+    const { data: salvoExistente, error: buscaError } =
+        await supabaseClient
+            .from('saved_pets')
+            .select('id')
+            .eq('user_id', currentUser.id)
+            .eq('pet_id', petId)
+            .maybeSingle();
+
+    if (buscaError) {
+        console.error('Erro ao verificar salvo:', buscaError);
+        alert('Não foi possível verificar o favorito.');
+        button.disabled = false;
+        return;
+    }
+
+    if (salvoExistente) {
+        const { error } = await supabaseClient
+            .from('saved_pets')
+            .delete()
+            .eq('id', salvoExistente.id)
+            .eq('user_id', currentUser.id);
+
+        if (error) {
+            console.error('Erro ao remover salvo:', error);
+            alert('Não foi possível remover dos salvos.');
+        } else {
+            button.classList.remove('saved');
+            button.querySelector('.action-circle').textContent = '🔖';
+            button.querySelector('span:last-child').textContent = 'Salvar';
+        }
+    } else {
+        const { error } = await supabaseClient
+            .from('saved_pets')
+            .insert({
+                user_id: currentUser.id,
+                pet_id: petId
+            });
+
+        if (error) {
+            console.error('Erro ao salvar pet:', error);
+            alert('Não foi possível salvar este pet.');
+        } else {
+            button.classList.add('saved');
+            button.querySelector('.action-circle').textContent = '🔖';
+            button.querySelector('span:last-child').textContent = 'Salvo';
+        }
+    }
+
+    button.disabled = false;
+}
+
+
 
 
 

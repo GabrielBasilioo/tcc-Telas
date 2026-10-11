@@ -206,11 +206,9 @@ tabs.forEach((tab, index) => {
         }
 
         else if (index === 1) {
-
             abaAtual = 'salvos';
-
-            postsGrid.innerHTML = '';
-
+        
+            await carregarSalvos();
         }
 
         else if (index === 2) {
@@ -476,6 +474,63 @@ async function carregarCurtidas() {
       }
   );
 }
+
+
+async function carregarSalvos() {
+    if (!supabaseClient || !sessionUserId) {
+        return;
+    }
+
+    postsGrid.innerHTML = '';
+
+    // Os favoritos são privados: só o dono pode ver.
+    if (visualizandoOutroPerfil) {
+        postsGrid.textContent =
+            'Os animais salvos são privados.';
+        return;
+    }
+
+    const { data: salvos, error } = await supabaseClient
+        .from('saved_pets')
+        .select(`
+            pet_id,
+            created_at,
+            pets (
+                id,
+                nome,
+                media_url,
+                media_type
+            )
+        `)
+        .eq('user_id', sessionUserId)
+        .order('created_at', {
+            ascending: false
+        });
+
+    if (error) {
+        console.error('Erro ao carregar animais salvos:', error);
+        postsGrid.textContent =
+            'Não foi possível carregar os animais salvos.';
+        return;
+    }
+
+    if (!salvos || salvos.length === 0) {
+        postsGrid.textContent =
+            'Você ainda não salvou nenhum animal.';
+        return;
+    }
+
+    salvos.forEach(item => {
+        if (item.pets) {
+            adicionarPublicacaoCurtida(item.pets);
+        }
+    });
+}
+
+
+
+
+
 
 
 /* =========================================================
