@@ -98,6 +98,38 @@
     <div class="posts-grid" id="postsGrid">
     </div>
 
+    
+<!-- Modal de confirmação para excluir publicação -->
+<div class="delete-modal" id="deletePostModal" aria-hidden="true">
+    <div
+        class="delete-modal-content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="deletePostTitle"
+        aria-describedby="deletePostMessage"
+    >
+        <div class="delete-modal-icon">−</div>
+
+        <h2 id="deletePostTitle">Excluir publicação?</h2>
+
+        <p id="deletePostMessage">
+            Tem certeza de que deseja excluir esta publicação?
+            Essa ação não poderá ser desfeita.
+        </p>
+
+        <div class="delete-modal-actions">
+            <button type="button" id="cancelDeletePost">
+                Não
+            </button>
+
+            <button type="button" id="confirmDeletePost">
+                Sim, excluir
+            </button>
+        </div>
+    </div>
+</div>
+
+
   </div>
 
   <nav class="bottom-nav">

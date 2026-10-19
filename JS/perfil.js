@@ -8,6 +8,13 @@ const avatarInput = document.getElementById('avatarInput');
 const avatarImg = document.getElementById('avatarImg');
 const avatarDefaultIcon = document.getElementById('avatarDefaultIcon');
 const postsGrid = document.getElementById('postsGrid');
+const deletePostModal = document.getElementById('deletePostModal');
+const cancelDeletePost = document.getElementById('cancelDeletePost');
+const confirmDeletePost = document.getElementById('confirmDeletePost');
+
+let petPendenteParaExcluir = null;
+let publicacaoPendenteParaExcluir = null;
+
 const addPostTile =
     document.getElementById('addPostTile');
 
@@ -295,113 +302,204 @@ async function carregarPublicacoes() {
    PUBLICAÇÃO DO PET
 ========================================================= */
 
-function adicionarPublicacaoPet(
-    pet
-) {
 
-    const tile =
-        document.createElement('div');
+function adicionarPublicacaoPet(pet) {
+    const tile = document.createElement('div');
 
+    tile.className = 'post-tile';
+    tile.dataset.petId = pet.id;
+    tile.style.cursor = 'pointer';
 
-    tile.className =
-        'post-tile';
+    // Abrir a publicação continua funcionando normalmente.
+    tile.addEventListener('click', () => {
+        window.location.href =
+            `feed.html?pet=${encodeURIComponent(pet.id)}`;
+    });
 
-
-    tile.dataset.petId =
-        pet.id;
-
-
-    tile.style.cursor =
-        'pointer';
-
-
-    tile.addEventListener(
-        'click',
-        () => {
-
-            window.location.href =
-                `feed.html?pet=${encodeURIComponent(
-                    pet.id
-                )}`;
-
-        }
-    );
-
-
+    // Preserva a exibição de imagens e vídeos.
     if (
-        pet.media_type === 'video'
+        pet.media_type === 'video' ||
+        /\.(mp4|webm|mov)(\?.*)?$/i.test(pet.media_url || '')
     ) {
+        const video = document.createElement('video');
 
-        const video =
-            document.createElement('video');
+        video.src = pet.media_url;
+        video.muted = true;
+        video.playsInline = true;
+        video.loop = true;
 
+        video.addEventListener('mouseenter', () => {
+            video.play().catch(() => {});
+        });
 
-        video.src =
-            pet.media_url;
+        video.addEventListener('mouseleave', () => {
+            video.pause();
+            video.currentTime = 0;
+        });
 
-
-        video.muted =
-            true;
-
-        video.playsInline =
-            true;
-
-        video.loop =
-            true;
-
-
-        video.addEventListener(
-            'mouseenter',
-            () => {
-
-                video.play();
-
-            }
-        );
-
-
-        video.addEventListener(
-            'mouseleave',
-            () => {
-
-                video.pause();
-
-                video.currentTime =
-                    0;
-
-            }
-        );
-
-
-        tile.appendChild(
-            video
-        );
-
+        tile.appendChild(video);
     } else {
+        const img = document.createElement('img');
 
-        const img =
-            document.createElement('img');
+        img.src = pet.media_url || '';
+        img.alt = `Publicação de ${pet.nome || 'pet'}`;
 
-
-        img.src =
-            pet.media_url;
-
-
-        img.alt =
-            `Publicação de ${pet.nome}`;
-
-
-        tile.appendChild(
-            img
-        );
-
+        tile.appendChild(img);
     }
 
+    // O botão só aparece nas publicações do próprio usuário.
+    if (
+        !visualizandoOutroPerfil &&
+        sessionUserId &&
+        currentUserId === sessionUserId
+    ) {
+        const removeBtn = document.createElement('button');
 
-    postsGrid.appendChild(
-        tile
-    );
+        removeBtn.type = 'button';
+        removeBtn.className = 'post-remove-btn';
+        removeBtn.textContent = '−';
+        removeBtn.setAttribute('aria-label', 'Excluir publicação');
+
+        // Não deixar o clique no botão abrir o feed.
+        removeBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            abrirConfirmacaoExclusao(pet, tile);
+        });
+
+        tile.appendChild(removeBtn);
+    }
+
+    postsGrid.appendChild(tile);
 }
+
+
+function abrirConfirmacaoExclusao(pet, tile) {
+    // Impede exclusão se o perfil não for do usuário autenticado.
+    if (
+        !sessionUserId ||
+        visualizandoOutroPerfil ||
+        currentUserId !== sessionUserId
+    ) {
+        alert('Você só pode excluir suas próprias publicações.');
+        return;
+    }
+
+    petPendenteParaExcluir = pet;
+    publicacaoPendenteParaExcluir = tile;
+
+    deletePostModal.classList.add('open');
+    deletePostModal.setAttribute('aria-hidden', 'false');
+
+    cancelDeletePost.disabled = false;
+    confirmDeletePost.disabled = false;
+    confirmDeletePost.textContent = 'Sim, excluir';
+
+    cancelDeletePost.focus();
+}
+
+function fecharConfirmacaoExclusao() {
+    deletePostModal.classList.remove('open');
+    deletePostModal.setAttribute('aria-hidden', 'true');
+
+    petPendenteParaExcluir = null;
+    publicacaoPendenteParaExcluir = null;
+
+    confirmDeletePost.disabled = false;
+    cancelDeletePost.disabled = false;
+    confirmDeletePost.textContent = 'Sim, excluir';
+}
+
+// Clicar em "Não" apenas fecha a janela.
+cancelDeletePost.addEventListener('click', () => {
+    fecharConfirmacaoExclusao();
+});
+
+// Clicar no fundo escuro também cancela.
+deletePostModal.addEventListener('click', (event) => {
+    if (event.target === deletePostModal) {
+        fecharConfirmacaoExclusao();
+    }
+});
+
+// Confirmar exclusão.
+confirmDeletePost.addEventListener('click', async () => {
+    const pet = petPendenteParaExcluir;
+    const tile = publicacaoPendenteParaExcluir;
+
+    if (!pet || !tile) {
+        fecharConfirmacaoExclusao();
+        return;
+    }
+
+    // Revalida a propriedade antes de enviar a exclusão.
+    if (
+        !supabaseClient ||
+        !sessionUserId ||
+        visualizandoOutroPerfil ||
+        currentUserId !== sessionUserId
+    ) {
+        alert('Não foi possível confirmar a propriedade da publicação.');
+        fecharConfirmacaoExclusao();
+        return;
+    }
+
+    confirmDeletePost.disabled = true;
+    cancelDeletePost.disabled = true;
+    confirmDeletePost.textContent = 'Excluindo...';
+
+    try {
+        const { data, error } = await supabaseClient
+            .from('pets')
+            .delete()
+            .eq('id', pet.id)
+            .eq('user_id', sessionUserId)
+            .select('id');
+
+        if (error) {
+            throw error;
+        }
+
+        // O Supabase pode não retornar erro quando nenhuma linha
+        // é excluída por causa das políticas de acesso (RLS).
+        if (!data || data.length === 0) {
+            throw new Error(
+                'Nenhum registro foi excluído. Verifique as permissões do Supabase.'
+            );
+        }
+
+        // Só remove visualmente depois de confirmar a exclusão no banco.
+        tile.remove();
+
+        fecharConfirmacaoExclusao();
+
+        alert('Publicação excluída com sucesso!');
+    } catch (error) {
+        console.error('Erro ao excluir publicação:', error);
+
+        alert(
+            'Não foi possível excluir a publicação. ' +
+            (error.message || 'Tente novamente.')
+        );
+
+        confirmDeletePost.disabled = false;
+        cancelDeletePost.disabled = false;
+        confirmDeletePost.textContent = 'Sim, excluir';
+    }
+});
+
+// Fechar com a tecla Escape, sem apagar nada.
+document.addEventListener('keydown', (event) => {
+    if (
+        event.key === 'Escape' &&
+        deletePostModal.classList.contains('open') &&
+        !confirmDeletePost.disabled
+    ) {
+        fecharConfirmacaoExclusao();
+    }
+});
+
 
 
 /* =========================================================

@@ -912,3 +912,209 @@ html[data-theme="dark"] .edit-header::after {
         background: #EDEDED;
     }
 }
+
+
+/* =========================================
+   BOTÃO DE EXCLUSÃO DAS PUBLICAÇÕES
+   ========================================= */
+
+.post-tile {
+    position: relative;
+}
+
+.post-remove-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 5;
+
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #D64545;
+    color: #fff;
+
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1;
+
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(.85);
+
+    transition:
+        opacity .2s ease,
+        transform .2s ease,
+        background .2s ease,
+        visibility .2s ease;
+}
+
+.post-tile:hover .post-remove-btn,
+.post-tile:focus-within .post-remove-btn {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+.post-remove-btn:hover {
+    background: #B92F2F;
+    transform: scale(1.08);
+}
+
+.post-remove-btn:focus-visible {
+    outline: 3px solid #FFB27C;
+    outline-offset: 2px;
+}
+
+/* Em celulares, não dependemos do efeito de passar o mouse. */
+@media (hover: none) {
+    .post-remove-btn {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+    }
+}
+
+/* =========================================
+   MODAL DE CONFIRMAÇÃO DE EXCLUSÃO
+   ========================================= */
+
+.delete-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+    background: rgba(0, 0, 0, .55);
+    backdrop-filter: blur(3px);
+}
+
+.delete-modal.open {
+    display: flex;
+}
+
+.delete-modal-content {
+    width: 100%;
+    max-width: 340px;
+    padding: 26px 22px;
+
+    background: #fff;
+    color: #303030;
+    border-radius: 20px;
+
+    text-align: center;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, .22);
+
+    animation: deleteModalAppear .2s ease;
+}
+
+.delete-modal-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background: #FFF0E5;
+    color: #D64545;
+
+    font-size: 34px;
+    font-weight: 500;
+}
+
+.delete-modal-content h2 {
+    margin: 0 0 10px;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 22px;
+}
+
+.delete-modal-content p {
+    margin: 0 0 22px;
+    color: #686868;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.delete-modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.delete-modal-actions button {
+    flex: 1;
+    min-height: 44px;
+    padding: 10px;
+
+    border-radius: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+#cancelDeletePost {
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #444;
+}
+
+#cancelDeletePost:hover {
+    background: #f4f4f4;
+}
+
+#confirmDeletePost {
+    border: none;
+    background: #D64545;
+    color: #fff;
+}
+
+#confirmDeletePost:hover {
+    background: #B92F2F;
+}
+
+.delete-modal-actions button:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+@keyframes deleteModalAppear {
+    from {
+        opacity: 0;
+        transform: scale(.96) translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .delete-modal-content {
+        animation: none;
+    }
+
+    .post-remove-btn,
+    .delete-modal-actions button {
+        transition: none;
+    }
+}
