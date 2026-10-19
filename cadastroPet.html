@@ -16,62 +16,53 @@
     >
 
     <link rel="stylesheet" href="CSS/cadastroPet.css">
-    
 </head>
 
 <body>
 
 <div class="app">
 
-    <!-- =========================
-         HEADER
-    ========================== -->
-<header class="header">
-    <svg class="header-wave" viewBox="0 0 395 60" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0,30 Q99,10 197,30 T395,30 L395,60 L0,60 Z" />
-    </svg>
-    
-    <div class="header-content">
-        <button
-            type="button"
-            class="back-button"
-            aria-label="Voltar"
-            onclick="history.back()"
-        >
-            <svg viewBox="0 0 24 24">
-                <path
-                    d="M15 5L8 12L15 19"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                />
-            </svg>
-        </button>
+    <!-- HEADER -->
+    <header class="header">
+        <svg class="header-wave" viewBox="0 0 395 60" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0,30 Q99,10 197,30 T395,30 L395,60 L0,60 Z" />
+        </svg>
 
-        <div class="header-title">
-            <h1>CADASTRE SEU PET</h1>
-            <span>Ajude um pet a encontrar um novo lar</span>
+        <div class="header-content">
+            <button
+                type="button"
+                class="back-button"
+                aria-label="Voltar"
+                onclick="history.back()"
+            >
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M15 5L8 12L15 19"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+            </button>
+
+            <div class="header-title">
+                <h1>CADASTRE SEU PET</h1>
+                <span>Ajude um pet a encontrar um novo lar</span>
+            </div>
+
+            <img src="IMG/patas.png" alt="Pata" class="header-paw">
         </div>
+    </header>
 
-        <img src="IMG/patas.png" alt="Pata" class="header-paw" />
-
-    </div>
-</header>
-
-    <!-- =========================
-         CONTEÚDO
-    ========================== -->
-
+    <!-- CONTEÚDO -->
     <main class="content">
 
         <form id="petForm">
 
             <!-- NOME -->
-
             <div class="field-row">
-
                 <div class="field-icon">
                     <svg viewBox="0 0 24 24">
                         <path
@@ -81,7 +72,6 @@
                             stroke-width="1.7"
                             stroke-linecap="round"
                         />
-
                         <path
                             d="M7 8C5.5 8 4 7 4 5.5"
                             fill="none"
@@ -89,7 +79,6 @@
                             stroke-width="1.7"
                             stroke-linecap="round"
                         />
-
                         <path
                             d="M17 8C18.5 8 20 7 20 5.5"
                             fill="none"
@@ -101,9 +90,7 @@
                 </div>
 
                 <div class="field">
-
                     <label for="nome">NOME:</label>
-
                     <input
                         type="text"
                         id="nome"
@@ -112,23 +99,17 @@
                         autocomplete="off"
                         required
                     >
-
                 </div>
-
             </div>
 
-
             <!-- ESPÉCIE -->
-
             <div class="field-row species-row">
-
                 <div class="field-icon paw-small">
                     <svg viewBox="0 0 24 24">
                         <circle cx="7" cy="7" r="2.2" fill="currentColor"/>
                         <circle cx="17" cy="7" r="2.2" fill="currentColor"/>
                         <circle cx="5" cy="12" r="2" fill="currentColor"/>
                         <circle cx="19" cy="12" r="2" fill="currentColor"/>
-
                         <path
                             d="M12 9C9.2 9 7 12.2 7 15.2C7 18 9.2 20 12 20C14.8 20 17 18 17 15.2C17 12.2 14.8 9 12 9Z"
                             fill="currentColor"
@@ -137,46 +118,26 @@
                 </div>
 
                 <div class="field">
-
                     <label>ESPÉCIE:</label>
 
                     <div class="checkbox-group">
-
                         <label class="check-label">
-                            <input
-                                type="checkbox"
-                                name="especie"
-                                value="cachorro"
-                            >
-
+                            <input type="checkbox" name="especie" value="cachorro">
                             <span class="fake-check"></span>
-
                             CACHORRO
                         </label>
 
                         <label class="check-label">
-                            <input
-                                type="checkbox"
-                                name="especie"
-                                value="gato"
-                            >
-
+                            <input type="checkbox" name="especie" value="gato">
                             <span class="fake-check"></span>
-
                             GATO
                         </label>
-
                     </div>
-
                 </div>
-
             </div>
 
-
             <!-- RAÇA -->
-
             <div class="field-row">
-
                 <div class="field-icon">
                     <svg viewBox="0 0 24 24">
                         <path
@@ -186,7 +147,6 @@
                             stroke-width="1.6"
                             stroke-linejoin="round"
                         />
-
                         <path
                             d="M8 20V13H16V20"
                             fill="none"
@@ -197,9 +157,7 @@
                 </div>
 
                 <div class="field">
-
                     <label for="raca">RAÇA:</label>
-
                     <input
                         type="text"
                         id="raca"
@@ -208,16 +166,46 @@
                         autocomplete="off"
                         required
                     >
-
                 </div>
-
             </div>
 
+            <!-- GÊNERO -->
+            <div class="field-row compact-row">
+                <div class="field-icon">
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <circle cx="12" cy="12" r="8"/>
+                        <path d="M12 8v8M8 12h8"/>
+                    </svg>
+                </div>
+
+                <div class="field">
+                    <label>GÊNERO:</label>
+
+                    <div class="radio-group">
+                        <label class="check-label">
+                            <input type="radio" name="genero" value="Feminino" required>
+                            <span class="fake-check"></span>
+                            FEMININO
+                        </label>
+
+                        <label class="check-label">
+                            <input type="radio" name="genero" value="Masculino" required>
+                            <span class="fake-check"></span>
+                            MASCULINO
+                        </label>
+                    </div>
+                </div>
+            </div>
 
             <!-- IDADE -->
-
             <div class="field-row">
-
                 <div class="field-icon">
                     <svg viewBox="0 0 24 24">
                         <rect
@@ -230,7 +218,6 @@
                             stroke="currentColor"
                             stroke-width="1.6"
                         />
-
                         <path
                             d="M8 3V7M16 3V7M4 10H20"
                             fill="none"
@@ -238,7 +225,6 @@
                             stroke-width="1.6"
                             stroke-linecap="round"
                         />
-
                         <path
                             d="M8 14H8.01M12 14H12.01M16 14H16.01M8 17H8.01M12 17H12.01"
                             fill="none"
@@ -250,9 +236,7 @@
                 </div>
 
                 <div class="field">
-
                     <label for="idade">IDADE:</label>
-
                     <input
                         type="number"
                         id="idade"
@@ -261,16 +245,11 @@
                         placeholder="Ex.: 3"
                         required
                     >
-
                 </div>
-
             </div>
 
-
             <!-- DESCRIÇÃO -->
-
             <div class="field-row description-row">
-
                 <div class="field-icon">
                     <svg viewBox="0 0 24 24">
                         <rect
@@ -283,7 +262,6 @@
                             stroke="currentColor"
                             stroke-width="1.6"
                         />
-
                         <path
                             d="M8 8H16M8 12H16M8 16H13"
                             fill="none"
@@ -295,26 +273,17 @@
                 </div>
 
                 <div class="field">
-
-                    <label for="descricao">
-                        DESCRIÇÃO DO ANIMAL:
-                    </label>
-
+                    <label for="descricao">DESCRIÇÃO DO ANIMAL:</label>
                     <textarea
                         id="descricao"
                         name="descricao"
                         placeholder="Conte um pouco sobre o pet..."
                     ></textarea>
-
                 </div>
-
             </div>
 
-
             <!-- MICROCHIPADO -->
-
             <div class="field-row compact-row">
-
                 <div class="field-icon">
                     <svg viewBox="0 0 24 24">
                         <rect
@@ -327,7 +296,6 @@
                             stroke="currentColor"
                             stroke-width="1.5"
                         />
-
                         <rect
                             x="9"
                             y="9"
@@ -337,7 +305,6 @@
                             stroke="currentColor"
                             stroke-width="1.4"
                         />
-
                         <path
                             d="M6 3V6M10 3V6M14 3V6M18 3V6M6 18V21M10 18V21M14 18V21M18 18V21"
                             stroke="currentColor"
@@ -347,50 +314,26 @@
                 </div>
 
                 <div class="field">
-
                     <label>MICROCHIPADO:</label>
 
                     <div class="radio-group">
-
                         <label class="check-label">
-
-                            <input
-                                type="radio"
-                                name="microchipado"
-                                value="sim"
-                            >
-
+                            <input type="radio" name="microchipado" value="sim" required>
                             <span class="fake-check"></span>
-
                             SIM
-
                         </label>
 
                         <label class="check-label">
-
-                            <input
-                                type="radio"
-                                name="microchipado"
-                                value="nao"
-                            >
-
+                            <input type="radio" name="microchipado" value="nao" required>
                             <span class="fake-check"></span>
-
                             NÃO
-
                         </label>
-
                     </div>
-
                 </div>
-
             </div>
 
-
             <!-- CASTRADO -->
-
             <div class="field-row compact-row">
-
                 <div class="field-icon">
                     <svg viewBox="0 0 24 24">
                         <path
@@ -403,52 +346,65 @@
                 </div>
 
                 <div class="field">
-
                     <label>CASTRADO:</label>
 
                     <div class="radio-group">
-
                         <label class="check-label">
-
-                            <input
-                                type="radio"
-                                name="castrado"
-                                value="sim"
-                            >
-
+                            <input type="radio" name="castrado" value="sim" required>
                             <span class="fake-check"></span>
-
                             SIM
-
                         </label>
 
                         <label class="check-label">
-
-                            <input
-                                type="radio"
-                                name="castrado"
-                                value="nao"
-                            >
-
+                            <input type="radio" name="castrado" value="nao" required>
                             <span class="fake-check"></span>
-
                             NÃO
-
                         </label>
-
                     </div>
-
                 </div>
-
             </div>
 
+            <!-- VACINADO -->
+            <div class="field-row compact-row">
+                <div class="field-icon">
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M14 4l6 6"/>
+                        <path d="M16 2l6 6"/>
+                        <path d="M13 5L5 13a3 3 0 0 0 0 4l2 2a3 3 0 0 0 4 0l8-8"/>
+                        <path d="M8 10l6 6"/>
+                        <path d="M3 21l4-4"/>
+                    </svg>
+                </div>
+
+                <div class="field">
+                    <label>VACINADO:</label>
+
+                    <div class="radio-group">
+                        <label class="check-label">
+                            <input type="radio" name="vacinado" value="sim" required>
+                            <span class="fake-check"></span>
+                            SIM
+                        </label>
+
+                        <label class="check-label">
+                            <input type="radio" name="vacinado" value="nao" required>
+                            <span class="fake-check"></span>
+                            NÃO
+                        </label>
+                    </div>
+                </div>
+            </div>
 
             <!-- MÍDIA -->
-
             <div class="media-section">
-
                 <div class="media-title">
-
                     <svg viewBox="0 0 24 24">
                         <rect
                             x="4"
@@ -460,14 +416,7 @@
                             stroke="currentColor"
                             stroke-width="1.7"
                         />
-
-                        <circle
-                            cx="9"
-                            cy="10"
-                            r="1.5"
-                            fill="currentColor"
-                        />
-
+                        <circle cx="9" cy="10" r="1.5" fill="currentColor"/>
                         <path
                             d="M5 18L10 13L13 16L15 14L19 18"
                             fill="none"
@@ -479,15 +428,9 @@
                     </svg>
 
                     <span>MÍDIA DO ANIMAL</span>
-
                 </div>
 
-
-                <label
-                    class="upload-area"
-                    for="petMedia"
-                >
-
+                <label class="upload-area" for="petMedia">
                     <input
                         type="file"
                         id="petMedia"
@@ -496,7 +439,6 @@
                     >
 
                     <div class="upload-icon">
-
                         <svg viewBox="0 0 24 24">
                             <path
                                 d="M12 16V4"
@@ -505,7 +447,6 @@
                                 stroke-width="1.6"
                                 stroke-linecap="round"
                             />
-
                             <path
                                 d="M8 8L12 4L16 8"
                                 fill="none"
@@ -514,7 +455,6 @@
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                             />
-
                             <path
                                 d="M5 14V18C5 19.1 5.9 20 7 20H17C18.1 20 19 19.1 19 18V14"
                                 fill="none"
@@ -523,11 +463,9 @@
                                 stroke-linecap="round"
                             />
                         </svg>
-
                     </div>
 
                     <strong>Clique para enviar uma mídia</strong>
-
                     <span>ou arraste e solte aqui</span>
 
                     <img
@@ -535,48 +473,43 @@
                         class="preview"
                         alt="Pré-visualização da imagem do pet"
                     >
+
                     <video
-                    id="preview"
-                    class="preview"
-                    controls
-                    muted
-                    playsinline
+                        id="preview"
+                        class="preview"
+                        controls
+                        muted
+                        playsinline
                     ></video>
-
-
                 </label>
-
             </div>
 
-
             <!-- BOTÃO -->
-
-            <button
-                type="submit"
-                class="submit-button"
-            >
+            <button type="submit" class="submit-button">
                 Clique para cadastrar
             </button>
 
         </form>
-
     </main>
 
-
-    <!-- =========================
-         NAVBAR
-    ========================== -->
-
+    <!-- NAVBAR -->
     <nav class="bottom-nav">
 
         <!-- INÍCIO -->
-
-    <button class="nav-item" title="Início" onclick="window.location.href='home.html'">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
-    </button>
+        <button
+            type="button"
+            class="nav-item"
+            title="Início"
+            onclick="window.location.href='home.html'"
+        >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 11.5 12 4l9 7.5"/>
+                <path d="M5 10v10h14V10"/>
+                <path d="M9 20v-6h6v6"/>
+            </svg>
+        </button>
 
         <!-- CADASTRAR -->
-
         <button
             type="button"
             class="nav-item active"
@@ -584,7 +517,6 @@
             aria-label="Cadastrar pet"
             onclick="window.location.href='cadastroPet.html'"
         >
-
             <svg viewBox="0 0 24 24">
                 <path
                     d="M12 5V19M5 12H19"
@@ -594,12 +526,9 @@
                     stroke-linecap="round"
                 />
             </svg>
-
         </button>
 
-
         <!-- FEED -->
-
         <button
             type="button"
             class="nav-item central"
@@ -607,43 +536,34 @@
             aria-label="Feed"
             onclick="window.location.href='feed.html'"
         >
-
             <div class="central-pets">
-
                 <span>🐶</span>
                 <span>🐱</span>
                 <span>🐕</span>
-
             </div>
-
         </button>
 
-
         <!-- MENSAGENS -->
-
         <button
+            type="button"
             class="nav-item"
             title="Mensagens"
             id="messagesBtn"
             onclick="window.location.href='conversas.html'"
-            >
-
-            <svg viewBox="0 0 24 24"
+        >
+            <svg
+                viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="2"
                 stroke-linecap="round"
-                stroke-linejoin="round">
-
+                stroke-linejoin="round"
+            >
                 <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.5-4A7.5 7.5 0 1 1 20 11.5Z"></path>
-
             </svg>
-
         </button>
 
-
         <!-- PERFIL -->
-
         <button
             type="button"
             class="nav-item"
@@ -651,7 +571,6 @@
             aria-label="Perfil"
             onclick="window.location.href='perfil.html'"
         >
-
             <svg viewBox="0 0 24 24">
                 <circle
                     cx="12"
@@ -661,7 +580,6 @@
                     stroke="currentColor"
                     stroke-width="1.7"
                 />
-
                 <path
                     d="M4 20C4 16 8 14 12 14C16 14 20 16 20 20"
                     fill="none"
@@ -670,7 +588,6 @@
                     stroke-linecap="round"
                 />
             </svg>
-
         </button>
 
     </nav>
@@ -680,7 +597,6 @@
 <script src="JS/tema.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="JS/cadastroPet.js"></script>
-
 
 </body>
 </html>

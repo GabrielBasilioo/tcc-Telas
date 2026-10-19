@@ -51,26 +51,24 @@ async function carregarFeed() {
         feedLoading.style.display = 'flex';
     }
 
-    const { data: pets, error } =
-        await supabaseClient
-            .from('pets')
-            .select(`
-                id,
-                user_id,
-                nome,
-                especie,
-                raca,
-                idade,
-                descricao,
-                microchipado,
-                castrado,
-                media_url,
-                media_type,
-                created_at
-            `)
-            .order('created_at', {
-                ascending: false
-            });
+        const { data: pets, error } =
+            await supabaseClient
+                .from('pets')
+                .select(`
+                    id,
+                    user_id,
+                    nome,
+                    especie,
+                    raca,
+                    idade,
+                    descricao,
+                    microchipado,
+                    castrado,
+                    media_url,
+                    media_type,
+                    created_at
+                `)
+                
 
     if (feedLoading) {
         feedLoading.style.display = 'none';
@@ -90,12 +88,18 @@ async function carregarFeed() {
     }
 
     if (!pets || pets.length === 0) {
-        mostrarMensagem(
-            'Nenhum pet cadastrado.'
-        );
+    mostrarMensagem('Nenhum pet cadastrado.');
+    return;
+}
 
-        return;
-    }
+// =====================================
+// EMBARALHAR OS PETS ALEATORIAMENTE
+// =====================================
+for (let i = pets.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+
+    [pets[i], pets[j]] = [pets[j], pets[i]];
+}
 
     const {
         data: likes,
@@ -738,17 +742,21 @@ media.appendChild(video);
     }
 
     if (pet.raca) {
-        dados.push(pet.raca);
-    }
+    dados.push(pet.raca);
+}
 
-    if (
-        pet.idade !== null &&
-        pet.idade !== undefined
-    ) {
-        dados.push(
-            `${pet.idade} ano(s)`
-        );
-    }
+if (pet.genero) {
+    dados.push(pet.genero);
+}
+
+if (
+    pet.idade !== null &&
+    pet.idade !== undefined
+) {
+    dados.push(
+        `${pet.idade} ano(s)`
+    );
+}
 
     detalhes.textContent =
         dados.join(' • ');
