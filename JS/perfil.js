@@ -280,10 +280,19 @@ async function carregarPublicacoes() {
 
     postsGrid.innerHTML = '';
 
+    
+const statPublicacoes = document.getElementById('statPublicacoes');
+
+if (statPublicacoes) {
+    statPublicacoes.textContent = data ? data.length : 0;
+}
+
 
     if (!data || data.length === 0) {
         return;
     }
+
+    
 
 
     data.forEach(
@@ -471,6 +480,14 @@ confirmDeletePost.addEventListener('click', async () => {
 
         // Só remove visualmente depois de confirmar a exclusão no banco.
         tile.remove();
+
+        const statPublicacoes = document.getElementById('statPublicacoes');
+
+if (statPublicacoes) {
+    const quantidadeAtual = Number(statPublicacoes.textContent);
+    statPublicacoes.textContent = Math.max(0, quantidadeAtual - 1);
+}
+
 
         fecharConfirmacaoExclusao();
 
