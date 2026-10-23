@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notificações · PetTok</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="CSS/notificacoes.css">
+</head>
+<body>
+
+<div class="phone">
+
+  <!-- CABEÇALHO -->
+  <header class="top-header">
+    <svg class="header-wave" viewBox="0 0 395 60" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,30 Q99,10 197,30 T395,30 L395,60 L0,60 Z" />
+    </svg>
+    <div class="header-content">
+      <button type="button" class="back-button" aria-label="Voltar" onclick="history.back()">
+        <svg viewBox="0 0 24 24"><path d="M15 5L8 12L15 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="header-title">
+        <h1>Notificações</h1>
+        <span>Curtidas, mensagens e novos seguidores</span>
+      </div>
+      <button type="button" class="mark-read-btn" id="markAllRead" aria-label="Marcar tudo como lido" title="Marcar tudo como lido">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12l5 5L18 6"/><path d="M12 16l1 1L22 8"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="content" id="content">
+
+    <!-- PERMISSÃO DE NOTIFICAÇÕES (estilo Google) -->
+    <section class="permission-card" id="permissionCard" hidden>
+      <div class="permission-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+      </div>
+      <div class="permission-text">
+        <h2>Ativar notificações?</h2>
+        <p id="permissionMsg">O PetTok quer avisar você quando alguém curtir seu pet, mandar mensagem ou seguir você.</p>
+      </div>
+      <div class="permission-actions">
+        <button type="button" class="perm-btn perm-deny" id="denyNotif">Agora não</button>
+        <button type="button" class="perm-btn perm-allow" id="allowNotif">Permitir</button>
+      </div>
+    </section>
+
+    <!-- FILTROS -->
+    <div class="filter-tabs" id="filterTabs">
+      <button class="filter-tab active" data-filter="todas">Todas</button>
+      <button class="filter-tab" data-filter="like">Curtidas</button>
+      <button class="filter-tab" data-filter="message">Mensagens</button>
+      <button class="filter-tab" data-filter="follow">Seguidores</button>
+    </div>
+
+    <!-- LISTA -->
+    <section id="notifList" class="notif-list">
+      <div class="loading">Carregando notificações...</div>
+    </section>
+
+  </main>
+
+  <!-- MENU INFERIOR -->
+  <nav class="bottom-nav">
+    <button class="nav-item" title="Início" onclick="window.location.href='home.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+    </button>
+    <button class="nav-item" title="Cadastrar" onclick="window.location.href='cadastroPet.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+    </button>
+    <div class="nav-center" title="Feed" onclick="window.location.href='feed.html'"></div>
+    <button class="nav-item" title="Mensagens" onclick="window.location.href='conversas.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.5-4A7.5 7.5 0 1 1 20 11.5Z"></path></svg>
+    </button>
+    <button class="nav-item active" title="Perfil" onclick="window.location.href='perfil.html'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+    </button>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script src="JS/tema.js"></script>
+<script src="JS/notificacoes.js"></script>
+</body>
+</html>
