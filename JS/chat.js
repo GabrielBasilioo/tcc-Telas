@@ -1036,21 +1036,3 @@ document
 
         }
     );
-
-
-// ============================================
-// MENU
-// ============================================
-
-document
-    .getElementById('menuBtn')
-    .addEventListener(
-        'click',
-        () => {
-
-            alert(
-                'Opções da conversa.'
-            );
-
-        }
-    );
