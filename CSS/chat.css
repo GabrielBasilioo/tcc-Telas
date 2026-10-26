@@ -1113,3 +1113,208 @@ html[data-theme="dark"] .media-preview .preview-remove {
     background: #333;
     color: #ddd;
 }
+
+/* =========================================
+   CONTEXTO DO PET  (cole no final do chat.css,
+   depois do chat-media.css)
+========================================= */
+
+/* área única acima do campo de mensagem */
+.composer-extras {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 121px;
+    z-index: 14;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #fff;
+    box-shadow: 0 -6px 24px rgba(0, 0, 0, .08);
+}
+
+.composer-extras:empty {
+    display: none;
+}
+
+/* o preview de anexo agora fica dentro da área acima */
+.composer-extras .media-preview {
+    position: static;
+    box-shadow: none;
+}
+
+/* barra "respondendo a..." */
+.pet-context-bar {
+    padding: 8px 12px 6px;
+    border-bottom: 1px solid #f0eeec;
+}
+
+.pet-context-bar[hidden] {
+    display: none;
+}
+
+.pet-context-title {
+    font-size: 9px;
+    font-weight: 800;
+    color: #ff7a29;
+    margin-bottom: 5px;
+}
+
+.pet-context-body {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pet-context-body .pet-card {
+    flex: 1;
+    min-width: 0;
+}
+
+.pet-context-body .preview-remove {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 50%;
+    background: #eee;
+    color: #666;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* cartão do pet (barra e balão) */
+.pet-card {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+
+    background: rgba(255, 255, 255, .94);
+    color: #444;
+
+    border-left: 4px solid #ff7a29;
+    border-radius: 6px;
+
+    overflow: hidden;
+    text-decoration: none;
+}
+
+a.pet-card {
+    cursor: pointer;
+}
+
+.pet-card-thumb {
+    position: relative;
+    width: 52px;
+    min-height: 52px;
+    flex-shrink: 0;
+
+    background: #111;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pet-card-thumb.sem-midia {
+    background: linear-gradient(135deg, #ffa35c, #ff7a29);
+    font-size: 22px;
+}
+
+.pet-card-thumb img,
+.pet-card-thumb video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+.pet-card-play {
+    position: relative;
+    z-index: 1;
+
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, .55);
+    color: #fff;
+    font-size: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pet-card-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    padding: 4px 8px 4px 0;
+    line-height: 1.25;
+}
+
+.pet-card-text small {
+    font-size: 8px;
+    font-weight: 800;
+    color: #ff7a29;
+}
+
+.pet-card-text strong {
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pet-card-text span {
+    font-size: 9px;
+    font-weight: 700;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* cartão dentro do balão */
+.message-bubble .pet-card {
+    margin-bottom: 6px;
+    min-width: 170px;
+}
+
+.message-bubble.has-media .pet-card {
+    margin: 3px 3px 4px;
+}
+
+/* tema escuro */
+html[data-theme="dark"] .composer-extras {
+    background: #1e1e1e;
+}
+
+html[data-theme="dark"] .pet-context-bar {
+    border-bottom-color: #333;
+}
+
+html[data-theme="dark"] .pet-context-body .preview-remove {
+    background: #333;
+    color: #ddd;
+}
+
+html[data-theme="dark"] .pet-card {
+    background: #2b2b2b;
+    color: #eee;
+}
+
+html[data-theme="dark"] .message-row.sent .pet-card {
+    background: rgba(0, 0, 0, .25);
+    color: #fff;
+}
+
+html[data-theme="dark"] .pet-card-text span {
+    color: #aaa;
+}

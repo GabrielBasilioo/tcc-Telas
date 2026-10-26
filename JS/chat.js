@@ -45,7 +45,20 @@ document.body.appendChild(fileInput);
 const mediaPreview = document.createElement('div');
 mediaPreview.className = 'media-preview';
 mediaPreview.hidden = true;
-document.querySelector('.phone').appendChild(mediaPreview);
+// área acima do campo de mensagem: contexto do pet + preview de anexo
+const composerExtras = document.createElement('div');
+composerExtras.className = 'composer-extras';
+
+const contextoBar = document.createElement('div');
+contextoBar.className = 'pet-context-bar';
+contextoBar.hidden = true;
+
+composerExtras.appendChild(contextoBar);
+composerExtras.appendChild(mediaPreview);
+document.querySelector('.phone').appendChild(composerExtras);
+
+// empurra a área de mensagens para cima quando a barra aparece
+new ResizeObserver(ajustarAreaMensagens).observe(composerExtras);
 
 const lightbox = document.createElement('div');
 lightbox.className = 'lightbox';
@@ -64,6 +77,9 @@ document.body.appendChild(lightbox);
 const params = new URLSearchParams(window.location.search);
 const receiverId = params.get('usuario');
 
+// pet (vídeo/foto do feed) que originou a conversa
+const petContextoId = params.get('pet');
+
 
 // ============================================
 // VARIÁVEIS
@@ -78,6 +94,9 @@ let receiverOnline = false;
 
 let arquivoSelecionado = null;
 let previewUrl = null;
+
+let petContexto = null;
+const petsCache = new Map();
 
 
 // ============================================
@@ -110,6 +129,7 @@ async function iniciarChat() {
     }
 
     await carregarPerfil();
+    await carregarPetContexto();
     await iniciarPresenca();
     await carregarMensagens();
     iniciarRealtime();
@@ -240,6 +260,7 @@ async function carregarMensagens() {
                 content,
                 media_url,
                 media_type,
+                pet_id,
                 created_at,
                 read_at
             `)
@@ -262,6 +283,8 @@ async function carregarMensagens() {
 
         return;
     }
+
+    await garantirPets(messages || []);
 
     renderizarMensagens(messages || []);
 
@@ -315,6 +338,15 @@ function criarElementoMensagem(message) {
     const bubble = document.createElement('div');
     bubble.className = 'message-bubble';
     bubble.dataset.messageId = message.id;
+
+    // prévia do pet ao qual a mensagem responde
+    const petDaMensagem =
+        message.pet_id ? petsCache.get(String(message.pet_id)) : null;
+
+    if (petDaMensagem) {
+        bubble.classList.add('has-pet');
+        bubble.appendChild(criarCartaoPet(petDaMensagem, true));
+    }
 
     const temMidia = !!message.media_url;
     const temTexto = !!(message.content && message.content.trim());
@@ -582,6 +614,10 @@ messageForm.addEventListener('submit', async event => {
             content: content
         };
 
+        if (petContexto) {
+            novaMensagem.pet_id = petContexto.id;
+        }
+
         if (upload) {
             novaMensagem.media_url = upload.url;
             novaMensagem.media_type = upload.type;
@@ -609,6 +645,9 @@ messageForm.addEventListener('submit', async event => {
 
         messageInput.value = '';
         removerArquivoSelecionado();
+
+        // o contexto vale só para esta mensagem (como uma resposta)
+        limparPetContexto();
 
         // evita duplicar caso o realtime chegue primeiro
         const jaExiste = [...messagesContainer.querySelectorAll('.message-bubble')]
@@ -677,7 +716,7 @@ function iniciarRealtime() {
                     schema: 'public',
                     table: 'messages'
                 },
-                payload => {
+                async payload => {
 
                     const message = payload.new;
 
@@ -708,6 +747,21 @@ function iniciarRealtime() {
                             );
 
                     if (existente) {
+                        return;
+                    }
+
+                    await garantirPets([message]);
+
+                    // checa de novo: outra chamada pode ter inserido enquanto buscava o pet
+                    const jaAdicionada =
+                        [...messagesContainer.querySelectorAll('.message-bubble')]
+                            .some(
+                                bubble =>
+                                    bubble.dataset.messageId ===
+                                    String(message.id)
+                            );
+
+                    if (jaAdicionada) {
                         return;
                     }
 
@@ -800,3 +854,188 @@ function escapeHtml(value) {
 backBtn.addEventListener('click', () => {
     window.location.href = 'conversas.html';
 });
+
+
+// ============================================
+// CONTEXTO: PET DO FEED
+// ============================================
+
+const PET_CAMPOS = 'id, user_id, nome, especie, raca, media_url, media_type';
+
+function ehVideoDoPet(pet) {
+    return (
+        pet.media_type === 'video' ||
+        /\.(mp4|webm|mov)(\?.*)?$/i.test(pet.media_url || '')
+    );
+}
+
+// monta o cartão com miniatura (primeiro quadro do vídeo ou foto) + nome
+function criarCartaoPet(pet, clicavel) {
+
+    const card = document.createElement(clicavel ? 'a' : 'div');
+    card.className = 'pet-card';
+
+    if (clicavel) {
+        card.href = `feed.html?pet=${encodeURIComponent(pet.id)}`;
+    }
+
+    const thumbWrap = document.createElement('div');
+    thumbWrap.className = 'pet-card-thumb';
+
+    if (pet.media_url) {
+
+        if (ehVideoDoPet(pet)) {
+
+            const video = document.createElement('video');
+            video.src = `${pet.media_url}#t=0.1`;
+            video.muted = true;
+            video.preload = 'metadata';
+            video.playsInline = true;
+            video.setAttribute('playsinline', '');
+            video.tabIndex = -1;
+            thumbWrap.appendChild(video);
+
+            const play = document.createElement('span');
+            play.className = 'pet-card-play';
+            play.textContent = '▶';
+            thumbWrap.appendChild(play);
+
+        } else {
+
+            const img = document.createElement('img');
+            img.src = pet.media_url;
+            img.alt = pet.nome || 'Pet';
+            thumbWrap.appendChild(img);
+        }
+
+    } else {
+        thumbWrap.textContent = '🐾';
+        thumbWrap.classList.add('sem-midia');
+    }
+
+    const texto = document.createElement('div');
+    texto.className = 'pet-card-text';
+
+    const rotulo = document.createElement('small');
+    rotulo.textContent = 'Pet para adoção';
+
+    const nome = document.createElement('strong');
+    nome.textContent = pet.nome || 'Pet';
+
+    texto.appendChild(rotulo);
+    texto.appendChild(nome);
+
+    const detalhes = [pet.especie, pet.raca].filter(Boolean).join(' • ');
+
+    if (detalhes) {
+        const det = document.createElement('span');
+        det.textContent = detalhes;
+        texto.appendChild(det);
+    }
+
+    card.appendChild(thumbWrap);
+    card.appendChild(texto);
+
+    return card;
+}
+
+// busca no banco os pets citados nas mensagens que ainda não estão no cache
+async function garantirPets(messages) {
+
+    const faltando = [
+        ...new Set(
+            messages
+                .map(m => m.pet_id)
+                .filter(id => id && !petsCache.has(String(id)))
+                .map(String)
+        )
+    ];
+
+    if (faltando.length === 0) {
+        return;
+    }
+
+    const { data, error } =
+        await supabaseClient
+            .from('pets')
+            .select(PET_CAMPOS)
+            .in('id', faltando);
+
+    if (error) {
+        console.error('Erro ao carregar pets das mensagens:', error);
+        return;
+    }
+
+    (data || []).forEach(pet => petsCache.set(String(pet.id), pet));
+}
+
+// pet que veio do feed (?pet=...): mostra a barra acima do campo de texto
+async function carregarPetContexto() {
+
+    if (!petContextoId) {
+        return;
+    }
+
+    const { data, error } =
+        await supabaseClient
+            .from('pets')
+            .select(PET_CAMPOS)
+            .eq('id', petContextoId)
+            .maybeSingle();
+
+    if (error || !data) {
+        return;
+    }
+
+    // só vale se o pet realmente pertence a quem está recebendo a mensagem
+    if (data.user_id !== receiverId) {
+        return;
+    }
+
+    petContexto = data;
+    petsCache.set(String(data.id), data);
+
+    mostrarContextoPet();
+}
+
+function mostrarContextoPet() {
+
+    contextoBar.innerHTML = '';
+
+    const topo = document.createElement('div');
+    topo.className = 'pet-context-title';
+    topo.textContent = 'Você está respondendo a esta publicação';
+
+    const remover = document.createElement('button');
+    remover.type = 'button';
+    remover.className = 'preview-remove';
+    remover.setAttribute('aria-label', 'Remover contexto');
+    remover.textContent = '×';
+    remover.addEventListener('click', limparPetContexto);
+
+    const corpo = document.createElement('div');
+    corpo.className = 'pet-context-body';
+    corpo.appendChild(criarCartaoPet(petContexto, false));
+    corpo.appendChild(remover);
+
+    contextoBar.appendChild(topo);
+    contextoBar.appendChild(corpo);
+    contextoBar.hidden = false;
+}
+
+function limparPetContexto() {
+    petContexto = null;
+    contextoBar.hidden = true;
+    contextoBar.innerHTML = '';
+}
+
+function ajustarAreaMensagens() {
+
+    const altura = composerExtras.offsetHeight;
+
+    messagesContainer.style.bottom = altura ? `${121 + altura}px` : '';
+
+    if (altura) {
+        scrollParaBaixo();
+    }
+}

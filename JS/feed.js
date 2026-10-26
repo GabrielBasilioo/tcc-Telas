@@ -847,9 +847,7 @@ if (jaCurtido) {
             }
 
             window.location.href =
-    `chat.html?usuario=${encodeURIComponent(
-        pet.user_id
-    )}`;
+    `chat.html?usuario=${encodeURIComponent(pet.user_id)}&pet=${encodeURIComponent(pet.id)}`;
 
         }
     );
