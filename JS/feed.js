@@ -895,10 +895,103 @@ save.addEventListener('click', async () => {
         }
     );
 
-    actions.appendChild(like);
-    actions.appendChild(message);
-    actions.appendChild(share);
-    actions.appendChild(save);
+    
+
+const report = criarBotao('⚑', 'Denunciar');
+
+report.addEventListener('click', async () => {
+    if (!currentUser) {
+        alert('Você precisa estar logado para denunciar.');
+        return;
+    }
+
+    if (currentUser.id === pet.user_id) {
+        alert('Você não pode denunciar sua própria publicação.');
+        return;
+    }
+
+    const escolha = prompt(
+        'Informe o motivo da denúncia:\n\n' +
+        '1 - Conteúdo impróprio\n' +
+        '2 - Spam\n' +
+        '3 - Informação falsa\n' +
+        '4 - Outro motivo\n\n' +
+        'Digite o número correspondente.'
+    );
+
+    if (escolha === null) {
+        return;
+    }
+
+    const motivos = {
+        '1': 'Conteúdo impróprio',
+        '2': 'Spam',
+        '3': 'Informação falsa',
+        '4': 'Outro motivo'
+    };
+
+    const motivo = motivos[escolha.trim()];
+
+    if (!motivo) {
+        alert('Opção inválida. Escolha um número de 1 a 4.');
+        return;
+    }
+
+    const confirmar = confirm(
+        'Deseja confirmar a denúncia desta publicação?\n\n' +
+        'Motivo: ' + motivo
+    );
+
+    if (!confirmar) {
+        return;
+    }
+
+    report.disabled = true;
+
+    try {
+        const { error } = await supabaseClient
+            .from('pet_reports')
+            .insert({
+                pet_id: pet.id,
+                reporter_id: currentUser.id,
+                reason: motivo
+            });
+
+        if (error) {
+            console.error('Erro ao registrar denúncia:', error);
+
+            alert(
+                'Não foi possível registrar a denúncia. ' +
+                'Tente novamente.'
+            );
+
+            return;
+        }
+
+        alert('Denúncia registrada com sucesso!');
+
+        report.querySelector('span:last-child').textContent =
+            'Denunciado';
+
+    } catch (error) {
+        console.error('Erro inesperado ao denunciar:', error);
+
+        alert(
+            'Ocorreu um erro ao enviar a denúncia. ' +
+            'Verifique sua conexão e tente novamente.'
+        );
+    } finally {
+        report.disabled = false;
+    }
+});
+
+actions.appendChild(like);
+actions.appendChild(message);
+actions.appendChild(share);
+actions.appendChild(save);
+actions.appendChild(report);
+
+
 
     media.appendChild(info);
     media.appendChild(actions);
