@@ -962,3 +962,154 @@ html[data-theme="dark"] .empty-chat {
 html[data-theme="dark"] .empty-chat strong {
     color: #ffffff;
 }
+/* =========================================
+   MÍDIA NO CHAT  (cole no final do chat.css)
+========================================= */
+
+/* balão com foto/vídeo */
+.message-bubble.has-media {
+    padding: 3px;
+    max-width: 72%;
+}
+
+.message-bubble.has-media .media-item {
+    display: block;
+    width: 100%;
+    max-width: 230px;
+    max-height: 300px;
+    border-radius: 6px;
+    object-fit: cover;
+    background: #000;
+    cursor: pointer;
+}
+
+.message-bubble.has-media video.media-item {
+    cursor: default;
+}
+
+/* legenda abaixo da mídia */
+.message-bubble.has-media .media-caption {
+    display: block;
+    padding: 6px 8px 16px;
+}
+
+/* horário sobre a mídia quando não há legenda */
+.message-bubble.has-media.no-caption .message-time {
+    color: #fff;
+    background: rgba(0, 0, 0, .45);
+    padding: 1px 5px;
+    border-radius: 8px;
+    right: 8px;
+    bottom: 8px;
+    pointer-events: none;
+}
+
+.message-bubble.has-media.no-caption video.media-item {
+    margin-bottom: 0;
+}
+
+/* preview antes de enviar */
+.media-preview {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 121px;
+    z-index: 14;
+
+    background: #fff;
+    box-shadow: 0 -6px 24px rgba(0, 0, 0, .08);
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px 12px;
+}
+
+.media-preview[hidden] {
+    display: none;
+}
+
+.media-preview .preview-thumb {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #000;
+}
+
+.media-preview .preview-info {
+    flex: 1;
+    min-width: 0;
+    font-size: 11px;
+    font-weight: 700;
+    color: #555;
+}
+
+.media-preview .preview-info small {
+    display: block;
+    color: #999;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.media-preview .preview-remove {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 50%;
+    background: #eee;
+    color: #666;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+/* visualização em tela cheia */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, .92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox[hidden] {
+    display: none;
+}
+
+.lightbox img {
+    max-width: 96%;
+    max-height: 92%;
+    object-fit: contain;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .2);
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* tema escuro */
+html[data-theme="dark"] .media-preview {
+    background: #1e1e1e;
+}
+
+html[data-theme="dark"] .media-preview .preview-info {
+    color: #ddd;
+}
+
+html[data-theme="dark"] .media-preview .preview-remove {
+    background: #333;
+    color: #ddd;
+}
