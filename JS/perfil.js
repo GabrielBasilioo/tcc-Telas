@@ -247,13 +247,17 @@ async function carregarPublicacoes() {
             .from('pets')
             .select(`
                 id,
-                nome,
-                especie,
-                raca,
-                idade,
-                descricao,
-                media_url,
-                media_type
+            user_id,
+    nome,
+    especie,
+    raca,
+    idade,
+    descricao,
+    microchipado,
+    castrado,
+    vacinado,
+    media_url,
+    media_type
             `)
             .eq(
                 'user_id',
@@ -356,12 +360,106 @@ function adicionarPublicacaoPet(pet) {
         tile.appendChild(img);
     }
 
+    
+    // Botão de edição do pet: aparece apenas no perfil do tutor.
+    if (
+        !visualizandoOutroPerfil &&
+        sessionUserId &&
+        currentUserId === sessionUserId
+    ) {
+        const editPetBtn = document.createElement('button');
+
+        editPetBtn.type = 'button';
+        editPetBtn.className = 'post-edit-pet-btn';
+        editPetBtn.setAttribute('aria-label', 'Editar informações do pet');
+        editPetBtn.title = 'Editar pet';
+
+        editPetBtn.innerHTML = `
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
+                 aria-hidden="true">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06
+                         a2 2 0 1 1-2.83 2.83l-.06-.06
+                         a1.7 1.7 0 0 0-1.87-.34
+                         1.7 1.7 0 0 0-1 1.55V21
+                         a2 2 0 0 1-4 0v-.09
+                         A1.7 1.7 0 0 0 9 19.4
+                         a1.7 1.7 0 0 0-1.87.34l-.06.06
+                         a2 2 0 1 1-2.83-2.83l.06-.06
+                         A1.7 1.7 0 0 0 4.6 15
+                         1.7 1.7 0 0 0 3.05 14H3
+                         a2 2 0 0 1 0-4h.09
+                         A1.7 1.7 0 0 0 4.6 9
+                         a1.7 1.7 0 0 0-.34-1.87l-.06-.06
+                         a2 2 0 1 1 2.83-2.83l.06.06
+                         A1.7 1.7 0 0 0 9 4.6
+                         a1.7 1.7 0 0 0 1-1.55V3
+                         a2 2 0 0 1 4 0v.09
+                         a1.7 1.7 0 0 0 1 1.55
+                         1.7 1.7 0 0 0 1.87-.34l.06-.06
+                         a2 2 0 1 1 2.83 2.83l-.06.06
+                         A1.7 1.7 0 0 0 19.4 9
+                         a1.7 1.7 0 0 0 1.55 1H21
+                         a2 2 0 0 1 0 4h-.09
+                         A1.7 1.7 0 0 0 19.4 15Z"/>
+            </svg>
+        `;
+
+        editPetBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            abrirEdicaoPet(pet);
+        });
+
+        tile.appendChild(editPetBtn);
+    }
+
+
+
     // O botão só aparece nas publicações do próprio usuário.
     if (
         !visualizandoOutroPerfil &&
         sessionUserId &&
         currentUserId === sessionUserId
     ) {
+        
+    // Botão de engrenagem para editar o pet.
+    const editPetBtn = document.createElement('button');
+
+    editPetBtn.type = 'button';
+    editPetBtn.className = 'post-edit-pet-btn';
+    editPetBtn.title = 'Editar informações do pet';
+    editPetBtn.setAttribute('aria-label', 'Editar informações do pet');
+
+    editPetBtn.innerHTML = `
+        <svg viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.1 2.1-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5v.2h-3v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1-2.1-2.1.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H5v-3h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 2.1-2.1.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5V5h3v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1 2.1 2.1-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.2v3h-.2a1.7 1.7 0 0 0-1.5 1Z"></path>
+        </svg>
+    `;
+
+    editPetBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        abrirEdicaoPet(pet);
+    });
+
+    tile.appendChild(editPetBtn);
+
+
+
+
         const removeBtn = document.createElement('button');
 
         removeBtn.type = 'button';
@@ -1280,3 +1378,220 @@ if (followProfileBtn) {
         await alternarSeguir();
     };
 }
+
+
+/* =========================================
+   EDITAR INFORMAÇÕES DO PET
+========================================= */
+
+let petEmEdicao = null;
+
+function inicializarModalEdicaoPet() {
+    if (document.getElementById('editPetModal')) return;
+
+    document.body.insertAdjacentHTML('beforeend', `
+        <div class="edit-pet-modal" id="editPetModal"
+             aria-hidden="true">
+            <form class="edit-pet-card" id="editPetForm">
+                <div class="edit-pet-header">
+                    <h2>Editar pet</h2>
+                    <button type="button" id="closeEditPet"
+                            aria-label="Fechar">×</button>
+                </div>
+
+                <label for="editPetNome">Nome</label>
+                <input id="editPetNome" name="nome"
+                       type="text" required maxlength="100">
+
+                <label for="editPetEspecie">Espécie</label>
+                <select id="editPetEspecie" name="especie" required>
+                    <option value="Cachorro">Cachorro</option>
+                    <option value="Gato">Gato</option>
+                    <option value="Outro">Outro</option>
+                </select>
+
+                <label for="editPetRaca">Raça</label>
+                <input id="editPetRaca" name="raca" type="text"
+                       maxlength="100">
+
+                <label for="editPetIdade">Idade</label>
+                <input id="editPetIdade" name="idade" type="text"
+                       maxlength="50">
+
+                <label for="editPetDescricao">Descrição</label>
+                <textarea id="editPetDescricao" name="descricao"
+                          rows="3" maxlength="2000"></textarea>
+
+                <div class="edit-pet-checks">
+                    <label>
+                        <input type="checkbox" id="editPetMicrochipado">
+                        Microchipado
+                    </label>
+                    <label>
+                        <input type="checkbox" id="editPetCastrado">
+                        Castrado
+                    </label>
+                    <label>
+                        <input type="checkbox" id="editPetVacinado">
+                        Vacinado
+                    </label>
+                </div>
+
+                <p id="editPetStatus" role="status"></p>
+
+                <button class="edit-pet-save" id="saveEditPet"
+                        type="submit">
+                    Salvar alterações
+                </button>
+            </form>
+        </div>
+    `);
+
+    document.getElementById('closeEditPet')
+        .addEventListener('click', fecharEdicaoPet);
+
+    document.getElementById('editPetModal')
+        .addEventListener('click', (event) => {
+            if (event.target.id === 'editPetModal') {
+                fecharEdicaoPet();
+            }
+        });
+
+    document.getElementById('editPetForm')
+        .addEventListener('submit', salvarEdicaoPet);
+}
+
+function valorBooleano(valor) {
+    return valor === true ||
+        valor === 1 ||
+        valor === 'true' ||
+        valor === 'sim';
+}
+
+function abrirEdicaoPet(pet) {
+    if (
+        !supabaseClient ||
+        !sessionUserId ||
+        visualizandoOutroPerfil ||
+        currentUserId !== sessionUserId ||
+        String(pet.user_id) !== String(sessionUserId)
+    ) {
+        alert('Você só pode editar seus próprios pets.');
+        return;
+    }
+
+    inicializarModalEdicaoPet();
+    petEmEdicao = pet;
+
+    document.getElementById('editPetNome').value =
+        pet.nome || '';
+
+    document.getElementById('editPetEspecie').value =
+        pet.especie || 'Cachorro';
+
+    document.getElementById('editPetRaca').value =
+        pet.raca || '';
+
+    document.getElementById('editPetIdade').value =
+        pet.idade ?? '';
+
+    document.getElementById('editPetDescricao').value =
+        pet.descricao || '';
+
+    document.getElementById('editPetMicrochipado').checked =
+        valorBooleano(pet.microchipado);
+
+    document.getElementById('editPetCastrado').checked =
+        valorBooleano(pet.castrado);
+
+    document.getElementById('editPetVacinado').checked =
+        valorBooleano(pet.vacinado);
+
+    document.getElementById('editPetStatus').textContent = '';
+
+    const modal = document.getElementById('editPetModal');
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+}
+
+function fecharEdicaoPet() {
+    const modal = document.getElementById('editPetModal');
+    if (!modal) return;
+
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    petEmEdicao = null;
+}
+
+async function salvarEdicaoPet(event) {
+    event.preventDefault();
+
+    const status = document.getElementById('editPetStatus');
+    const saveButton = document.getElementById('saveEditPet');
+
+    // Confere novamente a sessão e a propriedade do registro.
+    if (
+        !supabaseClient ||
+        !sessionUserId ||
+        !petEmEdicao ||
+        visualizandoOutroPerfil ||
+        currentUserId !== sessionUserId ||
+        String(petEmEdicao.user_id) !== String(sessionUserId)
+    ) {
+        status.textContent = 'Não foi possível validar o proprietário do pet.';
+        return;
+    }
+
+    const dadosAtualizados = {
+        nome: document.getElementById('editPetNome').value.trim(),
+        especie: document.getElementById('editPetEspecie').value,
+        raca: document.getElementById('editPetRaca').value.trim(),
+        idade: document.getElementById('editPetIdade').value.trim(),
+        descricao: document.getElementById('editPetDescricao').value.trim(),
+        microchipado: document.getElementById('editPetMicrochipado').checked,
+        castrado: document.getElementById('editPetCastrado').checked,
+        vacinado: document.getElementById('editPetVacinado').checked
+    };
+
+    if (!dadosAtualizados.nome) {
+        status.textContent = 'Informe o nome do pet.';
+        return;
+    }
+
+    saveButton.disabled = true;
+    status.textContent = 'Salvando alterações...';
+
+    try {
+        const { data, error } = await supabaseClient
+            .from('pets')
+            .update(dadosAtualizados)
+            .eq('id', petEmEdicao.id)
+            .eq('user_id', sessionUserId)
+            .select('id')
+            .maybeSingle();
+
+        if (error) throw error;
+
+        if (!data) {
+            throw new Error(
+                'Nenhum registro foi atualizado. Verifique as permissões do Supabase.'
+            );
+        }
+
+        fecharEdicaoPet();
+
+        if (abaAtual === 'publicacoes') {
+            await carregarPublicacoes();
+        }
+
+        alert('Informações do pet atualizadas com sucesso!');
+    } catch (error) {
+        console.error('Erro ao atualizar pet:', error);
+        status.textContent =
+            'Não foi possível salvar: ' + (error.message || 'erro desconhecido.');
+    } finally {
+        saveButton.disabled = false;
+    }
+}
+
+inicializarModalEdicaoPet();

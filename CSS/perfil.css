@@ -1118,3 +1118,174 @@ html[data-theme="dark"] .edit-header::after {
         transition: none;
     }
 }
+
+
+/* Modal de edição do pet: começa escondido */
+.edit-pet-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.65);
+    box-sizing: border-box;
+}
+
+.edit-pet-modal.open {
+    display: flex;
+}
+
+.edit-pet-card {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 420px;
+    max-height: calc(100dvh - 40px);
+    overflow-y: auto;
+    padding: 24px;
+    margin: auto;
+    border-radius: 18px;
+    background: #fff;
+    color: #333;
+    font-family: 'Nunito', sans-serif;
+}
+
+.edit-pet-card *,
+.edit-pet-card *::before,
+.edit-pet-card *::after {
+    box-sizing: border-box;
+}
+
+.edit-pet-card input:not([type="checkbox"]),
+.edit-pet-card select,
+.edit-pet-card textarea {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 6px 0 14px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font: inherit;
+}
+
+.edit-pet-card textarea {
+    resize: vertical;
+}
+
+.edit-pet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.edit-pet-checks {
+    display: grid;
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.edit-pet-checks label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.edit-pet-header button {
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.edit-pet-save {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    background: #F47721;
+    color: white;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+
+
+/* Engrenagem de edição do pet */
+.post-edit-pet-btn {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 10;
+
+    width: 34px;
+    height: 34px;
+    padding: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff;
+    color: #F47721;
+    border: 1px solid rgba(244, 119, 33, .25);
+    border-radius: 50%;
+
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: scale(.85);
+    transition:
+        opacity .2s ease,
+        transform .2s ease,
+        visibility .2s ease,
+        background .2s ease;
+}
+
+/* Ícone da engrenagem */
+.post-edit-pet-btn svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+/* Aparece ao passar o mouse sobre a publicação */
+.post-tile:hover .post-edit-pet-btn,
+.post-edit-pet-btn:focus-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: scale(1);
+}
+
+/* Efeito ao passar o mouse sobre a engrenagem */
+.post-edit-pet-btn:hover {
+    background: #FFF0E5;
+    transform: scale(1.08);
+}
+
+/* Celulares e dispositivos sem mouse */
+@media (hover: none) {
+    .post-edit-pet-btn {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: scale(1);
+    }
+}
+
+/* Respeita a preferência por menos animações */
+@media (prefers-reduced-motion: reduce) {
+    .post-edit-pet-btn {
+        transition: none;
+    }
+}
+
+
