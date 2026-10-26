@@ -1410,6 +1410,15 @@ function inicializarModalEdicaoPet() {
                     <option value="Outro">Outro</option>
                 </select>
 
+                <label for="editPetGenero">Gênero</label>
+                <select id="editPetGenero" name="genero" required>
+                    <option value="">Selecione o gênero</option>
+                    <option value="Feminino">Fêmea</option>
+                    <option value="Masculino">Macho</option>
+                </select>
+
+
+
                 <label for="editPetRaca">Raça</label>
                 <input id="editPetRaca" name="raca" type="text"
                        maxlength="100">
@@ -1489,6 +1498,9 @@ function abrirEdicaoPet(pet) {
     document.getElementById('editPetEspecie').value =
         pet.especie || 'Cachorro';
 
+    document.getElementById('editPetGenero').value =
+        pet.genero || '';
+    
     document.getElementById('editPetRaca').value =
         pet.raca || '';
 
@@ -1545,6 +1557,7 @@ async function salvarEdicaoPet(event) {
     const dadosAtualizados = {
         nome: document.getElementById('editPetNome').value.trim(),
         especie: document.getElementById('editPetEspecie').value,
+        genero: document.getElementById('editPetGenero').value,
         raca: document.getElementById('editPetRaca').value.trim(),
         idade: document.getElementById('editPetIdade').value.trim(),
         descricao: document.getElementById('editPetDescricao').value.trim(),
