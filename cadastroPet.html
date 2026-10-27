@@ -137,37 +137,45 @@
             </div>
 
             <!-- RAÇA -->
-            <div class="field-row">
-                <div class="field-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path
-                            d="M4 10L12 4L20 10L18 20H6L4 10Z"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.6"
-                            stroke-linejoin="round"
-                        />
-                        <path
-                            d="M8 20V13H16V20"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.6"
-                        />
-                    </svg>
-                </div>
+            
+<!-- RAÇA -->
+<div class="field-row">
+    <div class="field-icon">
+        <svg viewBox="0 0 24 24">
+            <path
+                d="M4 10L12 4L20 10L18 20H6L4 10Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linejoin="round"
+            />
+            <path
+                d="M8 20V13H16V20"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+            />
+        </svg>
+    </div>
 
-                <div class="field">
-                    <label for="raca">RAÇA:</label>
-                    <input
-                        type="text"
-                        id="raca"
-                        name="raca"
-                        placeholder="Ex.: Golden Retriever"
-                        autocomplete="off"
-                        required
-                    >
-                </div>
-            </div>
+    <div class="field">
+        <label for="raca">RAÇA:</label>
+
+        <input
+            type="text"
+            id="raca"
+            name="raca"
+            list="listaRacas"
+            placeholder="Escolha primeiro a espécie"
+            autocomplete="off"
+            required
+            disabled
+        >
+
+        <datalist id="listaRacas"></datalist>
+    </div>
+</div>
+
 
             <!-- GÊNERO -->
             <div class="field-row compact-row">

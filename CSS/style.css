@@ -292,6 +292,73 @@ h1.title{
     margin: 30px 0 20px;
   }
 
+  
+/* =========================================
+   VACINAS DINÂMICAS
+========================================= */
+
+#vacinasContainer[hidden] {
+    display: none !important;
+}
+
+.vacinas-ajuda {
+    color: var(--gray-text);
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.lista-vacinas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px;
+    background: var(--field-bg);
+    border: 1.5px solid var(--field-border);
+    border-radius: 12px;
+    margin-bottom: 14px;
+}
+
+.lista-vacinas .vacina-item {
+    flex: 0 0 calc(50% - 6px);
+    min-width: 0;
+    line-height: 1.4;
+}
+
+.lista-vacinas .vacina-item > span:last-child {
+    overflow-wrap: anywhere;
+}
+
+.label-outras-vacinas {
+    margin-top: 4px;
+}
+
+#outrasVacinas {
+    width: 100%;
+    min-height: 75px;
+    height: 75px;
+    padding: 12px;
+    border: 1.5px solid var(--field-border);
+    border-radius: 12px;
+    background: var(--field-bg);
+    color: var(--field-text);
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    resize: vertical;
+}
+
+#outrasVacinas:focus {
+    outline: none;
+    border-color: var(--orange);
+}
+
+@media (max-width: 400px) {
+    .lista-vacinas .vacina-item {
+        flex-basis: 100%;
+    }
+}
+
 @media (min-width: 1000px) {
 
     body {

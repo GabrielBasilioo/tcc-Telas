@@ -39,20 +39,152 @@ const previewImg =
 // ESPÉCIE
 // ==================================================
 
-const especieInputs =
-    document.querySelectorAll(
-        'input[name="especie"]'
-    );
+ // ==================================================
+ // ESPÉCIE E LISTA DE RAÇAS
+ // ==================================================
 
+const especieInputs = document.querySelectorAll(
+    'input[name="especie"]'
+);
+
+const racaInput = document.getElementById("raca");
+const listaRacas = document.getElementById("listaRacas");
+
+// Raças de gatos
+const racasGatos = [
+    "SRD (Sem Raça Definida)",
+    "Abissínio",
+    "Angorá",
+    "Azul Russo",
+    "Bengal",
+    "Birmanês",
+    "Bombaim",
+    "British Shorthair",
+    "Burmês",
+    "Chartreux",
+    "Cornish Rex",
+    "Devon Rex",
+    "Exótico de Pelo Curto",
+    "Himalaio",
+    "Maine Coon",
+    "Manx",
+    "Mau Egípcio",
+    "Norueguês da Floresta",
+    "Oriental de Pelo Curto",
+    "Persa",
+    "Ragdoll",
+    "Savannah",
+    "Scottish Fold",
+    "Selkirk Rex",
+    "Siamês",
+    "Siberiano",
+    "Singapura",
+    "Somali",
+    "Sphynx",
+    "Tonquinês",
+    "Turco da Van"
+];
+
+// Raças de cachorros
+const racasCachorros = [
+    "SRD (Sem Raça Definida)",
+    "Akita Inu",
+    "American Bully",
+    "Basset Hound",
+    "Beagle",
+    "Bichon Frisé",
+    "Border Collie",
+    "Boston Terrier",
+    "Boxer",
+    "Bull Terrier",
+    "Bulldog Francês",
+    "Bulldog Inglês",
+    "Cane Corso",
+    "Cavalier King Charles Spaniel",
+    "Chihuahua",
+    "Chow Chow",
+    "Cocker Spaniel",
+    "Dachshund (Salsicha)",
+    "Dálmata",
+    "Dobermann",
+    "Dogo Argentino",
+    "Fila Brasileiro",
+    "Golden Retriever",
+    "Husky Siberiano",
+    "Jack Russell Terrier",
+    "Labrador Retriever",
+    "Lhasa Apso",
+    "Lulu da Pomerânia (Spitz Alemão)",
+    "Maltês",
+    "Mastim Inglês",
+    "Pastor Alemão",
+    "Pastor Australiano",
+    "Pastor Belga",
+    "Pequinês",
+    "Pinscher",
+    "Pit Bull",
+    "Pointer Inglês",
+    "Poodle",
+    "Pug",
+    "Rottweiler",
+    "Samoieda",
+    "São Bernardo",
+    "Schnauzer",
+    "Shar-Pei",
+    "Shiba Inu",
+    "Shih Tzu",
+    "Staffordshire Bull Terrier",
+    "Weimaraner",
+    "West Highland White Terrier",
+    "Whippet",
+    "Yorkshire Terrier"
+];
+
+function atualizarRacas(especie) {
+    const racas = especie === "gato"
+        ? racasGatos
+        : especie === "cachorro"
+            ? racasCachorros
+            : [];
+
+    // Limpa as sugestões anteriores
+    listaRacas.replaceChildren();
+
+    // Limpa a raça anterior ao trocar de espécie
+    racaInput.value = "";
+
+    if (racas.length === 0) {
+        racaInput.disabled = true;
+        racaInput.placeholder = "Escolha primeiro a espécie";
+        return;
+    }
+
+    // Cria as opções da espécie escolhida
+    racas.forEach((raca) => {
+        const opcao = document.createElement("option");
+        opcao.value = raca;
+        listaRacas.appendChild(opcao);
+    });
+
+    racaInput.disabled = false;
+    racaInput.placeholder = especie === "gato"
+        ? "Digite ou escolha uma raça de gato"
+        : "Digite ou escolha uma raça de cachorro";
+}
+
+// Detecta a seleção de gato ou cachorro
 especieInputs.forEach((input) => {
     input.addEventListener("change", () => {
         if (!input.checked) return;
 
+        // Mantém apenas uma espécie selecionada
         especieInputs.forEach((other) => {
             if (other !== input) {
                 other.checked = false;
             }
         });
+
+        atualizarRacas(input.value);
     });
 });
 

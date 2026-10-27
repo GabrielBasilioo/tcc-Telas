@@ -99,7 +99,7 @@
           statusMsg.classList.add('error');
         } else {
           statusMsg.textContent = 'Login realizado com sucesso!';
-          window.location.href = 'home.html';
+          window.location.href = 'feed.html';
         }
       }
 
