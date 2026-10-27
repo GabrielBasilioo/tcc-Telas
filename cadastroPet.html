@@ -340,6 +340,24 @@
                 </div>
             </div>
 
+            <!-- TIPO DO MICROCHIP (aparece se microchipado = sim) -->
+            <div class="extra-box" id="microchipExtra" hidden>
+                <div class="field">
+                    <label for="microchipTipo">TIPO DO MICROCHIP:</label>
+                    <select id="microchipTipo" name="microchipTipo">
+                        <option value="">Selecione o tipo</option>
+                        <option value="iso_fdxb">ISO 11784/11785 (FDX-B, 15 dígitos)</option>
+                        <option value="125khz">125 kHz (padrão antigo)</option>
+                        <option value="outro">Outro</option>
+                        <option value="desconhecido">Não sei o tipo</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="microchipNumero">NÚMERO DO CHIP (OPCIONAL):</label>
+                    <input type="text" id="microchipNumero" class="no-icon" inputmode="numeric" maxlength="15" placeholder="Somente números" autocomplete="off">
+                </div>
+            </div>
+
             <!-- CASTRADO -->
             <div class="field-row compact-row">
                 <div class="field-icon">
@@ -407,6 +425,18 @@
                             NÃO
                         </label>
                     </div>
+                </div>
+            </div>
+
+            <!-- TIPO DE VACINA (aparece se vacinado = sim) -->
+            <div class="extra-box" id="vacinaExtra" hidden>
+                <div class="field">
+                    <label>QUAIS VACINAS?</label>
+                    <div class="vacina-grid" id="vacinaLista"></div>
+                </div>
+                <div class="field">
+                    <label for="vacinaOutra">OUTRA VACINA (OPCIONAL):</label>
+                    <input type="text" id="vacinaOutra" class="no-icon" placeholder="Ex.: Leptospirose" autocomplete="off">
                 </div>
             </div>
 

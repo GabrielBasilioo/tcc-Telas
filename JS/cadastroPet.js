@@ -185,6 +185,7 @@ especieInputs.forEach((input) => {
         });
 
         atualizarRacas(input.value);
+        renderVacinas(input.value);
     });
 });
 
@@ -192,6 +193,85 @@ especieInputs.forEach((input) => {
 // ==================================================
 // PREVIEW (IMAGEM OU VÍDEO)
 // ==================================================
+
+// ==================================================
+// VACINAS E MICROCHIP
+// ==================================================
+
+const vacinasPorEspecie = {
+    cachorro: [
+        "V8 ou V10 (polivalente)",
+        "Antirrábica",
+        "Gripe canina (tosse dos canis)",
+        "Giárdia",
+        "Leishmaniose"
+    ],
+    gato: [
+        "V3 (tríplice felina)",
+        "V4 (quádrupla felina)",
+        "V5 (quíntupla felina)",
+        "Antirrábica",
+        "Leucemia felina (FeLV)"
+    ]
+};
+
+const vacinaBox = document.getElementById("vacinaExtra");
+const vacinaLista = document.getElementById("vacinaLista");
+const vacinaOutra = document.getElementById("vacinaOutra");
+const chipBox = document.getElementById("microchipExtra");
+const microchipTipo = document.getElementById("microchipTipo");
+const microchipNumero = document.getElementById("microchipNumero");
+
+function renderVacinas(especie) {
+    const lista = vacinasPorEspecie[especie] || [];
+
+    vacinaLista.replaceChildren();
+
+    if (lista.length === 0) {
+        const aviso = document.createElement("p");
+        aviso.className = "extra-hint";
+        aviso.textContent = "Escolha primeiro a espécie para ver as vacinas.";
+        vacinaLista.appendChild(aviso);
+        return;
+    }
+
+    lista.forEach((nome) => {
+        const label = document.createElement("label");
+        label.className = "check-label";
+
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.name = "vacinaTipo";
+        input.value = nome;
+
+        const fake = document.createElement("span");
+        fake.className = "fake-check";
+
+        label.append(input, fake, nome);
+        vacinaLista.appendChild(label);
+    });
+}
+
+function atualizarExtras() {
+    const vac = document.querySelector('input[name="vacinado"]:checked');
+    const chip = document.querySelector('input[name="microchipado"]:checked');
+
+    vacinaBox.hidden = !(vac && vac.value === "sim");
+    chipBox.hidden = !(chip && chip.value === "sim");
+}
+
+document
+    .querySelectorAll('input[name="vacinado"], input[name="microchipado"]')
+    .forEach((radio) => radio.addEventListener("change", atualizarExtras));
+
+microchipNumero.addEventListener("input", () => {
+    microchipNumero.value = microchipNumero.value.replace(/\D/g, "");
+});
+
+const especieMarcada = document.querySelector('input[name="especie"]:checked');
+renderVacinas(especieMarcada ? especieMarcada.value : "");
+atualizarExtras();
+
 
 function limparPreview() {
     previewVideo.pause();
@@ -381,6 +461,44 @@ form.addEventListener("submit", async function (event) {
         return;
     }
 
+    // TIPO DE VACINA
+    const vacinasMarcadas = vacinado.value === "sim"
+        ? [...document.querySelectorAll('input[name="vacinaTipo"]:checked')]
+            .map((item) => item.value)
+        : [];
+
+    const vacinaOutraTexto = vacinado.value === "sim"
+        ? vacinaOutra.value.trim()
+        : "";
+
+    if (vacinaOutraTexto) {
+        vacinasMarcadas.push(vacinaOutraTexto);
+    }
+
+    if (vacinado.value === "sim" && vacinasMarcadas.length === 0) {
+        alert("Selecione ao menos uma vacina que o animal tomou.");
+        return;
+    }
+
+    // TIPO DE MICROCHIP
+    const chipTipo = microchipado.value === "sim"
+        ? microchipTipo.value
+        : "";
+
+    const chipNumero = microchipado.value === "sim"
+        ? microchipNumero.value.replace(/\D/g, "")
+        : "";
+
+    if (microchipado.value === "sim" && !chipTipo) {
+        alert("Selecione o tipo do microchip.");
+        return;
+    }
+
+    if (chipTipo === "iso_fdxb" && chipNumero && chipNumero.length !== 15) {
+        alert("O número do chip no padrão ISO (FDX-B) tem 15 dígitos.");
+        return;
+    }
+
     if (!midia) {
         alert("Selecione uma imagem ou vídeo do animal.");
         return;
@@ -527,6 +645,13 @@ form.addEventListener("submit", async function (event) {
         // NOVO CAMPO SALVO NO SUPABASE
         vacinado: vacinadoBoolean,
 
+        // TIPOS DE VACINA E MICROCHIP
+        vacinas: vacinasMarcadas,
+
+        microchip_tipo: chipTipo || null,
+
+        microchip_numero: chipNumero || null,
+
         media_url: mediaUrl,
 
         media_type: midiaTipo
@@ -586,6 +711,9 @@ form.addEventListener("submit", async function (event) {
     // ----------------------------------------------
 
     form.reset();
+
+    renderVacinas("");
+    atualizarExtras();
 
     limparPreview();
 });

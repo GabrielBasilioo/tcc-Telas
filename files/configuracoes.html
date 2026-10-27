@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configurações</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="CSS/configuracoes.css">
+</head>
+<body>
+<div class="phone">
+  <header class="settings-header">
+    <svg class="header-wave" viewBox="0 0 395 40" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,20 Q99,7 197,20 T395,20 L395,40 L0,40 Z" />
+    </svg>
+    <button class="back-btn" onclick="history.back()" aria-label="Voltar">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <div class="header-title">
+      <h1>CONFIGURAÇÕES</h1>
+      <span>Personalize sua experiência</span>
+    </div>
+  </header>
+
+  <main class="settings-content">
+    <h2>CONTA</h2>
+    <section class="settings-card">
+      <button class="setting-row" onclick="go('perfil.html')"><span class="row-icon">
+        
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+    </span><span class="row-text"><b>Meu perfil</b><small>Edite suas informações pessoais</small></span><span class="chevron">›</span></button>
+      
+    
+    <button class="setting-row" onclick="go('seguranca.html')">
+        <span class="row-icon"><img src="IMG/cadeado.png" alt="Cadeado">
+        </span>
+        <span class="row-text"><b>Segurança</b><small>Senha, login e privacidade</small></span><span class="chevron">›</span></button>
+      
+
+
+        <button class="setting-row" onclick="notifications()"><span class="row-icon"><img src="IMG/notificacao.png" alt=""></span><span class="row-text"><b>Notificações</b><small>Gerencie seus alertas</small></span><span class="chevron">›</span></button>
+      
+      
+        <button class="setting-row" onclick="go('favoritos.html')"><span class="row-icon">♡</span><span class="row-text"><b>Pets favoritos</b><small>Veja e gerencie seus favoritos</small></span><span class="chevron">›</span></button>
+    </section>
+
+    <h2>PREFERÊNCIAS</h2>
+    <section class="settings-card">
+      <button class="setting-row" onclick="go('preferencias.html')"><span class="row-icon"><img src="IMG/pata.png" alt="preferências"></span><span class="row-text"><b>Preferências de adoção</b><small>Configure seus filtros padrão</small></span><span class="chevron">›</span></button>
+      <button class="setting-row" onclick="go('localizacao.html')"><span class="row-icon">⌖</span><span class="row-text"><b>Localização</b><small id="locationText">Gerencie sua localização</small></span><span class="chevron">›</span></button>
+      <div class="setting-row theme-row" onclick="toggleTheme()">
+        <span class="row-icon">☾</span>
+        <span class="row-text"><b>Tema do aplicativo</b><small id="themeText">Escolha entre claro ou escuro</small></span>
+        <div class="theme-switch">
+          <button id="lightBtn" onclick="event.stopPropagation();setTheme('light')" aria-label="Tema claro">☀</button>
+          <button id="darkBtn" onclick="event.stopPropagation();setTheme('dark')" aria-label="Tema escuro">☾</button>
+        </div>
+      </div>
+    </section>
+
+    <h2>SOBRE</h2>
+    <section class="settings-card">
+      <button class="setting-row" onclick="modal('Sobre o aplicativo','PetTok é uma plataforma para conectar pessoas a pets que precisam de um novo lar.','Versão 1.0.0')"><span class="row-icon">ⓘ</span><span class="row-text"><b>Sobre o aplicativo</b><small>Versão 1.0.0</small></span><span class="chevron">›</span></button>
+      <button class="setting-row" onclick="go('ajuda-suporte.html')"><span class="row-icon">?</span><span class="row-text"><b>Ajuda e suporte</b><small>Tire dúvidas com nossa equipe</small></span><span class="chevron">›</span></button>
+      <button class="setting-row" onclick="go('termos.html')"><span class="row-icon">▤</span><span class="row-text"><b>Termos e privacidade</b><small>Leia nossos termos de uso</small></span><span class="chevron">›</span></button>
+    </section>
+
+    <button class="logout" onclick="logout()"><span>⇥</span> Sair da conta</button>
+  </main>
+
+  <nav class="bottom-nav">
+
+  <!-- Início -->
+  <button class="nav-item"
+          title="Início"
+          aria-label="Início"
+          onclick="window.location.href='home.html'">
+    <svg viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 11.5 12 4l9 7.5"/>
+      <path d="M5 10v10h14V10"/>
+      <path d="M9 20v-6h6v6"/>
+    </svg>
+  </button>
+
+  <!-- Cadastrar pet -->
+  <button class="nav-item"
+          title="Cadastrar pet"
+          aria-label="Cadastrar pet"
+          onclick="window.location.href='cadastroPet.html'">
+    <svg viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 5v14"/>
+      <path d="M5 12h14"/>
+    </svg>
+  </button>
+
+  <!-- Feed / botão central -->
+  <div class="nav-center"
+       title="Feed"
+       aria-label="Feed"
+       onclick="window.location.href='feed.html'">
+  </div>
+
+  <!-- Mensagens -->
+  <button class="nav-item"
+          title="Mensagens"
+          aria-label="Mensagens"
+          onclick="window.location.href='conversas.html'">
+    <svg viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.5-4A7.5 7.5 0 1 1 20 11.5Z"/>
+    </svg>
+  </button>
+
+  <!-- Perfil -->
+  <button class="nav-item active"
+          title="Perfil"
+          aria-label="Perfil"
+          onclick="window.location.href='perfil.html'">
+    <svg viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+    </svg>
+  </button>
+
+</nav>
+  <div id="toast" class="toast"></div>
+  <div id="modal" class="modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal-box"><button class="modal-x" onclick="closeModal()">×</button><h3 id="modalTitle"></h3><p id="modalText"></p><small id="modalExtra"></small><button class="modal-ok" onclick="closeModal()">Entendi</button></div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="JS/configuracoes.js"></script>
+<script src="JS/tema.js"></script>
+
+</body>
+</html>

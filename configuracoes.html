@@ -32,7 +32,7 @@
     </span><span class="row-text"><b>Meu perfil</b><small>Edite suas informações pessoais</small></span><span class="chevron">›</span></button>
       
     
-    <button class="setting-row" onclick="toast('Área de segurança')">
+    <button class="setting-row" onclick="go('seguranca.html')">
         <span class="row-icon"><img src="IMG/cadeado.png" alt="Cadeado">
         </span>
         <span class="row-text"><b>Segurança</b><small>Senha, login e privacidade</small></span><span class="chevron">›</span></button>
@@ -42,19 +42,19 @@
         <button class="setting-row" onclick="notifications()"><span class="row-icon"><img src="IMG/notificacao.png" alt=""></span><span class="row-text"><b>Notificações</b><small>Gerencie seus alertas</small></span><span class="chevron">›</span></button>
       
       
-        <button class="setting-row" onclick="toast('Seus pets favoritos aparecerão aqui.')"><span class="row-icon">♡</span><span class="row-text"><b>Pets favoritos</b><small>Veja e gerencie seus favoritos</small></span><span class="chevron">›</span></button>
+        <button class="setting-row" onclick="go('favoritos.html')"><span class="row-icon">♡</span><span class="row-text"><b>Pets favoritos</b><small>Veja e gerencie seus favoritos</small></span><span class="chevron">›</span></button>
     </section>
 
     <h2>PREFERÊNCIAS</h2>
     <section class="settings-card">
-      <button class="setting-row" onclick="toast('Preferências de adoção')"><span class="row-icon"><img src="IMG/pata.png" alt="preferências"></span><span class="row-text"><b>Preferências de adoção</b><small>Configure seus filtros padrão</small></span><span class="chevron">›</span></button>
-      <button class="setting-row" onclick="locationAccess()"><span class="row-icon">⌖</span><span class="row-text"><b>Localização</b><small id="locationText">Gerencie sua localização</small></span><span class="chevron">›</span></button>
-      <div class="setting-row theme-row">
+      <button class="setting-row" onclick="go('preferencias.html')"><span class="row-icon"><img src="IMG/pata.png" alt="preferências"></span><span class="row-text"><b>Preferências de adoção</b><small>Configure seus filtros padrão</small></span><span class="chevron">›</span></button>
+      <button class="setting-row" onclick="go('localizacao.html')"><span class="row-icon">⌖</span><span class="row-text"><b>Localização</b><small id="locationText">Gerencie sua localização</small></span><span class="chevron">›</span></button>
+      <div class="setting-row theme-row" onclick="toggleTheme()">
         <span class="row-icon">☾</span>
         <span class="row-text"><b>Tema do aplicativo</b><small id="themeText">Escolha entre claro ou escuro</small></span>
         <div class="theme-switch">
-          <button id="lightBtn" onclick="setTheme('light')" aria-label="Tema claro">☀</button>
-          <button id="darkBtn" onclick="setTheme('dark')" aria-label="Tema escuro">☾</button>
+          <button id="lightBtn" onclick="event.stopPropagation();setTheme('light')" aria-label="Tema claro">☀</button>
+          <button id="darkBtn" onclick="event.stopPropagation();setTheme('dark')" aria-label="Tema escuro">☾</button>
         </div>
       </div>
     </section>
@@ -63,7 +63,7 @@
     <section class="settings-card">
       <button class="setting-row" onclick="modal('Sobre o aplicativo','PetTok é uma plataforma para conectar pessoas a pets que precisam de um novo lar.','Versão 1.0.0')"><span class="row-icon">ⓘ</span><span class="row-text"><b>Sobre o aplicativo</b><small>Versão 1.0.0</small></span><span class="chevron">›</span></button>
       <button class="setting-row" onclick="go('ajuda-suporte.html')"><span class="row-icon">?</span><span class="row-text"><b>Ajuda e suporte</b><small>Tire dúvidas com nossa equipe</small></span><span class="chevron">›</span></button>
-      <button class="setting-row" onclick="modal('Termos e privacidade','Ao utilizar o PetTok, você concorda com os termos de uso e com nossa política de privacidade.','Leia os termos antes de utilizar os recursos da plataforma.')"><span class="row-icon">▤</span><span class="row-text"><b>Termos e privacidade</b><small>Leia nossos termos de uso</small></span><span class="chevron">›</span></button>
+      <button class="setting-row" onclick="go('termos.html')"><span class="row-icon">▤</span><span class="row-text"><b>Termos e privacidade</b><small>Leia nossos termos de uso</small></span><span class="chevron">›</span></button>
     </section>
 
     <button class="logout" onclick="logout()"><span>⇥</span> Sair da conta</button>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Segurança · PetTok</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="CSS/configuracoes.css">
+<link rel="stylesheet" href="CSS/config-telas.css">
+
+</head>
+<body>
+<div class="phone">
+  <header class="settings-header">
+    <svg class="header-wave" viewBox="0 0 395 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0,20 Q99,7 197,20 T395,20 L395,40 L0,40 Z"/></svg>
+    <button class="back-btn" onclick="location.href='configuracoes.html'" aria-label="Voltar"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+    <div class="header-title"><h1>SEGURANÇA</h1><span>Conta, senha e sessões</span></div>
+  </header>
+  <main class="settings-content">
+    <h2>E-MAIL</h2>
+    <section class="card">
+      <div class="fld"><label>E-mail de login</label><input id="email" readonly></div>
+      <div class="fld"><label for="novoEmail">Novo e-mail</label><input type="email" id="novoEmail" placeholder="novo@exemplo.com" autocomplete="email"></div>
+      <button class="ghost" id="trocarEmail" type="button">Alterar e-mail</button>
+      <p class="hint" style="margin:0">Enviamos um link de confirmação. O e-mail só muda depois que você confirmar.</p>
+    </section>
+    <h2>SENHA</h2>
+    <section class="card">
+      <h3>Redefinir senha</h3>
+      <p class="hint">Por segurança, enviamos um link para o seu e-mail. Ao clicar nele, você cria a nova senha.</p>
+      <button class="save" id="enviarLink" type="button" style="margin-bottom:0">Enviar link de redefinição</button>
+    </section>
+    <h2>SESSÕES</h2>
+    <section class="card">
+      <div class="info-row"><span>Último acesso</span><b id="ultimo">—</b></div>
+      <div class="info-row"><span>Conta criada em</span><b id="criada">—</b></div>
+      <button class="ghost" id="outros" type="button" style="margin-top:12px">Sair dos outros dispositivos</button>
+      <button class="ghost" id="todos" type="button" style="margin-bottom:0">Sair de todos os dispositivos</button>
+    </section>
+    <h2>PRIVACIDADE</h2>
+    <section class="settings-card">
+      <button class="setting-row" onclick="location.href='termos.html'"><span class="row-icon">▤</span><span class="row-text"><b>Termos e privacidade</b><small>Veja como cuidamos dos seus dados</small></span><span class="chevron">›</span></button>
+      <button class="setting-row" onclick="location.href='ajuda-suporte.html'"><span class="row-icon">?</span><span class="row-text"><b>Ajuda e suporte</b><small>Suspeita de acesso indevido? Fale com a gente</small></span><span class="chevron">›</span></button>
+    </section>
+  </main>
+  <nav class="bottom-nav">
+<button class="nav-item" title="Início" onclick="location.href='home.html'"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></button>
+<button class="nav-item" title="Cadastrar" onclick="location.href='cadastroPet.html'"><svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button>
+<div class="nav-center" title="Feed" onclick="location.href='feed.html'"></div>
+<button class="nav-item" title="Mensagens" onclick="location.href='conversas.html'"><svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.5-4A7.5 7.5 0 1 1 20 11.5Z"/></svg></button>
+<button class="nav-item active" title="Perfil" onclick="location.href='perfil.html'"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg></button>
+</nav>
+  <div id="toast" class="toast"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="JS/tema.js"></script>
+<script src="JS/config-comum.js"></script>
+<script src="JS/seguranca.js"></script>
+</body>
+</html>

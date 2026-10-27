@@ -550,3 +550,8 @@ img{
         min-height: 100%;
     }
 }
+
+
+/* linha do tema clicável inteira */
+.theme-row{cursor:pointer}
+.theme-row:hover{background:var(--surface2)}

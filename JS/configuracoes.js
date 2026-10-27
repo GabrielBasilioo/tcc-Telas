@@ -91,6 +91,8 @@ async function logout() {
         }
 
         localStorage.removeItem(THEME_KEY);
+        localStorage.removeItem('pettok-prefs');
+        localStorage.removeItem('pettok-local');
 
         window.location.href = 'index.html';
 
@@ -99,3 +101,17 @@ async function logout() {
         toast('Erro ao sair da conta.');
     }
 }
+
+function toggleTheme() {
+    setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        const l = JSON.parse(localStorage.getItem('pettok-local') || 'null');
+        if (l && l.cidade) {
+            document.getElementById('locationText').textContent =
+                `${l.cidade} - ${l.uf} · ${l.raio} km`;
+        }
+    } catch {}
+});

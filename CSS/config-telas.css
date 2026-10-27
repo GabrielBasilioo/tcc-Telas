@@ -1,0 +1,80 @@
+.card{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:14px;margin-bottom:12px}
+.card h3{font:800 13px 'Baloo 2',sans-serif;margin-bottom:10px;color:var(--text)}
+.hint{font-size:10.5px;color:var(--muted);margin:0 2px 12px;line-height:1.4}
+.fld{margin-bottom:12px}
+.fld label{display:block;font-size:11px;font-weight:800;color:var(--muted);margin-bottom:5px}
+.fld input,.fld select{width:100%;height:42px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface2);color:var(--text);padding:0 12px;font:600 14px 'Nunito',sans-serif;outline:none;transition:border-color .2s}
+.fld input:focus,.fld select:focus{border-color:var(--orange)}
+.fld input[readonly]{opacity:.7}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid-uf{display:grid;grid-template-columns:3fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:9px 16px;border-radius:30px;border:1.5px solid var(--line);background:var(--surface2);color:var(--text);font:700 13px 'Nunito',sans-serif;cursor:pointer;transition:.2s}
+.chip:hover{border-color:var(--orange)}
+.chip.on{background:linear-gradient(135deg,var(--orange),var(--orange-dark));border-color:transparent;color:#fff}
+.tgl{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.tgl:last-child{border-bottom:0}
+.tgl b{font-size:13px;display:block}
+.tgl small{display:block;font-size:10px;color:var(--muted);margin-top:2px}
+.sw{width:44px;height:26px;flex:0 0 44px;border-radius:13px;background:var(--line);position:relative;transition:.2s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}
+.tgl.on .sw{background:var(--orange)}
+.tgl.on .sw::after{left:21px}
+.range-row{display:flex;align-items:center;gap:12px}
+.range-row input{flex:1;accent-color:var(--orange);height:auto;padding:0;border:0;background:none}
+.range-val{font-weight:800;font-size:13px;color:var(--orange-dark);min-width:56px;text-align:right}
+.save,.ghost{width:100%;height:46px;border-radius:30px;font:700 16px 'Baloo 2',sans-serif;cursor:pointer;margin-bottom:10px;transition:.2s}
+.save{border:0;background:linear-gradient(135deg,var(--orange),var(--orange-dark));color:#fff;box-shadow:0 8px 18px rgba(255,122,41,.3)}
+.save:hover{transform:scale(1.02)}
+.save:disabled{opacity:.6;cursor:default}
+.ghost{border:1.5px solid var(--orange);background:transparent;color:var(--orange)}
+.ghost:hover{background:rgba(255,122,41,.08)}
+.pets{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pet-card{border-radius:12px;overflow:hidden;position:relative;aspect-ratio:3/4;background:var(--surface2);cursor:pointer}
+.pet-card img,.pet-card video{width:100%;height:100%;flex:none;object-fit:cover;display:block}
+.pet-card span{position:absolute;left:0;right:0;bottom:0;padding:18px 8px 6px;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff;font:800 12px 'Baloo 2',sans-serif}
+.empty{text-align:center;color:var(--muted);padding:40px 10px;font-size:12px;line-height:1.5}
+
+/* info */
+.info-row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:12px}
+.info-row span{color:var(--muted)}
+.info-row b{font-weight:800;text-align:right}
+.card .save,.card .ghost{margin-top:4px}
+/* mapa */
+#mapa{height:240px;border-radius:12px;overflow:hidden;position:relative;z-index:0;border:1px solid var(--line)}
+.precisao{font-size:11px;font-weight:800;color:var(--orange-dark);margin-top:8px}
+/* favoritos (mesmo estilo da tela de notificações) */
+.filter-tabs{display:flex;gap:6px;padding:5px;margin-bottom:8px;background:var(--surface);border:1px solid var(--line);border-radius:22px}
+.filter-tab{flex:1;border:0;background:transparent;border-radius:18px;padding:9px 12px;font:800 12px 'Nunito',sans-serif;color:var(--muted);cursor:pointer;transition:.3s}
+.filter-tab:hover{color:var(--orange)}
+.filter-tab.active{background:rgba(255,122,41,.14);color:var(--orange-dark)}
+.sec-title{font:800 13px 'Baloo 2',sans-serif;color:var(--text);margin:14px 2px 4px}
+.fav-item{display:flex;align-items:center;gap:12px;padding:10px 8px;border-bottom:1px solid var(--line);border-radius:16px;cursor:pointer;transition:.2s}
+.fav-item:hover{background:var(--surface2)}
+.fav-thumb{width:58px;height:58px;flex:0 0 58px;border-radius:14px;object-fit:cover;background:var(--surface2)}
+.fav-info{flex:1;min-width:0}
+.fav-name{font:800 15px 'Baloo 2',sans-serif;color:var(--text);line-height:1.2}
+.fav-meta{font-size:11px;font-weight:700;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fav-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.tag{font-size:9.5px;font-weight:800;padding:3px 8px;border-radius:20px;background:rgba(255,122,41,.13);color:var(--orange-dark)}
+.fav-time{font-size:10px;font-weight:700;color:var(--muted);margin-top:4px}
+.fav-remove{border:0;background:transparent;color:#ef3f57;width:38px;height:38px;flex:0 0 38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.fav-remove:hover{background:rgba(239,63,87,.12);transform:scale(1.08)}
+.fav-remove svg{width:22px;height:22px}
+/* termos */
+.acc{border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-bottom:8px;overflow:hidden}
+.acc summary{padding:13px 14px;font:800 13px 'Baloo 2',sans-serif;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--text)}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"›";font-size:22px;color:var(--muted);transform:rotate(90deg);transition:.2s}
+.acc[open] summary::after{transform:rotate(-90deg)}
+.acc p,.acc ul{padding:0 14px 12px;font-size:12px;line-height:1.6;color:var(--text)}
+.acc ul{padding-left:32px}
+.sec{display:none}.sec.on{display:block}
+
+/* excluir conta */
+.toast{z-index:40}
+.danger-card{border-color:rgba(214,69,69,.5)}
+.danger-card h3{color:#D64545}
+.danger-btn{width:100%;height:46px;border:0;border-radius:30px;background:#D64545;color:#fff;font:700 16px 'Baloo 2',sans-serif;cursor:pointer;margin-bottom:10px;transition:.2s}
+.danger-btn:hover{filter:brightness(1.08)}
+.danger-btn:disabled{opacity:.6;cursor:default}

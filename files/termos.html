@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Termos e privacidade · PetTok</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="CSS/configuracoes.css">
+<link rel="stylesheet" href="CSS/config-telas.css">
+
+</head>
+<body>
+<div class="phone">
+  <header class="settings-header">
+    <svg class="header-wave" viewBox="0 0 395 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0,20 Q99,7 197,20 T395,20 L395,40 L0,40 Z"/></svg>
+    <button class="back-btn" onclick="location.href='configuracoes.html'" aria-label="Voltar"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+    <div class="header-title"><h1>TERMOS E PRIVACIDADE</h1><span>Como usamos e protegemos seus dados</span></div>
+  </header>
+  <main class="settings-content">
+    <div class="filter-tabs" id="abas">
+      <button class="filter-tab active" data-s="termos">Termos de uso</button>
+      <button class="filter-tab" data-s="priv">Privacidade</button>
+    </div>
+    <div class="sec on" id="termos">
+      <details class="acc"><summary>1. Sobre o PetTok</summary><p>O PetTok é uma plataforma que conecta pessoas a pets que precisam de um novo lar. Não somos abrigo, ONG nem intermediário legal da adoção: o contato, a análise e a combinação acontecem diretamente entre os usuários e as instituições.</p></details>
+      <details class="acc"><summary>2. Sua conta</summary><ul><li>Informe dados verdadeiros e mantenha-os atualizados.</li><li>Você é responsável pela segurança da sua senha e pelo que acontece na sua conta.</li><li>Menores de 18 anos só devem usar o app com autorização de um responsável.</li></ul></details>
+      <details class="acc"><summary>3. Publicações de pets</summary><ul><li>Publique apenas animais que você tem direito de anunciar para adoção.</li><li>Fotos e vídeos devem ser seus ou ter autorização de uso.</li><li>É proibido anunciar animais para venda, publicar informações falsas ou conteúdo que mostre maus-tratos.</li></ul></details>
+      <details class="acc"><summary>4. Conduta</summary><p>Trate todos com respeito. Não é permitido spam, assédio, golpes, conteúdo ilegal ou ofensivo. Podemos remover conteúdos e suspender contas que violem estes termos.</p></details>
+      <details class="acc"><summary>5. Adoção responsável</summary><ul><li>Converse bastante e peça informações sobre o animal antes de decidir.</li><li>Prefira encontros em locais públicos e seguros.</li><li>Adotar é um compromisso para toda a vida do animal: avalie tempo, custos e rotina.</li></ul></details>
+      <details class="acc"><summary>6. Limitação de responsabilidade</summary><p>O serviço é oferecido como está. Não garantimos que toda adoção será concluída e não nos responsabilizamos por acordos feitos entre usuários, nem pela veracidade das informações publicadas por terceiros.</p></details>
+      <details class="acc"><summary>7. Mudanças e contato</summary><p>Podemos atualizar estes termos; avisaremos no app quando houver mudanças importantes. Dúvidas: [seu e-mail de contato].</p></details>
+    </div>
+    <div class="sec" id="priv">
+      <details class="acc"><summary>1. Dados que coletamos</summary><ul><li>Conta: e-mail, nome de usuário, data de nascimento e senha (armazenada de forma protegida pelo serviço de autenticação).</li><li>Perfil: foto, bio, telefone e endereço, quando você informar.</li><li>Conteúdo: pets, fotos, vídeos, mensagens, curtidas e seguidores.</li><li>Localização: apenas se você permitir ou informar CEP/endereço.</li><li>Preferências do app (tema, filtros de adoção) e dados técnicos para enviar notificações.</li></ul></details>
+      <details class="acc"><summary>2. Para que usamos</summary><p>Para fazer o app funcionar: mostrar pets e instituições perto de você, ordenar o feed pelas suas preferências, enviar notificações, permitir conversas e prestar suporte.</p></details>
+      <details class="acc"><summary>3. Com quem compartilhamos</summary><ul><li>Outros usuários veem seu perfil público, suas publicações e curtidas.</li><li>Supabase: banco de dados, autenticação e armazenamento de arquivos.</li><li>ViaCEP e OpenStreetMap: consulta de endereço e mapa (enviamos o CEP/endereço digitado).</li><li>Assistente virtual de suporte: as mensagens que você digita na tela de ajuda são processadas por um serviço de IA.</li></ul><p>Não vendemos seus dados.</p></details>
+      <details class="acc"><summary>4. Localização</summary><p>Só usamos sua localização com a sua permissão ou com o endereço que você cadastrar, para calcular distâncias. Você pode alterar ou trocar o endereço em Configurações › Localização e revogar a permissão nas configurações do navegador.</p></details>
+      <details class="acc"><summary>5. Seus direitos (LGPD)</summary><p>Conforme a Lei nº 13.709/2018, você pode pedir acesso, correção, portabilidade e exclusão dos seus dados, além de revogar consentimentos e saber com quem compartilhamos. Para exercer, fale conosco: [seu e-mail de contato].</p></details>
+      <details class="acc"><summary>6. Armazenamento e segurança</summary><p>Usamos medidas técnicas para proteger os dados. Mantemos as informações enquanto sua conta existir; ao pedir a exclusão, removemos o que não precisarmos guardar por obrigação legal.</p></details>
+      <details class="acc"><summary>7. Menores de idade</summary><p>Se você tem menos de 18 anos, use o PetTok com o conhecimento e a autorização dos seus responsáveis.</p></details>
+    </div>
+    <p class="hint" style="text-align:center">Última atualização: 27/10/2026</p>
+  </main>
+  <nav class="bottom-nav">
+<button class="nav-item" title="Início" onclick="location.href='home.html'"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></button>
+<button class="nav-item" title="Cadastrar" onclick="location.href='cadastroPet.html'"><svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button>
+<div class="nav-center" title="Feed" onclick="location.href='feed.html'"></div>
+<button class="nav-item" title="Mensagens" onclick="location.href='conversas.html'"><svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.5-4A7.5 7.5 0 1 1 20 11.5Z"/></svg></button>
+<button class="nav-item active" title="Perfil" onclick="location.href='perfil.html'"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg></button>
+</nav>
+  <div id="toast" class="toast"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="JS/tema.js"></script>
+<script src="JS/config-comum.js"></script>
+<script src="JS/termos.js"></script>
+</body>
+</html>
