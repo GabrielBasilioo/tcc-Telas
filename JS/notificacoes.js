@@ -17,6 +17,15 @@
     const lastSeenKey = () => `pettok_notif_visto_${me.id}`;
     const lastSeen = () => Number(localStorage.getItem(lastSeenKey()) || 0);
 
+    // ---- controle de lidos ----
+    const readKey = () => `pettok_notif_lidos_${me.id}`;
+    const lidos = () => new Set(JSON.parse(localStorage.getItem(readKey()) || '[]'));
+    const marcarLido = id => {
+        const s = lidos(); s.add(id);
+        localStorage.setItem(readKey(), JSON.stringify([...s].slice(-500)));
+    };
+    const ehNova = n => new Date(n.data).getTime() > lastSeen() && !lidos().has(n.id);
+
     const ICONS = {
         like: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.8 5 6.1 5c2 0 3.3 1 3.9 2.2h4C14.6 6 15.9 5 17.9 5c3.3 0 5.2 3.4 3.7 6.8C19.5 16.4 12 21 12 21Z"/></svg>',
         message: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-4 2 1.5-4A7.5 7.5 0 1 1 20 11.5Z"/></svg>',
@@ -102,7 +111,6 @@
 
     // ================= RENDER =================
     function renderizar() {
-        const visto = lastSeen();
         const lista = items.filter(n => filtro === 'todas' || n.tipo === filtro);
         listEl.innerHTML = '';
 
@@ -112,8 +120,8 @@
             return;
         }
 
-        const novas = lista.filter(n => new Date(n.data) > visto);
-        const antigas = lista.filter(n => new Date(n.data) <= visto);
+        const novas = lista.filter(ehNova);
+        const antigas = lista.filter(n => !ehNova(n));
 
         if (novas.length) { addTitulo('Novas'); novas.forEach(n => listEl.appendChild(criarItem(n, true))); }
         if (antigas.length) { addTitulo(novas.length ? 'Anteriores' : 'Todas'); antigas.forEach(n => listEl.appendChild(criarItem(n, false))); }
@@ -168,6 +176,7 @@
     }
 
     function abrir(n) {
+        marcarLido(n.id);
         if (n.tipo === 'like') location.href = `feed.html?pet=${encodeURIComponent(n.pet_id)}`;
         else if (n.tipo === 'message') location.href = `chat.html?usuario=${encodeURIComponent(n.de)}`;
         else location.href = `perfil.html?id=${encodeURIComponent(n.de)}`;
@@ -186,15 +195,17 @@
     }
 
     function marcarTudoLido() {
-        localStorage.setItem(lastSeenKey(), String(Date.now()));
+        const maisRecente = items.reduce((m, n) => Math.max(m, new Date(n.data).getTime()), 0);
+        localStorage.setItem(lastSeenKey(), String(Math.max(Date.now(), maisRecente)));
         renderizar();
+        atualizarBadge();
     }
 
     async function atualizarBadge() {
         const badge = document.getElementById('notifBadge');
         if (!badge) return;
         const lista = await carregarBruto();
-        const n = lista.filter(i => new Date(i.data) > lastSeen()).length;
+        const n = lista.filter(ehNova).length;
         badge.textContent = n > 99 ? '99+' : n;
         badge.style.display = n ? 'flex' : 'none';
     }
